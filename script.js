@@ -233,25 +233,39 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.style.overflow = 'auto';
     });
 
-    // 6. Contact Form Simulation
-    const form = document.getElementById('contact-form');
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const btn = form.querySelector('button');
-        const originalText = btn.innerText;
-        
-        btn.innerText = "Message Sent!";
-        btn.style.background = "#4CAF50";
-        btn.style.color = "white";
-        
-        form.reset();
-        
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.background = "";
-            btn.style.color = "";
-        }, 3000);
-    });
+    // 6. Contact Form Handling
+    const contactForm = document.getElementById('contact-form');
+    const formSuccess = document.getElementById('form-success');
+    const submitBtn = document.getElementById('submit-btn');
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', () => {
+            window.submitted = true;
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Sending...";
+        });
+    }
+
+    window.handleFormResponse = function() {
+        if (window.submitted) {
+            contactForm.style.display = 'none';
+            formSuccess.style.display = 'block';
+            window.submitted = false; // Reset for next time
+            
+            // Re-initialize lucide icons if any in success message
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        }
+    };
+
+    window.resetForm = function() {
+        contactForm.reset();
+        contactForm.style.display = 'block';
+        formSuccess.style.display = 'none';
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Send Message";
+    };
 
     // 7. Horizontal Marquee Animation
     const marquee = document.getElementById('poster-marquee');
@@ -264,13 +278,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         marquee.addEventListener('mouseleave', () => {
             marquee.style.animationPlayState = 'running';
-        });
-    }
-    // 8. Contact Form Handling
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', () => {
-            window.submitted = true;
         });
     }
 });

@@ -554,10 +554,19 @@
                                 <label>Message</label>
                                 <textarea name="entry.1248789437" rows="4" placeholder="Your Message" required></textarea>
                             </div>
-                            <button type="submit" class="btn-gradient">Send Message</button>
+                            <button type="submit" class="btn-gradient" id="submit-btn">Send Message</button>
                         </form>
+                        
+                        <!-- Success Message (Initially Hidden) -->
+                        <div id="form-success" class="form-success-message" style="display: none;">
+                            <i data-lucide="check-circle" class="success-icon"></i>
+                            <h3>Message Sent Successfully!</h3>
+                            <p>Thank you for reaching out. I'll get back to you as soon as possible.</p>
+                            <button class="btn btn-secondary" onclick="resetForm()">Send Another Message</button>
+                        </div>
+
                         <!-- Hidden iframe for form submission -->
-                        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(window.submitted){window.location.reload(); alert('Thank you! Your message has been sent.');}"></iframe>
+                        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof handleFormResponse === 'function') handleFormResponse();"></iframe>
                     </div>
                     
                     <div class="social-links-area fade-up">

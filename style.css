@@ -897,6 +897,39 @@ h1:hover, h2:hover, h3:hover {
     background-clip: text;
 }
 
+/* Form Success Message Styles */
+.form-success-message {
+    text-align: center;
+    padding: 2rem;
+    animation: fadeIn 0.5s ease forwards;
+}
+
+.success-icon {
+    width: 64px;
+    height: 64px;
+    color: #4CAF50;
+    margin-bottom: 1.5rem;
+}
+
+.form-success-message h3 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.form-success-message p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* Modal */
 .modal {
     position: fixed;
