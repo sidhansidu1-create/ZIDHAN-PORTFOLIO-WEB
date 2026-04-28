@@ -43,6 +43,11 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     min-height: 100vh;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pen-tool"><path d="m12 2 7 7-2 2-5-5-5 5-2-2Z"/><path d="m12 11v7"/><path d="m12 22-4-4 4-4 4 4Z"/></svg>') 12 2, auto;
+}
+
+a, button, .work-card, .filter-btn, .modal-close, .nav-links a, .logo {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="%2300d2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pen-tool"><path d="m12 2 7 7-2 2-5-5-5 5-2-2Z"/><path d="m12 11v7"/><path d="m12 22-4-4 4-4 4 4Z"/></svg>') 12 2, pointer;
 }
 
 /* Background Animated Glows */
@@ -997,13 +1002,6 @@ h1:hover, h2:hover, h3:hover {
     box-shadow: 0 10px 40px rgba(0, 242, 254, 0.05);
 }
 
-.collaborate-card .form-group label {
-    font-family: var(--font-sans);
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--text-primary);
-    font-weight: 500;
-}
 
 .collaborate-card input, .collaborate-card textarea {
     background: #111;
