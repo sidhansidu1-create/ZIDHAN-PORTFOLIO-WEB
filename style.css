@@ -788,6 +788,41 @@ h1:hover, h2:hover, h3:hover {
     font-size: 1.1rem;
 }
 
+.tools-title {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.tools-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.tool-tag {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.8rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    gap: 0.8rem;
+}
+
+.tool-tag i, .tool-tag img {
+    font-size: 1.3rem;
+}
+
+.tool-tag:hover {
+    border-color: var(--accent-color);
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-5px);
+}
+
 @media (max-width: 1200px) {
     .skills-new-grid {
         grid-template-columns: repeat(2, 1fr);
