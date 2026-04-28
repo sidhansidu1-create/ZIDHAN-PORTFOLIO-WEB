@@ -399,6 +399,13 @@ h1:hover, h2:hover, h3:hover {
     background-clip: text;
 }
 
+.gradient-text-blue-purple {
+    background: linear-gradient(90deg, #00d2ff, #a163f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 .italic-text {
     font-style: italic;
 }
@@ -757,30 +764,30 @@ h1:hover, h2:hover, h3:hover {
     line-height: 1.5;
 }
 
-/* Icon & Line Colors */
+/* Icon & Line Colors - Exact Hex from Image */
 .icon-blue i { color: #00d2ff; }
 .line-blue { background: #00d2ff; }
 
-.icon-purple i { color: #9d50bb; }
-.line-purple { background: #9d50bb; }
+.icon-purple i { color: #a163f7; }
+.line-purple { background: #a163f7; }
 
 .icon-cyan i { color: #00f2fe; }
 .line-cyan { background: #00f2fe; }
 
-.icon-pink i { color: #ff0080; }
-.line-pink { background: #ff0080; }
+.icon-pink i { color: #f05d8e; }
+.line-pink { background: #f05d8e; }
 
-.icon-orange i { color: #ff9a9e; }
-.line-orange { background: #ff9a9e; }
+.icon-orange i { color: #f5a623; }
+.line-orange { background: #f5a623; }
 
-.icon-green i { color: #4facfe; } /* Adjusted green to be more teal/mint like image */
-.line-green { background: #4facfe; }
+.icon-green i { color: #7ed321; }
+.line-green { background: #7ed321; }
 
-.icon-yellow i { color: #fccb90; }
-.line-yellow { background: #fccb90; }
+.icon-yellow i { color: #f8e71c; }
+.line-yellow { background: #f8e71c; }
 
-.icon-indigo i { color: #667eea; }
-.line-indigo { background: #667eea; }
+.icon-indigo i { color: #a163f7; }
+.line-indigo { background: #a163f7; }
 
 .skills-footer {
     text-align: center;
