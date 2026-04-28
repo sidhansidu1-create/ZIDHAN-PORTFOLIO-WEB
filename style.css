@@ -303,9 +303,13 @@ h1:hover, h2:hover, h3:hover {
 }
 
 .hero-content {
-    max-width: 900px;
+    width: 100%;
+    max-width: 1200px;
     z-index: 2;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .hero-tag {
