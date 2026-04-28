@@ -403,6 +403,37 @@ h1:hover, h2:hover, h3:hover {
     font-style: italic;
 }
 
+/* About Section */
+.about {
+    padding: var(--section-padding);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 6rem;
+    align-items: center;
+}
+
+.about-image-container {
+    position: relative;
+}
+
+.profile-frame {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: #111;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+}
+
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .about-text-container {
     padding-left: 2rem;
 }
