@@ -43,11 +43,11 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     min-height: 100vh;
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pen-tool"><path d="m12 2 7 7-2 2-5-5-5 5-2-2Z"/><path d="m12 11v7"/><path d="m12 22-4-4 4-4 4 4Z"/></svg>') 12 2, auto;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512" fill="white" stroke="black" stroke-width="10"><path d="M256 0L120 192V384H392V192L256 0Z"/><path d="M256 0V208" stroke="black" stroke-width="30"/><circle cx="256" cy="256" r="48" fill="white" stroke="black" stroke-width="15"/><rect x="160" y="416" width="192" height="64" rx="20" fill="white"/></svg>') 16 0, auto;
 }
 
 a, button, .work-card, .filter-btn, .modal-close, .nav-links a, .logo {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="%2300d2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pen-tool"><path d="m12 2 7 7-2 2-5-5-5 5-2-2Z"/><path d="m12 11v7"/><path d="m12 22-4-4 4-4 4 4Z"/></svg>') 12 2, pointer;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512" fill="%2300d2ff" stroke="black" stroke-width="10"><path d="M256 0L120 192V384H392V192L256 0Z"/><path d="M256 0V208" stroke="black" stroke-width="30"/><circle cx="256" cy="256" r="48" fill="%2300d2ff" stroke="black" stroke-width="15"/><rect x="160" y="416" width="192" height="64" rx="20" fill="%2300d2ff"/></svg>') 16 0, pointer;
 }
 
 /* Background Animated Glows */
