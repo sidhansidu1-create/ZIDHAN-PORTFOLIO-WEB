@@ -292,28 +292,46 @@ document.addEventListener("DOMContentLoaded", () => {
     function createSparkle(x, y) {
         const sparkle = document.createElement('div');
         sparkle.className = 'sparkle';
-        
+
+        // Randomize size
+        const size = Math.random() * 8 + 4;
+        sparkle.style.width = size + 'px';
+        sparkle.style.height = size + 'px';
+
         // Positioning
         sparkle.style.left = x + 'px';
         sparkle.style.top = y + 'px';
-        
-        // Random size
-        const size = Math.random() * 6 + 3;
-        sparkle.style.width = size + 'px';
-        sparkle.style.height = size + 'px';
-        
-        // Random drift for realism
-        const driftX = (Math.random() - 0.5) * 60;
-        const driftY = (Math.random() - 0.5) * 60;
+
+        // Random drift (physics-like spread)
+        const driftX = (Math.random() - 0.5) * 80;
+        const driftY = (Math.random() - 0.5) * 40;
         sparkle.style.setProperty('--drift-x', driftX + 'px');
         sparkle.style.setProperty('--drift-y', driftY + 'px');
-        
+
+        // Randomize duration slightly for natural feel
+        const duration = Math.random() * 400 + 600;
+        sparkle.style.setProperty('--duration', duration + 'ms');
+
+        // Pick a color pair from the gradient palette
+        const colorPairs = [
+            { from: '#00d2ff', to: '#a163f7' },
+            { from: '#a163f7', to: '#00d2ff' },
+            { from: '#00d2ff', to: '#ffffff' },
+            { from: '#ffffff', to: '#a163f7' }
+        ];
+        const pair = colorPairs[Math.floor(Math.random() * colorPairs.length)];
+        sparkle.style.setProperty('--color-from', pair.from);
+        sparkle.style.setProperty('--color-to', pair.to);
+        sparkle.style.setProperty('--glow-size', size + 'px');
+
+        // Inner glowing dot
+        const inner = document.createElement('div');
+        inner.className = 'sparkle-inner';
+        sparkle.appendChild(inner);
+
         document.body.appendChild(sparkle);
-        
-        // Clean up
-        setTimeout(() => {
-            sparkle.remove();
-        }, 800);
+
+        setTimeout(() => sparkle.remove(), duration);
     }
 });
 
