@@ -280,6 +280,42 @@ document.addEventListener("DOMContentLoaded", () => {
             marquee.style.animationPlayState = 'running';
         });
     }
+
+    // 8. Magic Wand Cursor Effect
+    document.addEventListener('mousemove', (e) => {
+        // Spawn sparkles occasionally for a trail effect
+        if (Math.random() > 0.85) {
+            createSparkle(e.clientX, e.clientY);
+        }
+    });
+
+    function createSparkle(x, y) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        
+        // Randomly pick an icon or shape
+        const symbols = ['✨', '⭐', '◦', '•'];
+        sparkle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+        
+        // Positioning
+        sparkle.style.left = x + 'px';
+        sparkle.style.top = y + 'px';
+        
+        // Random color from palette
+        const colors = ['#00d2ff', '#a163f7', '#ffffff'];
+        sparkle.style.color = colors[Math.floor(Math.random() * colors.length)];
+        
+        // Random size and spread
+        const size = Math.random() * 10 + 10;
+        sparkle.style.fontSize = size + 'px';
+        
+        document.body.appendChild(sparkle);
+        
+        // Clean up
+        setTimeout(() => {
+            sparkle.remove();
+        }, 800);
+    }
 });
 
 // Add Keyframes for Marquee
