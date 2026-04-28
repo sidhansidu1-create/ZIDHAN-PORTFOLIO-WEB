@@ -337,6 +337,7 @@ h1:hover, h2:hover, h3:hover {
     margin-bottom: 1.5rem;
     font-weight: 800;
     letter-spacing: -2px;
+    white-space: nowrap;
 }
 
 .hero-subtitle-new {
