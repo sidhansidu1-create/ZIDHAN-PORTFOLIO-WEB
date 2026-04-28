@@ -492,12 +492,14 @@ h1:hover, h2:hover, h3:hover {
 }
 
 .stat-icon {
-    color: var(--accent-color);
+    color: #00d2ff;
 }
 
-.stat-icon i {
-    width: 24px;
-    height: 24px;
+.stat-icon i, .stat-icon svg {
+    width: 28px;
+    height: 28px;
+    color: #00d2ff;
+    filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.5));
 }
 
 .stat-number {
