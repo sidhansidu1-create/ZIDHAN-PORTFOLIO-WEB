@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "Boat logo Animation",
             category: "MOTION GRAPHICS",
             overview: "Dynamic logo animation for Boat, capturing the energy of sound and movement.",
-            link: "https://youtu.be/2p88S0Lwz_g?si=RDvAmqRR-c6pOaS6"
+            link: "https://youtu.be/r6qnNStNwN4?si=TlMpoprsDi8vMCPF"
         },
         // PRINT
         "samsung-print": {
