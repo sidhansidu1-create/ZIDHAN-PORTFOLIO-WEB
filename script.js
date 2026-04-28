@@ -293,21 +293,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const sparkle = document.createElement('div');
         sparkle.className = 'sparkle';
         
-        // Randomly pick an icon or shape
-        const symbols = ['✨', '⭐', '◦', '•'];
-        sparkle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-        
         // Positioning
         sparkle.style.left = x + 'px';
         sparkle.style.top = y + 'px';
         
-        // Random color from palette
-        const colors = ['#00d2ff', '#a163f7', '#ffffff'];
-        sparkle.style.color = colors[Math.floor(Math.random() * colors.length)];
+        // Random size
+        const size = Math.random() * 6 + 3;
+        sparkle.style.width = size + 'px';
+        sparkle.style.height = size + 'px';
         
-        // Random size and spread
-        const size = Math.random() * 10 + 10;
-        sparkle.style.fontSize = size + 'px';
+        // Random drift for realism
+        const driftX = (Math.random() - 0.5) * 60;
+        const driftY = (Math.random() - 0.5) * 60;
+        sparkle.style.setProperty('--drift-x', driftX + 'px');
+        sparkle.style.setProperty('--drift-y', driftY + 'px');
         
         document.body.appendChild(sparkle);
         

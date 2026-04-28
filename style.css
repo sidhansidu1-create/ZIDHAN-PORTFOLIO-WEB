@@ -1141,22 +1141,19 @@ footer {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    font-size: 14px;
-    animation: sparkle-animation 0.8s ease-out forwards;
-    filter: drop-shadow(0 0 5px currentColor);
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d2ff, #a163f7);
+    box-shadow: 0 0 10px rgba(0, 210, 255, 0.8), 0 0 20px rgba(161, 99, 247, 0.4);
+    animation: sparkle-animation 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes sparkle-animation {
     0% {
-        transform: translate(-50%, -50%) scale(0) rotate(0deg);
-        opacity: 0;
-    }
-    50% {
+        transform: translate(-50%, -50%) scale(0);
         opacity: 1;
-        transform: translate(-50%, -50%) scale(1.2) rotate(90deg);
     }
     100% {
-        transform: translate(-50%, -50%) scale(0) rotate(180deg);
+        transform: translate(calc(-50% + var(--drift-x)), calc(-50% + var(--drift-y))) scale(1.2);
         opacity: 0;
     }
 }
