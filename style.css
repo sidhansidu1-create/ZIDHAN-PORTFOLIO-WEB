@@ -401,10 +401,11 @@ h1:hover, h2:hover, h3:hover {
 }
 
 .btn-ghost-new:hover {
-    background: rgba(255, 255, 255, 0.07);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: #fff;
     transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.2);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
 }
 
 .btn-text-link {
@@ -638,16 +639,25 @@ h1:hover, h2:hover, h3:hover {
     align-items: center;
 }
 
+.work-card[data-category="posters"] .work-image-container {
+    aspect-ratio: 4/5;
+}
+
+.upcoming-works .work-image-container {
+    aspect-ratio: 16/9;
+}
+
 .work-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.4;
-    transition: opacity 0.4s ease;
+    opacity: 1;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .work-card:hover .work-image {
-    opacity: 0.7;
+    opacity: 0.6;
+    transform: scale(1.03);
 }
 
 .work-details {

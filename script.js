@@ -198,6 +198,18 @@ document.addEventListener("DOMContentLoaded", () => {
             title: "MBG INTEGRATED FARMS PVT LMT",
             category: "NIGERIA | BROCHURE DESIGN",
             overview: "A premium brochure design for an integrated farming leader in Nigeria, focusing on clarity and professional presentation.",
+            link: "https://www.behance.net/gallery/248879001/MBG-BROCHURE-%28First-draft-design%29"
+        },
+        "fragro-perfume": {
+            title: "FRAGRO PERFUME LAB",
+            category: "BRANDING",
+            overview: "Premium branding and visual identity for Fragro Perfume Lab.",
+            link: "https://www.behance.net/muhammedsidhan2"
+        },
+        "fragro-poster": {
+            title: "FRAGRO POSTER",
+            category: "POSTER DESIGN",
+            overview: "Striking promotional poster design for Fragro.",
             link: "https://www.behance.net/muhammedsidhan2"
         },
         "global-solution": {
@@ -282,10 +294,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 8. Magic Wand Cursor Effect
+    let lastSparkleTime = 0;
     document.addEventListener('mousemove', (e) => {
-        // Spawn sparkles occasionally for a trail effect
-        if (Math.random() > 0.85) {
-            createSparkle(e.clientX, e.clientY);
+        const now = Date.now();
+        // Limit sparkle creation to at most once every 40ms to avoid performance lag
+        if (now - lastSparkleTime > 40) {
+            // Spawn sparkles occasionally for a trail effect
+            if (Math.random() > 0.4) {
+                createSparkle(e.clientX, e.clientY);
+                lastSparkleTime = now;
+            }
         }
     });
 
