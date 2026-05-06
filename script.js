@@ -297,8 +297,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastSparkleTime = 0;
     document.addEventListener('mousemove', (e) => {
         const now = Date.now();
-        // Limit sparkle creation to at most once every 40ms to avoid performance lag
-        if (now - lastSparkleTime > 40) {
+        // Limit sparkle creation to at most once every 80ms to avoid performance lag
+        if (now - lastSparkleTime > 80) {
             // Spawn sparkles occasionally for a trail effect
             if (Math.random() > 0.4) {
                 createSparkle(e.clientX, e.clientY);

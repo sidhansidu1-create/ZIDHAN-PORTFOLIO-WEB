@@ -121,7 +121,6 @@ a, button, .work-card, .filter-btn, .modal-close, .nav-links a, .logo {
     color: var(--text-primary);
     opacity: 0.03;
     font-size: 2rem;
-    filter: blur(1px);
 }
 
 .el-1 { top: 15%; left: 10%; animation: float 20s infinite linear; }
