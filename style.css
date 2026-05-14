@@ -743,7 +743,8 @@ h1:hover, h2:hover, h3:hover {
 }
 
 .poster-item {
-    width: 380px;
+    width: 450px; /* Increased size */
+    flex-shrink: 0; /* Prevent shrinking */
     aspect-ratio: 4/5;
     background: var(--bg-accent);
     border-radius: 8px;
