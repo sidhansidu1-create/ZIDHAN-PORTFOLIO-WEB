@@ -1202,17 +1202,18 @@ footer {
 .instagram-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    max-width: 1000px;
+    gap: 2px; /* Minimal gap for definition */
+    max-width: 1100px;
     margin: 4rem auto 0;
+    background: var(--glass-border); /* Subtle border between items */
+    border: 1px solid var(--glass-border);
 }
 
 .insta-item {
     position: relative;
-    aspect-ratio: 1/1;
+    aspect-ratio: 4/5;
     overflow: hidden;
-    border-radius: 4px;
-    border: 1px solid var(--glass-border);
+    background: #000;
     transition: all 0.4s var(--transition-main);
 }
 
@@ -1224,9 +1225,9 @@ footer {
 }
 
 .insta-item:hover {
-    transform: scale(1.02);
+    z-index: 1; /* Bring to front if we add effects */
     border-color: var(--accent-color);
-    box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 242, 254, 0.2);
 }
 
 .insta-item:hover img {
