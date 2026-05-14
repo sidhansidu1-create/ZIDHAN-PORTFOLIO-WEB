@@ -23,9 +23,14 @@
     <nav class="navbar" id="navbar">
         <a href="index.html" class="logo">ZIDHANZID</a>
         
-        <!-- Mobile Menu Toggle -->
-        <div class="menu-toggle" id="menu-toggle">
-            <i data-lucide="menu"></i>
+        <!-- Mobile & Search Toggles -->
+        <div class="nav-actions">
+            <div class="search-toggle" id="search-toggle">
+                <i data-lucide="search"></i>
+            </div>
+            <div class="menu-toggle" id="menu-toggle">
+                <i data-lucide="menu"></i>
+            </div>
         </div>
 
         <div class="nav-links" id="nav-links">
@@ -37,6 +42,26 @@
             <a href="index.html#contact">Contact</a>
         </div>
     </nav>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="search-overlay">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-wrapper">
+                    <i data-lucide="search" class="search-input-icon"></i>
+                    <input type="text" id="search-input" placeholder="Search services, projects, skills..." autocomplete="off">
+                </div>
+                <button class="search-close" id="search-close">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="search-results-area">
+                <div class="search-results-list" id="search-results-list">
+                    <!-- Results populated by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <main style="padding-top: 80px;">
         <!-- FRAGRO INSTAGRAM CAMPAIGN -->

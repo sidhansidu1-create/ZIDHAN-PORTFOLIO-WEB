@@ -5,11 +5,17 @@ const { animate, inView, stagger } = typeof Motion !== 'undefined' ? Motion : { 
 console.log("Muhammed Sidhan Portfolio Script Initialized");
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Navbar Scroll & Mobile Menu
+    // 1. Navbar Scroll & Mobile Menu & Search
     const navbar = document.getElementById('navbar');
     const menuToggle = document.getElementById('menu-toggle');
     const navLinks = document.getElementById('nav-links');
     const menuIcon = menuToggle.querySelector('i');
+    
+    const searchToggle = document.getElementById('search-toggle');
+    const searchOverlay = document.getElementById('search-overlay');
+    const searchClose = document.getElementById('search-close');
+    const searchInput = document.getElementById('search-input');
+    const searchResultsList = document.getElementById('search-results-list');
 
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -25,6 +31,111 @@ document.addEventListener("DOMContentLoaded", () => {
         menuIcon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
         lucide.createIcons();
     });
+
+    // Search Logic
+    const searchData = [
+        { title: "Home", category: "Section", desc: "Back to top of page", link: "#home" },
+        { title: "Recent Works", category: "Section", desc: "Latest projects and campaigns", link: "#recent" },
+        { title: "Work / Projects", category: "Section", desc: "Full portfolio gallery", link: "#work" },
+        { title: "Campaign", category: "Page", desc: "Detailed 9-grid strategy and breakdown", link: "campaign.html" },
+        { title: "Services", category: "Section", desc: "What I offer: Branding, Web, etc.", link: "#services" },
+        { title: "Contact", category: "Section", desc: "Start a project together", link: "#contact" },
+        { title: "About", category: "Section", desc: "My story and design philosophy", link: "#about" },
+        { title: "Skills & Expertise", category: "Section", desc: "Tools and specializations", link: "#skills" },
+        { title: "Design Process", category: "Section", desc: "How I work from research to layout", link: "#process" },
+        { title: "Testimonials", category: "Section", desc: "What clients say about me", link: "#testimonials" },
+        
+        // Projects
+        { title: "FRAGRO Instagram Campaign", category: "Project", desc: "Premium 9-grid perfume lab campaign", link: "#recent" },
+        { title: "BUQYAN Studios", category: "Project", desc: "Brand identity for cinematic studio", link: "#work" },
+        { title: "Bake Land Bakery", category: "Project", desc: "Visual identity and social media design", link: "#work" },
+        { title: "MBG Integrated Farms", category: "Project", desc: "Branding and print design", link: "#work" },
+        { title: "Rangam Film Festival", category: "Project", desc: "Poster and visual identity", link: "#work" },
+        { title: "Samsung Catalogue", category: "Project", desc: "Print design and layout", link: "#work" },
+        { title: "TicTac Ad", category: "Project", desc: "Motion graphics and visual storytelling", link: "#work" },
+        { title: "UEFA Champions League", category: "Project", desc: "Sports poster design", link: "#work" },
+        
+        // Specific Skills
+        { title: "Branding & Logo Design", category: "Service", desc: "Creating unique visual identities", link: "#services" },
+        { title: "9-Grid Instagram Strategy", category: "Service", desc: "Social media profile storytelling", link: "campaign.html" },
+        { title: "Video Editing", category: "Service", desc: "Cinematic and commercial editing", link: "#services" },
+        { title: "Motion Graphics", category: "Service", desc: "Animated brand elements", link: "#services" },
+        { title: "Print Design", category: "Service", desc: "Brochures, catalogues, and posters", link: "#services" },
+        { title: "Web Development", category: "Service", desc: "Modern, responsive websites", link: "#services" }
+    ];
+
+    const toggleSearch = (state) => {
+        if (state) {
+            searchOverlay.classList.add('active');
+            setTimeout(() => searchInput.focus(), 300);
+            document.body.style.overflow = 'hidden';
+        } else {
+            searchOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            searchInput.value = '';
+            searchResultsList.innerHTML = '';
+        }
+    };
+
+    searchToggle.addEventListener('click', () => toggleSearch(true));
+    searchClose.addEventListener('click', () => toggleSearch(false));
+    
+    // ESC key to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') toggleSearch(false);
+    });
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        if (query.length < 2) {
+            searchResultsList.innerHTML = '';
+            return;
+        }
+
+        const matches = searchData.filter(item => 
+            item.title.toLowerCase().includes(query) || 
+            item.category.toLowerCase().includes(query) || 
+            item.desc.toLowerCase().includes(query)
+        );
+
+        renderResults(matches);
+    });
+
+    const renderResults = (results) => {
+        if (results.length === 0) {
+            searchResultsList.innerHTML = '<div class="no-results">No matching results found.</div>';
+            return;
+        }
+
+        searchResultsList.innerHTML = results.map(item => `
+            <a href="${item.link}" class="search-result-item">
+                <div class="search-result-header">
+                    <span class="search-result-title">${item.title}</span>
+                    <span class="search-result-category">${item.category}</span>
+                </div>
+                <p class="search-result-desc">${item.desc}</p>
+            </a>
+        `).join('');
+
+        // Add smooth scroll behavior to search links
+        searchResultsList.querySelectorAll('.search-result-item').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    toggleSearch(false);
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+    };
 
     // Close menu when a link is clicked
     navLinks.querySelectorAll('a').forEach(link => {
