@@ -22,10 +22,16 @@
     --transition-main: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    max-width: 100%;
 }
 
 html {
@@ -1521,9 +1527,24 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .section-title-gold { font-size: 2.2rem; }
-    .process-timeline-gold { flex-direction: column; }
-    .timeline-arrow { transform: rotate(90deg); }
-    .outcome-box { padding: 2rem; }
-    .outcome-box p { font-size: 1.2rem; }
+    .section-title-gold { font-size: 1.8rem; margin-bottom: 1rem; }
+    .section-subtitle-gold { font-size: 1rem; margin-bottom: 3rem; padding: 0 1rem; }
+    .explanation-content .main-text { font-size: 1rem; line-height: 1.6; }
+    .strategy-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .strategy-card { padding: 2rem 1.5rem; }
+    .process-timeline-gold { flex-direction: column; gap: 1rem; }
+    .timeline-arrow { transform: rotate(90deg); margin: 0.5rem 0; }
+    .outcome-box { padding: 1.5rem; margin-bottom: 4rem; }
+    .outcome-box p { font-size: 1.1rem; }
+    .closing-cta-gold { padding: 3rem 1.5rem; }
+    .closing-cta-gold h3 { font-size: 1.5rem; }
+    .btn-gradient-gold { padding: 1rem 2rem; font-size: 0.8rem; }
+    
+    /* Fix marquee overflow */
+    .marquee-container {
+        width: 100vw;
+    }
+    .poster-item {
+        width: 280px; /* Scale down for mobile */
+    }
 }
