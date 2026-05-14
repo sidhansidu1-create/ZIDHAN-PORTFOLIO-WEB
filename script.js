@@ -403,26 +403,14 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.innerText = "Send Message";
     };
 
-    // 7. Manual Gallery Slider
+    // 7. Gallery Interaction (Marquee is handled via CSS)
     const marquee = document.getElementById('poster-marquee');
-    const prevBtn = document.getElementById('gallery-prev');
-    const nextBtn = document.getElementById('gallery-next');
-
-    if (marquee && prevBtn && nextBtn) {
-        const scrollAmount = 480; // Poster width (450) + gap (32 approx)
-
-        nextBtn.addEventListener('click', () => {
-            marquee.scrollBy({
-                left: scrollAmount,
-                behavior: 'smooth'
-            });
+    if (marquee) {
+        marquee.addEventListener('mouseenter', () => {
+            marquee.style.animationPlayState = 'paused';
         });
-
-        prevBtn.addEventListener('click', () => {
-            marquee.scrollBy({
-                left: -scrollAmount,
-                behavior: 'smooth'
-            });
+        marquee.addEventListener('mouseleave', () => {
+            marquee.style.animationPlayState = 'running';
         });
     }
 
