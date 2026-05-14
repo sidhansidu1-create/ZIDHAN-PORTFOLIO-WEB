@@ -403,53 +403,51 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.innerText = "Send Message";
     };
 
-    // 7. Premium JS Marquee Engine
+    // 7. Manual Gallery Slider Fix
     const marquee = document.getElementById('poster-marquee');
     const prevBtn = document.getElementById('gallery-prev');
     const nextBtn = document.getElementById('gallery-next');
 
     if (marquee && prevBtn && nextBtn) {
-        let isPaused = false;
-        let scrollSpeed = 0.8; // Pixels per frame
-        let scrollPos = 0;
-
-        function animate() {
-            if (!isPaused) {
-                scrollPos += scrollSpeed;
-                
-                // Seamless loop check
-                // marquee.scrollWidth / 2 is the point where the first set ends
-                if (scrollPos >= marquee.scrollWidth / 2) {
-                    scrollPos = 0;
-                }
-                
-                marquee.scrollLeft = scrollPos;
-            }
-            requestAnimationFrame(animate);
-        }
-
-        // Start animation
-        animate();
-
-        // Pause on interaction
-        marquee.addEventListener('mouseenter', () => isPaused = true);
-        marquee.addEventListener('mouseleave', () => isPaused = false);
-        marquee.addEventListener('touchstart', () => isPaused = true);
-        marquee.addEventListener('touchend', () => isPaused = false);
-
-        // Button Controls
-        const skipAmount = 480; // Poster width + gap
+        const scrollAmount = 480; // Poster width + gap
 
         nextBtn.addEventListener('click', () => {
-            scrollPos += skipAmount;
-            if (scrollPos >= marquee.scrollWidth / 2) scrollPos = 0;
-            marquee.scrollTo({ left: scrollPos, behavior: 'smooth' });
+            marquee.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
         });
 
         prevBtn.addEventListener('click', () => {
-            scrollPos -= skipAmount;
-            if (scrollPos < 0) scrollPos = (marquee.scrollWidth / 2) - skipAmount;
-            marquee.scrollTo({ left: scrollPos, behavior: 'smooth' });
+            marquee.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
+        });
+
+        // Touch support for mobile
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        marquee.addEventListener('mousedown', (e) => {
+            isDown = true;
+            marquee.classList.add('active');
+            startX = e.pageX - marquee.offsetLeft;
+            scrollLeft = marquee.scrollLeft;
+        });
+        marquee.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+        marquee.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+        marquee.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - marquee.offsetLeft;
+            const walk = (x - startX) * 2;
+            marquee.scrollLeft = scrollLeft - walk;
         });
     }
 

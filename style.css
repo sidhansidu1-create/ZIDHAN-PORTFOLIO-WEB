@@ -738,17 +738,24 @@ h1:hover, h2:hover, h3:hover {
 .marquee-container {
     display: flex;
     width: 100%;
-    overflow-x: hidden; /* We'll control this via JS */
-    white-space: nowrap;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     padding-bottom: 2rem;
     position: relative;
+    cursor: grab;
+}
+
+.marquee-container::-webkit-scrollbar {
+    display: none;
 }
 
 .marquee-content {
     display: flex;
     flex-wrap: nowrap;
     gap: 2rem;
-    padding: 0 1rem;
+    padding: 0 2rem;
     flex-shrink: 0;
 }
 
@@ -806,7 +813,7 @@ h1:hover, h2:hover, h3:hover {
 .control-btn:hover {
     background: var(--accent-gradient);
     border-color: transparent;
-    transform: scale(1.15);
+    transform: scale(1.1);
     box-shadow: 0 0 30px rgba(0, 242, 254, 0.4);
 }
 
