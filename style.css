@@ -285,6 +285,7 @@ h1:hover, h2:hover, h3:hover {
 }
 
 .menu-toggle {
+    display: none;
     cursor: pointer;
     color: var(--text-primary);
     font-size: 1.5rem;
