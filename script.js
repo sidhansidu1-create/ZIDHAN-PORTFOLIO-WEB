@@ -403,17 +403,26 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.innerText = "Send Message";
     };
 
-    // 7. Horizontal Marquee Animation
+    // 7. Manual Gallery Slider
     const marquee = document.getElementById('poster-marquee');
-    if (marquee) {
-        marquee.style.animation = "marquee 40s linear infinite";
-        
-        marquee.addEventListener('mouseenter', () => {
-            marquee.style.animationPlayState = 'paused';
+    const prevBtn = document.getElementById('gallery-prev');
+    const nextBtn = document.getElementById('gallery-next');
+
+    if (marquee && prevBtn && nextBtn) {
+        const scrollAmount = 480; // Poster width (450) + gap (32 approx)
+
+        nextBtn.addEventListener('click', () => {
+            marquee.scrollBy({
+                left: scrollAmount,
+                behavior: 'smooth'
+            });
         });
-        
-        marquee.addEventListener('mouseleave', () => {
-            marquee.style.animationPlayState = 'running';
+
+        prevBtn.addEventListener('click', () => {
+            marquee.scrollBy({
+                left: -scrollAmount,
+                behavior: 'smooth'
+            });
         });
     }
 
@@ -469,14 +478,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => sparkle.remove(), duration);
     }
+// Manual Slider logic initialized above
 });
-
-// Add Keyframes for Marquee
-const style = document.createElement('style');
-style.innerHTML = `
-    @keyframes marquee {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
-    }
-`;
-document.head.appendChild(style);
