@@ -688,12 +688,13 @@ h1:hover, h2:hover, h3:hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.4;
-    transition: opacity 0.4s ease;
+    opacity: 1;
+    transition: all 0.5s var(--transition-main);
 }
 
 .work-card:hover .work-image {
-    opacity: 0.7;
+    opacity: 0.5;
+    filter: grayscale(100%);
 }
 
 .work-details {
@@ -776,7 +777,7 @@ h1:hover, h2:hover, h3:hover {
     align-items: center;
     padding: 0 2rem;
     pointer-events: none;
-    z-index: 20;
+    z-index: 100;
     transform: translateY(-50%);
 }
 
