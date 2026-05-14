@@ -735,23 +735,28 @@ h1:hover, h2:hover, h3:hover {
     display: flex;
     width: max-content;
     flex-wrap: nowrap;
+    align-items: center;
 }
 
 .marquee-content {
     display: flex;
+    flex-wrap: nowrap;
     gap: 2rem;
     padding: 0 1rem;
     flex-shrink: 0;
+    min-width: max-content;
 }
 
 .poster-item {
     width: 450px;
-    flex: 0 0 auto; /* Ensure it stays fixed and doesn't shrink/overlap */
+    min-width: 450px; /* Force minimum width */
+    max-width: none !important; /* Override any global constraints */
+    flex: 0 0 450px; /* Explicit flex-basis */
     aspect-ratio: 4/5;
     background: var(--bg-accent);
     border-radius: 8px;
     overflow: hidden;
-    position: relative; /* Ensure consistent stacking */
+    position: relative;
 }
 
 .poster-item img {
