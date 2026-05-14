@@ -743,7 +743,7 @@ h1:hover, h2:hover, h3:hover {
     -ms-overflow-style: none;
     scrollbar-width: none;
     padding-bottom: 2rem;
-    position: relative;
+    position: relative; /* Base for centered controls */
     cursor: grab;
 }
 
@@ -774,7 +774,7 @@ h1:hover, h2:hover, h3:hover {
 
 .gallery-controls {
     position: absolute;
-    top: 50%; /* Perfectly centered vertically */
+    top: 50%; /* Centered vertically relative to the posters */
     left: 0;
     width: 100%;
     display: flex;
