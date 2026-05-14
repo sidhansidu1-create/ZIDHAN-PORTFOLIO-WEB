@@ -734,21 +734,24 @@ h1:hover, h2:hover, h3:hover {
 .marquee-container {
     display: flex;
     width: max-content;
+    flex-wrap: nowrap;
 }
 
 .marquee-content {
     display: flex;
     gap: 2rem;
     padding: 0 1rem;
+    flex-shrink: 0;
 }
 
 .poster-item {
-    width: 450px; /* Increased size */
-    flex-shrink: 0; /* Prevent shrinking */
+    width: 450px;
+    flex: 0 0 auto; /* Ensure it stays fixed and doesn't shrink/overlap */
     aspect-ratio: 4/5;
     background: var(--bg-accent);
     border-radius: 8px;
     overflow: hidden;
+    position: relative; /* Ensure consistent stacking */
 }
 
 .poster-item img {
