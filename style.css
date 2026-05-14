@@ -729,6 +729,7 @@ h1:hover, h2:hover, h3:hover {
 .poster-gallery {
     padding: var(--section-padding) 0;
     overflow: hidden;
+    position: relative; /* Base for absolute controls */
 }
 
 .marquee-container {
@@ -766,47 +767,53 @@ h1:hover, h2:hover, h3:hover {
 }
 
 .gallery-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3rem;
-    margin: 4rem auto 0;
+    position: absolute;
+    top: 55%; /* Centered vertically relative to posters */
+    left: 0;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3rem;
+    pointer-events: none; /* Let clicks pass through to posters if needed */
+    z-index: 10;
+    transform: translateY(-50%);
 }
 
 .control-btn {
-    background: none;
-    border: none;
+    background: rgba(5, 5, 5, 0.4); /* Subtle backdrop */
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--glass-border);
     color: #fff;
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s var(--transition-main);
-    padding: 0;
+    transition: all 0.4s var(--transition-main);
+    pointer-events: auto; /* Enable clicks on buttons */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .control-btn i {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     stroke-width: 2.5px;
     transition: all 0.3s ease;
 }
 
-.control-btn:hover i {
-    transform: scale(1.2);
-    color: var(--accent-color);
-    filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.5));
-}
-
-/* Gradient icon effect on hover */
 .control-btn:hover {
     background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    border-color: transparent;
+    transform: scale(1.15);
+    box-shadow: 0 0 30px rgba(0, 242, 254, 0.4);
+}
+
+.control-btn:hover i {
+    color: #fff;
+    transform: scale(1.1);
 }
 
 .poster-item img {
