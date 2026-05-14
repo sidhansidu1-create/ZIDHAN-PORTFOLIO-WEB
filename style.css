@@ -768,34 +768,45 @@ h1:hover, h2:hover, h3:hover {
 .gallery-controls {
     display: flex;
     justify-content: center;
-    gap: 2rem;
-    margin-top: 3rem;
+    align-items: center;
+    gap: 3rem;
+    margin: 4rem auto 0;
+    width: 100%;
 }
 
 .control-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
-    color: var(--text-primary);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
+    background: none;
+    border: none;
+    color: #fff;
+    width: 50px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.control-btn:hover {
-    background: var(--accent-gradient);
-    border-color: transparent;
-    transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+    transition: all 0.3s var(--transition-main);
+    padding: 0;
 }
 
 .control-btn i {
-    width: 24px;
-    height: 24px;
+    width: 40px;
+    height: 40px;
+    stroke-width: 2.5px;
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover i {
+    transform: scale(1.2);
+    color: var(--accent-color);
+    filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.5));
+}
+
+/* Gradient icon effect on hover */
+.control-btn:hover {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .poster-item img {
