@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     card.classList.add('hidden');
                 }
             } else {
-                if (category === filter) {
+                if (category && category.includes(filter)) {
                     card.classList.remove('hidden');
                     animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
                 } else {
@@ -108,6 +108,11 @@ document.addEventListener("DOMContentLoaded", () => {
             solution: "Used organic textures and elegant typography to evoke a sense of premium quality.",
             outcome: "Enhanced brand perception and a distinctive visual language.",
             link: "https://www.behance.net/gallery/245187723/BAKE-LAND-BAKERY-VISUAL-IDENTITY-2026"
+        },
+        "mbg-brochure": {
+            title: "MBG BROCHURE",
+            category: "BRANDING & PRINT DESIGN",
+            link: "https://www.behance.net/gallery/248879001/MBG-BROCHURE-%28First-draft-design%29"
         },
         // POSTERS (Using default Behance profile as requested link wasn't specific)
         "al-balad": { title: "Al Balad", category: "POSTER DESIGN", overview: "Visual storytelling through minimal poster design.", link: "https://www.instagram.com/p/DTdQO4zCc_J/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" },
