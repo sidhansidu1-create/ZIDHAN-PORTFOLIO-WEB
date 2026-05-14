@@ -734,31 +734,26 @@ h1:hover, h2:hover, h3:hover {
 
 .marquee-container {
     display: flex;
-    width: max-content;
-    animation: marquee 60s linear infinite;
+    width: 100%;
+    overflow-x: hidden; /* We'll control this via JS */
+    white-space: nowrap;
     padding-bottom: 2rem;
-}
-
-.marquee-container:hover {
-    animation-play-state: paused;
-}
-
-@keyframes marquee {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    position: relative;
 }
 
 .marquee-content {
     display: flex;
+    flex-wrap: nowrap;
     gap: 2rem;
     padding: 0 1rem;
     flex-shrink: 0;
 }
 
 .poster-item {
-    width: 450px;
-    min-width: 450px;
-    flex: 0 0 450px;
+    width: 450px !important;
+    min-width: 450px !important;
+    max-width: 450px !important;
+    flex: 0 0 450px !important; /* Absolute lock on width */
     aspect-ratio: 4/5;
     background: var(--bg-accent);
     border-radius: 12px;
