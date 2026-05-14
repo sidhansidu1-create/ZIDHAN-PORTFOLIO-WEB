@@ -5,14 +5,34 @@ const { animate, inView, stagger } = typeof Motion !== 'undefined' ? Motion : { 
 console.log("Muhammed Sidhan Portfolio Script Initialized");
 
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Navbar Scroll Effect
+    // 1. Navbar Scroll & Mobile Menu
     const navbar = document.getElementById('navbar');
+    const menuToggle = document.getElementById('menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    const menuIcon = menuToggle.querySelector('i');
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
         } else {
             navbar.classList.remove('scrolled');
         }
+    });
+
+    menuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        const isOpen = navLinks.classList.contains('active');
+        menuIcon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+        lucide.createIcons();
+    });
+
+    // Close menu when a link is clicked
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            menuIcon.setAttribute('data-lucide', 'menu');
+            lucide.createIcons();
+        });
     });
 
     // 2. Hero Animations
