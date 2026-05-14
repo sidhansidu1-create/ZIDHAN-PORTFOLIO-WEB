@@ -404,51 +404,62 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // 7. Premium JS Marquee Engine (Auto-Scroll + Buttons)
-    const marquee = document.querySelector('.marquee-container');
+    const marquee = document.getElementById('poster-marquee');
     const prevBtn = document.getElementById('gallery-prev');
     const nextBtn = document.getElementById('gallery-next');
 
     if (marquee && prevBtn && nextBtn) {
         let isPaused = false;
-        let scrollSpeed = 0.8; // Pixels per frame
+        let scrollSpeed = 0.8;
         let scrollPos = 0;
 
         function animate() {
             if (!isPaused) {
                 scrollPos += scrollSpeed;
-                
-                // Seamless loop check (using half width because of duplicates)
                 if (scrollPos >= marquee.scrollWidth / 2) {
                     scrollPos = 0;
                 }
-                
                 marquee.scrollLeft = scrollPos;
+            } else {
+                // Keep scrollPos synced with manual scroll/clicks
+                scrollPos = marquee.scrollLeft;
             }
             requestAnimationFrame(animate);
         }
 
-        // Start animation
         animate();
 
         // Pause on interaction
-        marquee.addEventListener('mouseenter', () => isPaused = true);
-        marquee.addEventListener('mouseleave', () => isPaused = false);
-        marquee.addEventListener('touchstart', () => isPaused = true);
-        marquee.addEventListener('touchend', () => isPaused = false);
+        const pauseOn = () => isPaused = true;
+        const resumeOn = () => {
+            isPaused = false;
+            scrollPos = marquee.scrollLeft; // Sync on resume
+        };
+
+        marquee.addEventListener('mouseenter', pauseOn);
+        marquee.addEventListener('mouseleave', resumeOn);
+        marquee.addEventListener('touchstart', pauseOn, {passive: true});
+        marquee.addEventListener('touchend', resumeOn, {passive: true});
 
         // Button Controls
-        const skipAmount = 480; // Poster width + gap
+        const skipAmount = 450; 
 
         nextBtn.addEventListener('click', () => {
-            scrollPos += skipAmount;
-            if (scrollPos >= marquee.scrollWidth / 2) scrollPos = 0;
-            marquee.scrollTo({ left: scrollPos, behavior: 'smooth' });
+            isPaused = true;
+            let target = marquee.scrollLeft + skipAmount;
+            if (target >= marquee.scrollWidth / 2) target = 0;
+            
+            marquee.scrollTo({ left: target, behavior: 'smooth' });
+            setTimeout(resumeOn, 600); // Resume after smooth scroll
         });
 
         prevBtn.addEventListener('click', () => {
-            scrollPos -= skipAmount;
-            if (scrollPos < 0) scrollPos = (marquee.scrollWidth / 2) - skipAmount;
-            marquee.scrollTo({ left: scrollPos, behavior: 'smooth' });
+            isPaused = true;
+            let target = marquee.scrollLeft - skipAmount;
+            if (target < 0) target = (marquee.scrollWidth / 2) - skipAmount;
+            
+            marquee.scrollTo({ left: target, behavior: 'smooth' });
+            setTimeout(resumeOn, 600);
         });
     }
 
