@@ -741,7 +741,7 @@ h1:hover, h2:hover, h3:hover {
 .marquee-container {
     display: flex;
     width: 100%;
-    overflow-x: hidden; /* Lock for JS engine */
+    overflow-x: clip; /* Prefer clip over hidden for animation native tracking */
     padding-bottom: 2rem;
     position: relative;
 }

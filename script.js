@@ -11,6 +11,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const navLinks = document.getElementById('nav-links');
     const menuIcon = menuToggle.querySelector('i');
     
+    // Robust Smooth Scroll for Anchor Links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+                // Close mobile menu if open
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    menuIcon.setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
+                }
+            } else {
+                console.warn(`[Scroll Anchor] Target section '${targetId}' not found in DOM.`);
+            }
+        });
+    });
+
     const searchToggle = document.getElementById('search-toggle');
     const searchOverlay = document.getElementById('search-overlay');
     const searchClose = document.getElementById('search-close');
@@ -404,64 +426,71 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // 7. Premium JS Marquee Engine (Auto-Scroll + Buttons)
-    const marquee = document.getElementById('poster-marquee');
-    const prevBtn = document.getElementById('gallery-prev');
-    const nextBtn = document.getElementById('gallery-next');
+    window.addEventListener('load', () => {
+        const marquee = document.getElementById('poster-marquee');
+        const prevBtn = document.getElementById('gallery-prev');
+        const nextBtn = document.getElementById('gallery-next');
 
-    if (marquee && prevBtn && nextBtn) {
-        let isPaused = false;
-        let scrollSpeed = 0.8;
-        let scrollPos = 0;
+        if (marquee && prevBtn && nextBtn) {
+            let isPaused = false;
+            let scrollSpeed = 0.8;
+            let scrollPos = 0;
 
-        function animate() {
-            if (!isPaused) {
-                scrollPos += scrollSpeed;
-                if (scrollPos >= marquee.scrollWidth / 2) {
-                    scrollPos = 0;
+            function animate() {
+                if (!isPaused) {
+                    scrollPos += scrollSpeed;
+                    if (scrollPos >= marquee.scrollWidth / 2) {
+                        scrollPos = 0;
+                    }
+                    marquee.scrollLeft = scrollPos;
+                } else {
+                    // Keep scrollPos synced with manual scroll/clicks
+                    scrollPos = marquee.scrollLeft;
                 }
-                marquee.scrollLeft = scrollPos;
-            } else {
-                // Keep scrollPos synced with manual scroll/clicks
-                scrollPos = marquee.scrollLeft;
+                requestAnimationFrame(animate);
             }
-            requestAnimationFrame(animate);
+
+            animate();
+
+            // Pause on interaction
+            const pauseOn = () => isPaused = true;
+            const resumeOn = () => {
+                isPaused = false;
+                scrollPos = marquee.scrollLeft; // Sync on resume
+            };
+
+            marquee.addEventListener('mouseenter', pauseOn);
+            marquee.addEventListener('mouseleave', resumeOn);
+            marquee.addEventListener('touchstart', pauseOn, {passive: true});
+            marquee.addEventListener('touchend', resumeOn, {passive: true});
+
+            // Button Controls
+            const skipAmount = 450; 
+
+            nextBtn.addEventListener('click', () => {
+                isPaused = true;
+                let target = marquee.scrollLeft + skipAmount;
+                if (target >= marquee.scrollWidth / 2) target = 0;
+                
+                marquee.scrollTo({ left: target, behavior: 'smooth' });
+                setTimeout(resumeOn, 600); // Resume after smooth scroll
+            });
+
+            prevBtn.addEventListener('click', () => {
+                isPaused = true;
+                let target = marquee.scrollLeft - skipAmount;
+                if (target < 0) target = (marquee.scrollWidth / 2) - skipAmount;
+                
+                marquee.scrollTo({ left: target, behavior: 'smooth' });
+                setTimeout(resumeOn, 600);
+            });
+
+            // Optional structural refresh if GSAP ScrollTrigger is present
+            if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.refresh();
+            }
         }
-
-        animate();
-
-        // Pause on interaction
-        const pauseOn = () => isPaused = true;
-        const resumeOn = () => {
-            isPaused = false;
-            scrollPos = marquee.scrollLeft; // Sync on resume
-        };
-
-        marquee.addEventListener('mouseenter', pauseOn);
-        marquee.addEventListener('mouseleave', resumeOn);
-        marquee.addEventListener('touchstart', pauseOn, {passive: true});
-        marquee.addEventListener('touchend', resumeOn, {passive: true});
-
-        // Button Controls
-        const skipAmount = 450; 
-
-        nextBtn.addEventListener('click', () => {
-            isPaused = true;
-            let target = marquee.scrollLeft + skipAmount;
-            if (target >= marquee.scrollWidth / 2) target = 0;
-            
-            marquee.scrollTo({ left: target, behavior: 'smooth' });
-            setTimeout(resumeOn, 600); // Resume after smooth scroll
-        });
-
-        prevBtn.addEventListener('click', () => {
-            isPaused = true;
-            let target = marquee.scrollLeft - skipAmount;
-            if (target < 0) target = (marquee.scrollWidth / 2) - skipAmount;
-            
-            marquee.scrollTo({ left: target, behavior: 'smooth' });
-            setTimeout(resumeOn, 600);
-        });
-    }
+    });
 
     // 8. Magic Wand Cursor Effect
     document.addEventListener('mousemove', (e) => {
