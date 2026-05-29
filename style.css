@@ -2127,3 +2127,163 @@ footer {
     .section-title { font-size: 1.8rem; }
     .poster-item { width: 260px !important; min-width: 260px !important; flex: 0 0 260px !important; }
 }
+
+/* ==========================================================================
+   10. KIBBLIX BRANDING SHOWCASE
+   ========================================================================== */
+.kibblix-section {
+    padding: var(--section-padding);
+    background: var(--bg-main);
+    position: relative;
+    overflow: hidden;
+}
+
+.kibblix-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* The 16:9 frame — clips the scrolling track */
+.kibblix-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0d0d0d;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6),
+                0 0 100px rgba(0, 210, 255, 0.03);
+}
+
+/* Scrolling image stack */
+.kibblix-track {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    will-change: transform;
+    transition: transform 0.85s cubic-bezier(0.25, 1, 0.3, 1);
+}
+
+.kibblix-item {
+    width: 100%;
+    height: auto;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.kibblix-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ── Controls: vertical pill on the right (desktop) ── */
+.kibblix-controls {
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 0.65rem;
+    background: rgba(5, 5, 5, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 999px;
+    z-index: 10;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.kibblix-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    outline: none;
+    /* Minimum tap area for mobile */
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.kibblix-btn svg,
+.kibblix-btn i {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2.5px;
+    pointer-events: none;
+}
+
+.kibblix-btn:hover {
+    background: linear-gradient(135deg, #00d2ff, #a163f7);
+    border-color: transparent;
+    transform: scale(1.1);
+    box-shadow: 0 0 14px rgba(0, 210, 255, 0.45);
+}
+
+.kibblix-btn:active {
+    transform: scale(0.93);
+}
+
+.kibblix-btn.disabled {
+    opacity: 0.22;
+    pointer-events: none;
+    cursor: default;
+}
+
+/* ── Mobile ≤ 768 px: move controls to bottom-center strip ── */
+@media (max-width: 768px) {
+    .kibblix-wrapper {
+        padding: 0;          /* let the viewport bleed full-width if needed */
+    }
+
+    .kibblix-viewport {
+        border-radius: 10px;
+    }
+
+    .kibblix-controls {
+        /* Switch from side pill → bottom horizontal bar */
+        top: auto;
+        bottom: 0.75rem;
+        right: 50%;
+        transform: translateX(50%);
+        flex-direction: row;
+        gap: 0.6rem;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+    }
+
+    .kibblix-btn {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+    }
+
+    .kibblix-btn svg,
+    .kibblix-btn i {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* ── Small phones ≤ 390 px ── */
+@media (max-width: 390px) {
+    .kibblix-btn {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        min-height: 36px;
+    }
+}

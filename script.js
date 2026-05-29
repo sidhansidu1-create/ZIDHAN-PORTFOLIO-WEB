@@ -573,5 +573,74 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => sparkle.remove(), duration);
     }
+
+    // 9. Kibblix Pet Nutrition Showcase — pixel-based vertical slider
+    (function () {
+        var viewport = document.getElementById('kibblixViewport');
+        var track    = document.getElementById('kibblixTrack');
+        var upBtn    = document.getElementById('kibblixUpBtn');
+        var downBtn  = document.getElementById('kibblixDownBtn');
+
+        if (!viewport || !track || !upBtn || !downBtn) return;
+
+        var scrollAmount = 0;
+
+        function maxScroll() {
+            // offsetHeight is the true rendered height regardless of transforms
+            return Math.max(0, track.offsetHeight - viewport.clientHeight);
+        }
+
+        function clamp(val) {
+            return Math.max(0, Math.min(val, maxScroll()));
+        }
+
+        function applyTranslate() {
+            track.style.transform = 'translateY(-' + scrollAmount + 'px)';
+
+            // Disable Up when at the very top
+            if (scrollAmount <= 0) {
+                upBtn.classList.add('disabled');
+            } else {
+                upBtn.classList.remove('disabled');
+            }
+
+            // Disable Down when at the very bottom
+            if (scrollAmount >= maxScroll()) {
+                downBtn.classList.add('disabled');
+            } else {
+                downBtn.classList.remove('disabled');
+            }
+        }
+
+        downBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            scrollAmount = clamp(scrollAmount + viewport.clientHeight);
+            applyTranslate();
+        });
+
+        upBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            scrollAmount = clamp(scrollAmount - viewport.clientHeight);
+            applyTranslate();
+        });
+
+        // Re-clamp on resize so we never sit past the end
+        window.addEventListener('resize', function () {
+            scrollAmount = clamp(scrollAmount);
+            applyTranslate();
+        });
+
+        // Wait for images to load so offsetHeight is correct
+        window.addEventListener('load', function () {
+            scrollAmount = 0;
+            applyTranslate();
+        });
+
+        // Fallback init after a short delay
+        setTimeout(function () {
+            scrollAmount = 0;
+            applyTranslate();
+        }, 600);
+    }());
 // Manual Slider logic initialized above
 });
