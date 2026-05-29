@@ -425,74 +425,103 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.innerText = "Send Message";
     };
 
-    // 7. Premium JS Marquee Engine (Auto-Scroll + Buttons)
-    window.addEventListener('load', () => {
-        const marquee = document.getElementById('poster-marquee');
-        const prevBtn = document.getElementById('gallery-prev');
-        const nextBtn = document.getElementById('gallery-next');
+    // 7. Step-by-Step Poster Slider (Auto-Scroll + Manual Controls with transform: translateX)
+    const track = document.getElementById('posterTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const wrapper = document.getElementById('gallery-wrapper');
 
-        if (marquee && prevBtn && nextBtn) {
-            let isPaused = false;
-            let scrollSpeed = 0.8;
-            let scrollPos = 0;
+    if (track && prevBtn && nextBtn && wrapper) {
+        let currentTranslate = 0;
+        let autoSlideInterval = null;
+        const autoSlideDelay = 3500; // Auto-scroll moves every 3.5 seconds
 
-            function animate() {
-                if (!isPaused) {
-                    scrollPos += scrollSpeed;
-                    if (scrollPos >= marquee.scrollWidth / 2) {
-                        scrollPos = 0;
-                    }
-                    marquee.scrollLeft = scrollPos;
-                } else {
-                    // Keep scrollPos synced with manual scroll/clicks
-                    scrollPos = marquee.scrollLeft;
+        // Calculate shift step dynamically: width of one poster + track's gap
+        function getShiftAmount() {
+            const item = track.querySelector('.poster-item');
+            if (!item) return 482; // Fallback: 450px width + 32px gap
+            const gap = parseFloat(window.getComputedStyle(track).gap) || 32;
+            return item.offsetWidth + gap;
+        }
+
+        // Shift the slider track horizontally
+        function shift(direction) {
+            const shiftAmount = getShiftAmount();
+            const maxScroll = track.scrollWidth - wrapper.clientWidth;
+
+            if (direction === 'next') {
+                currentTranslate -= shiftAmount;
+                // If we scrolled past the end of the track, loop back to the beginning
+                if (-currentTranslate > maxScroll + 10) { // 10px threshold buffer
+                    currentTranslate = 0;
                 }
-                requestAnimationFrame(animate);
+            } else if (direction === 'prev') {
+                currentTranslate += shiftAmount;
+                // If we scrolled past the beginning, wrap around to the end
+                if (currentTranslate > 10) {
+                    currentTranslate = -maxScroll;
+                }
             }
 
-            animate();
+            // Apply horizontal transform shift
+            track.style.transform = `translateX(${currentTranslate}px)`;
+        }
 
-            // Pause on interaction
-            const pauseOn = () => isPaused = true;
-            const resumeOn = () => {
-                isPaused = false;
-                scrollPos = marquee.scrollLeft; // Sync on resume
-            };
+        // Auto slide interval management
+        function startAutoSlide() {
+            stopAutoSlide();
+            autoSlideInterval = setInterval(() => {
+                shift('next');
+            }, autoSlideDelay);
+        }
 
-            marquee.addEventListener('mouseenter', pauseOn);
-            marquee.addEventListener('mouseleave', resumeOn);
-            marquee.addEventListener('touchstart', pauseOn, {passive: true});
-            marquee.addEventListener('touchend', resumeOn, {passive: true});
-
-            // Button Controls
-            const skipAmount = 450; 
-
-            nextBtn.addEventListener('click', () => {
-                isPaused = true;
-                let target = marquee.scrollLeft + skipAmount;
-                if (target >= marquee.scrollWidth / 2) target = 0;
-                
-                marquee.scrollTo({ left: target, behavior: 'smooth' });
-                setTimeout(resumeOn, 600); // Resume after smooth scroll
-            });
-
-            prevBtn.addEventListener('click', () => {
-                isPaused = true;
-                let target = marquee.scrollLeft - skipAmount;
-                if (target < 0) target = (marquee.scrollWidth / 2) - skipAmount;
-                
-                marquee.scrollTo({ left: target, behavior: 'smooth' });
-                setTimeout(resumeOn, 600);
-            });
-
-            // Optional structural refresh if GSAP ScrollTrigger is present
-            if (typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.refresh();
+        function stopAutoSlide() {
+            if (autoSlideInterval) {
+                clearInterval(autoSlideInterval);
+                autoSlideInterval = null;
             }
         }
-    });
+
+        function resetAutoSlide() {
+            stopAutoSlide();
+            startAutoSlide();
+        }
+
+        // Event listeners for manual navigation buttons
+        nextBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            shift('next');
+            resetAutoSlide(); // Reset interval upon manual interaction
+        });
+
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            shift('prev');
+            resetAutoSlide(); // Reset interval upon manual interaction
+        });
+
+        // Pause auto slide on hover for better user reading/engagement
+        wrapper.addEventListener('mouseenter', stopAutoSlide);
+        wrapper.addEventListener('mouseleave', startAutoSlide);
+
+        // Initialize auto-sliding
+        startAutoSlide();
+
+        // Keep layout aligned perfectly on viewport size changes
+        window.addEventListener('resize', () => {
+            const maxScroll = track.scrollWidth - wrapper.clientWidth;
+            if (-currentTranslate > maxScroll) {
+                currentTranslate = -maxScroll;
+                if (currentTranslate > 0) currentTranslate = 0;
+                track.style.transform = `translateX(${currentTranslate}px)`;
+            }
+        });
+    }
 
     // 8. Magic Wand Cursor Effect
+
     document.addEventListener('mousemove', (e) => {
         // Spawn sparkles occasionally for a trail effect
         if (Math.random() > 0.85) {
