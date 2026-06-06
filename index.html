@@ -15,8 +15,10 @@
     <link rel="stylesheet" href="style.css">
     
     <!-- Icons (Lucide & Font Awesome) -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <!-- Non-blocking Font Awesome: renders text instantly, icons load async -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"></noscript>
 </head>
 <body>
 
@@ -107,7 +109,7 @@
                 <div class="about-grid">
                     <div class="about-image-container fade-up">
                         <div class="profile-frame">
-                        <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_600/v1778087347/c_cu1zhm.jpg" alt="Zidhan" class="profile-photo moody-filter" loading="eager" fetchpriority="high">
+                        <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_600/v1778087347/c_cu1zhm.jpg" alt="Zidhan" class="profile-photo moody-filter" loading="eager" fetchpriority="high" width="600" height="600">
                     </div>
                     </div>
                     <div class="about-text-container fade-up">
@@ -695,10 +697,10 @@
                     <h3 class="tools-title">Tools & Software</h3>
                     <div class="tools-tags">
                         <div class="tool-tag" title="Figma"><i class="fab fa-figma"></i> Figma</div>
-                        <div class="tool-tag" title="Photoshop"><img src="https://img.icons8.com/color/48/adobe-photoshop.png" alt="PS" style="width: 20px; vertical-align: middle; margin-right: 5px;"> Photoshop</div>
-                        <div class="tool-tag" title="Illustrator"><img src="https://img.icons8.com/color/48/adobe-illustrator.png" alt="AI" style="width: 20px; vertical-align: middle; margin-right: 5px;"> Illustrator</div>
-                        <div class="tool-tag" title="Premiere Pro"><img src="https://img.icons8.com/color/48/adobe-premiere-pro.png" alt="PR" style="width: 20px; vertical-align: middle; margin-right: 5px;"> Premiere Pro</div>
-                        <div class="tool-tag" title="After Effects"><img src="https://img.icons8.com/color/48/adobe-after-effects.png" alt="AE" style="width: 20px; vertical-align: middle; margin-right: 5px;"> After Effects</div>
+                        <div class="tool-tag" title="Photoshop"><img src="https://img.icons8.com/color/48/adobe-photoshop.png" alt="PS" width="20" height="20" style="vertical-align: middle; margin-right: 5px;" loading="lazy" decoding="async"> Photoshop</div>
+                        <div class="tool-tag" title="Illustrator"><img src="https://img.icons8.com/color/48/adobe-illustrator.png" alt="AI" width="20" height="20" style="vertical-align: middle; margin-right: 5px;" loading="lazy" decoding="async"> Illustrator</div>
+                        <div class="tool-tag" title="Premiere Pro"><img src="https://img.icons8.com/color/48/adobe-premiere-pro.png" alt="PR" width="20" height="20" style="vertical-align: middle; margin-right: 5px;" loading="lazy" decoding="async"> Premiere Pro</div>
+                        <div class="tool-tag" title="After Effects"><img src="https://img.icons8.com/color/48/adobe-after-effects.png" alt="AE" width="20" height="20" style="vertical-align: middle; margin-right: 5px;" loading="lazy" decoding="async"> After Effects</div>
                     </div>
                 </div>
 
@@ -865,8 +867,8 @@
         <p>&copy; 2026 Muhammed Sidhan. All rights reserved.</p>
     </footer>
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/motion@10.16.2/dist/motion.js"></script>
-    <script src="script.js"></script>
+    <!-- Scripts (deferred: non-blocking render path) -->
+    <script src="https://unpkg.com/motion@10.16.2/dist/motion.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 </html>
