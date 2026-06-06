@@ -12,12 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.min.css">
     
     <!-- Icons (Lucide & Font Awesome) -->
     <script src="https://unpkg.com/lucide@latest" defer></script>
-    <!-- Non-blocking Font Awesome: renders text instantly, icons load async -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'">
+    <!-- Non-blocking Font Awesome (media=print trick): renders page instantly, icons stream in async -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"></noscript>
 </head>
 <body>
@@ -163,27 +163,27 @@
                     <div class="kibblix-viewport" id="kibblixViewport">
                         <div class="kibblix-track" id="kibblixTrack">
                             <!-- 21 Cloudinary Branding Showcase Pages (f_auto,q_auto = WebP + compression) -->
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/lOGO_PAGE_1_y44iyn.png" alt="Kibblix Page 1 - Logo Page" loading="eager"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/ABOUT_US_PAGE_2_pmtwxt.png" alt="Kibblix Page 2 - About Us Page" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372307/BRAND_PERSONALITY_PAGE_3_rvnktr.png" alt="Kibblix Page 3 - Brand Personality" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372307/ARANIC_LOGO_ILLUSTRATION_PAGE_4_ysfvmz.png" alt="Kibblix Page 4 - Arabic Logo Illustration" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372307/ARABIC_LOGO_5_tsqqlg.png" alt="Kibblix Page 5 - Arabic Logo" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372308/KIBBLIX_LOGO_ILLUSTRATION_PAGE_6_yb9nsq.png" alt="Kibblix Page 6 - Kibblix Logo Illustration" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372308/KIBBLIX_LOGO_PAGE_7_vujhg7.png" alt="Kibblix Page 7 - Kibblix Logo" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372310/tagline_PAGE_8_rsymfv.png" alt="Kibblix Page 8 - Tagline" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/logo_and_concept_PAGE_9_c0z5iv.png" alt="Kibblix Page 9 - Logo and Concept" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372314/brand_voice_PAGE_10_yz2m6p.png" alt="Kibblix Page 10 - Brand Voice" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372308/COLOUR_PALETTE_PAGE_11_thvyz4.png" alt="Kibblix Page 11 - Colour Palette" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372310/TYPOGRAPHY_PAGE_12_sa3vqf.png" alt="Kibblix Page 12 - Typography" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/PAGE_13_nif9du.png" alt="Kibblix Page 13" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372311/LOGOS_APPLICATIONS_PAGE_14_j9cypf.png" alt="Kibblix Page 14 - Logos Applications" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372308/dont_use_PAGE_15_kutrlz.png" alt="Kibblix Page 15 - Don't Use Rule" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372310/PAGE_16_tgjobr.png" alt="Kibblix Page 16" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/LOGO_SIGNS_PAGE_17_mqjgtp.png" alt="Kibblix Page 17 - Logo Signs" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779373430/mockups_page_18_1_hkm4le.png" alt="Kibblix Page 18 - Mockups 1" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779373430/mockups_page_18_2_xnylmq.png" alt="Kibblix Page 19 - Mockups 2" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779373429/mockups_page_18_3_j5lzij.png" alt="Kibblix Page 20 - Mockups 3" loading="lazy"></div>
-                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372310/THANK_19_wcpdrz.png" alt="Kibblix Page 21 - Thank You" loading="lazy"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/lOGO_PAGE_1_y44iyn.png" alt="Kibblix Page 1 - Logo Page" loading="eager" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/ABOUT_US_PAGE_2_pmtwxt.png" alt="Kibblix Page 2 - About Us Page" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372307/BRAND_PERSONALITY_PAGE_3_rvnktr.png" alt="Kibblix Page 3 - Brand Personality" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372307/ARANIC_LOGO_ILLUSTRATION_PAGE_4_ysfvmz.png" alt="Kibblix Page 4 - Arabic Logo Illustration" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372307/ARABIC_LOGO_5_tsqqlg.png" alt="Kibblix Page 5 - Arabic Logo" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372308/KIBBLIX_LOGO_ILLUSTRATION_PAGE_6_yb9nsq.png" alt="Kibblix Page 6 - Kibblix Logo Illustration" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372308/KIBBLIX_LOGO_PAGE_7_vujhg7.png" alt="Kibblix Page 7 - Kibblix Logo" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372310/tagline_PAGE_8_rsymfv.png" alt="Kibblix Page 8 - Tagline" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/logo_and_concept_PAGE_9_c0z5iv.png" alt="Kibblix Page 9 - Logo and Concept" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372314/brand_voice_PAGE_10_yz2m6p.png" alt="Kibblix Page 10 - Brand Voice" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372308/COLOUR_PALETTE_PAGE_11_thvyz4.png" alt="Kibblix Page 11 - Colour Palette" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372310/TYPOGRAPHY_PAGE_12_sa3vqf.png" alt="Kibblix Page 12 - Typography" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/PAGE_13_nif9du.png" alt="Kibblix Page 13" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1200/v1779372311/LOGOS_APPLICATIONS_PAGE_14_j9cypf.png" alt="Kibblix Page 14 - Logos Applications" loading="lazy" width="1200" height="675"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372308/dont_use_PAGE_15_kutrlz.png" alt="Kibblix Page 15 - Don't Use Rule" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372310/PAGE_16_tgjobr.png" alt="Kibblix Page 16" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372309/LOGO_SIGNS_PAGE_17_mqjgtp.png" alt="Kibblix Page 17 - Logo Signs" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779373430/mockups_page_18_1_hkm4le.png" alt="Kibblix Page 18 - Mockups 1" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779373430/mockups_page_18_2_xnylmq.png" alt="Kibblix Page 19 - Mockups 2" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779373429/mockups_page_18_3_j5lzij.png" alt="Kibblix Page 20 - Mockups 3" loading="lazy" width="1920" height="1080"></div>
+                            <div class="kibblix-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1779372310/THANK_19_wcpdrz.png" alt="Kibblix Page 21 - Thank You" loading="lazy" width="1920" height="1080"></div>
                         </div>
 
                         <!-- Navigation controls -->
@@ -867,8 +867,8 @@
         <p>&copy; 2026 Muhammed Sidhan. All rights reserved.</p>
     </footer>
 
-    <!-- Scripts (deferred: non-blocking render path) -->
+    <!-- Scripts (deferred + minified: non-blocking render path) -->
     <script src="https://unpkg.com/motion@10.16.2/dist/motion.js" defer></script>
-    <script src="script.js" defer></script>
+    <script src="script.min.js" defer></script>
 </body>
 </html>
