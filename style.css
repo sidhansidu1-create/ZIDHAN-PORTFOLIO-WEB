@@ -1388,6 +1388,8 @@ footer {
     transition: all 0.5s var(--transition-main);
     display: flex;
     flex-direction: column;
+    content-visibility: auto;
+    contain-intrinsic-size: 350px;
 }
 
 .work-image {
@@ -2080,6 +2082,7 @@ footer {
 
     /* Work / Portfolio */
     .work-grid { grid-template-columns: 1fr !important; gap: 1.5rem; }
+    .work-card { max-width: 480px; width: 100%; margin: 0 auto; }
     .work-image { aspect-ratio: 16/9; }
     .work-info { padding: 1.2rem; }
     .work-info h3 { font-size: 1.1rem; }
@@ -2136,6 +2139,8 @@ footer {
     background: var(--bg-main);
     position: relative;
     overflow: hidden;
+    content-visibility: auto;
+    contain-intrinsic-size: 0 600px;
 }
 
 .kibblix-wrapper {
@@ -2171,6 +2176,8 @@ footer {
     height: auto;
     flex-shrink: 0;
     position: relative;
+    /* Reserve height so images don't cause layout shifts */
+    contain: layout style;
 }
 
 .kibblix-item img {

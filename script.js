@@ -586,7 +586,7 @@ document.addEventListener("DOMContentLoaded", () => {
         var scrollAmount = 0;
 
         function maxScroll() {
-            // offsetHeight is the true rendered height regardless of transforms
+            // offsetHeight = true rendered height, unaffected by translateY transforms
             return Math.max(0, track.offsetHeight - viewport.clientHeight);
         }
 
@@ -596,20 +596,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
         function applyTranslate() {
             track.style.transform = 'translateY(-' + scrollAmount + 'px)';
-
-            // Disable Up when at the very top
-            if (scrollAmount <= 0) {
-                upBtn.classList.add('disabled');
-            } else {
-                upBtn.classList.remove('disabled');
-            }
-
-            // Disable Down when at the very bottom
-            if (scrollAmount >= maxScroll()) {
-                downBtn.classList.add('disabled');
-            } else {
-                downBtn.classList.remove('disabled');
-            }
+            var atTop    = scrollAmount <= 0;
+            var atBottom = scrollAmount >= maxScroll();
+            upBtn.classList.toggle('disabled', atTop);
+            downBtn.classList.toggle('disabled', atBottom);
         }
 
         downBtn.addEventListener('click', function (e) {
@@ -624,19 +614,23 @@ document.addEventListener("DOMContentLoaded", () => {
             applyTranslate();
         });
 
-        // Re-clamp on resize so we never sit past the end
+        // Debounced resize — prevents continuous main-thread work on mobile/orientation flip
+        var resizeTimer;
         window.addEventListener('resize', function () {
-            scrollAmount = clamp(scrollAmount);
-            applyTranslate();
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                scrollAmount = clamp(scrollAmount);
+                applyTranslate();
+            }, 150);
         });
 
-        // Wait for images to load so offsetHeight is correct
+        // Wait until images have loaded so offsetHeight is accurate
         window.addEventListener('load', function () {
             scrollAmount = 0;
             applyTranslate();
         });
 
-        // Fallback init after a short delay
+        // Fallback init — handles cases where DOMContentLoaded fires before images report height
         setTimeout(function () {
             scrollAmount = 0;
             applyTranslate();
