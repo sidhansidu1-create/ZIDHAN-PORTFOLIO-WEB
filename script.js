@@ -1,4 +1,6 @@
-lucide.createIcons();
+if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+}
 
 const { animate, inView, stagger } = typeof Motion !== 'undefined' ? Motion : { animate: () => {}, inView: () => {}, stagger: () => {} };
 
@@ -9,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const navbar = document.getElementById('navbar');
     const menuToggle = document.getElementById('menu-toggle');
     const navLinks = document.getElementById('nav-links');
-    const menuIcon = menuToggle.querySelector('i');
+    const menuIcon = menuToggle ? menuToggle.querySelector('i') : null;
     
     // Robust Smooth Scroll for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -22,10 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
             if (targetElement) {
                 targetElement.scrollIntoView({ behavior: 'smooth' });
                 // Close mobile menu if open
-                if (navLinks.classList.contains('active')) {
+                if (navLinks && navLinks.classList.contains('active')) {
                     navLinks.classList.remove('active');
-                    menuIcon.setAttribute('data-lucide', 'menu');
-                    lucide.createIcons();
+                    if (menuIcon) {
+                        menuIcon.setAttribute('data-lucide', 'menu');
+                        if (typeof lucide !== 'undefined') {
+                            lucide.createIcons();
+                        }
+                    }
                 }
             } else {
                 console.warn(`[Scroll Anchor] Target section '${targetId}' not found in DOM.`);
@@ -39,20 +45,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.getElementById('search-input');
     const searchResultsList = document.getElementById('search-results-list');
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-    });
+    if (navbar) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    }
 
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        const isOpen = navLinks.classList.contains('active');
-        menuIcon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
-        lucide.createIcons();
-    });
+    if (menuToggle && navLinks && menuIcon) {
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            const isOpen = navLinks.classList.contains('active');
+            menuIcon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
+        });
+    }
 
     // Search Logic
     const searchData = [
@@ -87,43 +99,51 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
 
     const toggleSearch = (state) => {
+        if (!searchOverlay) return;
         if (state) {
             searchOverlay.classList.add('active');
-            setTimeout(() => searchInput.focus(), 300);
+            if (searchInput) setTimeout(() => searchInput.focus(), 300);
             document.body.style.overflow = 'hidden';
         } else {
             searchOverlay.classList.remove('active');
             document.body.style.overflow = '';
-            searchInput.value = '';
-            searchResultsList.innerHTML = '';
+            if (searchInput) searchInput.value = '';
+            if (searchResultsList) searchResultsList.innerHTML = '';
         }
     };
 
-    searchToggle.addEventListener('click', () => toggleSearch(true));
-    searchClose.addEventListener('click', () => toggleSearch(false));
+    if (searchToggle) {
+        searchToggle.addEventListener('click', () => toggleSearch(true));
+    }
+    if (searchClose) {
+        searchClose.addEventListener('click', () => toggleSearch(false));
+    }
     
     // ESC key to close
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') toggleSearch(false);
     });
 
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase().trim();
-        if (query.length < 2) {
-            searchResultsList.innerHTML = '';
-            return;
-        }
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length < 2) {
+                if (searchResultsList) searchResultsList.innerHTML = '';
+                return;
+            }
 
-        const matches = searchData.filter(item => 
-            item.title.toLowerCase().includes(query) || 
-            item.category.toLowerCase().includes(query) || 
-            item.desc.toLowerCase().includes(query)
-        );
+            const matches = searchData.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                item.category.toLowerCase().includes(query) || 
+                item.desc.toLowerCase().includes(query)
+            );
 
-        renderResults(matches);
-    });
+            renderResults(matches);
+        });
+    }
 
     const renderResults = (results) => {
+        if (!searchResultsList) return;
         if (results.length === 0) {
             searchResultsList.innerHTML = '<div class="no-results">No matching results found.</div>';
             return;
@@ -159,42 +179,64 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // Close menu when a link is clicked
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            menuIcon.setAttribute('data-lucide', 'menu');
-            lucide.createIcons();
+    if (navLinks) {
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                if (menuIcon) {
+                    menuIcon.setAttribute('data-lucide', 'menu');
+                    if (typeof lucide !== 'undefined') {
+                        lucide.createIcons();
+                    }
+                }
+            });
         });
-    });
+    }
+
+    // Helper functions for safe animations
+    const safeAnimate = (selector, keyframes, options) => {
+        if (document.querySelector(selector) && typeof animate !== 'undefined') {
+            animate(selector, keyframes, options);
+        }
+    };
+
+    const safeInView = (selector, callback) => {
+        if (document.querySelector(selector) && typeof inView !== 'undefined') {
+            inView(selector, callback);
+        }
+    };
 
     // 2. Hero Animations
-    animate(".hero-subtitle", { opacity: [0, 1], y: [20, 0] }, { duration: 0.8 });
-    animate(".hero-title", { opacity: [0, 1], y: [40, 0] }, { duration: 1, delay: 0.2 });
-    animate(".hero-description", { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, delay: 0.4 });
-    animate(".hero-ctas", { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, delay: 0.6 });
+    safeAnimate(".hero-subtitle", { opacity: [0, 1], y: [20, 0] }, { duration: 0.8 });
+    safeAnimate(".hero-title", { opacity: [0, 1], y: [40, 0] }, { duration: 1, delay: 0.2 });
+    safeAnimate(".hero-description", { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, delay: 0.4 });
+    safeAnimate(".hero-ctas", { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, delay: 0.6 });
 
     // 3. In-View Scroll Animations
-    inView(".fade-up", ({ target }) => {
-        animate(target, { opacity: [0, 1], y: [40, 0] }, { 
-            duration: 0.8, 
-            delay: stagger(0.1),
-            easing: [0.16, 1, 0.3, 1]
-        });
+    safeInView(".fade-up", ({ target }) => {
+        if (typeof animate !== 'undefined') {
+            animate(target, { opacity: [0, 1], y: [40, 0] }, { 
+                duration: 0.8, 
+                delay: stagger(0.1),
+                easing: [0.16, 1, 0.3, 1]
+            });
+        }
     });
 
-    inView(".skill-progress", ({ target }) => {
+    safeInView(".skill-progress", ({ target }) => {
         const width = target.style.width;
         target.style.width = "0";
-        animate(target, { width: [0, width] }, { duration: 1.5, easing: "ease-out" });
+        if (typeof animate !== 'undefined') {
+            animate(target, { width: [0, width] }, { duration: 1.5, easing: "ease-out" });
+        }
     });
 
     // 4. Project Filtering Logic
     const filterBtns = document.querySelectorAll('.filter-btn');
     const filterCards = document.querySelectorAll('#main-work-grid .work-card');
-    const allWorkCards = document.querySelectorAll('.work-card');
 
     function setFilter(filter) {
+        if (filterBtns.length === 0) return;
         filterBtns.forEach(btn => {
             if (btn.getAttribute('data-filter') === filter) {
                 btn.classList.add('active');
@@ -209,18 +251,18 @@ document.addEventListener("DOMContentLoaded", () => {
             
             if (filter === 'all') {
                 card.classList.remove('hidden');
-                animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
+                if (typeof animate !== 'undefined') animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
             } else if (filter === 'featured') {
                 if (isFeatured) {
                     card.classList.remove('hidden');
-                    animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
+                    if (typeof animate !== 'undefined') animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
                 } else {
                     card.classList.add('hidden');
                 }
             } else {
                 if (category && category.includes(filter)) {
                     card.classList.remove('hidden');
-                    animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
+                    if (typeof animate !== 'undefined') animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
                 } else {
                     card.classList.add('hidden');
                 }
@@ -228,22 +270,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            setFilter(btn.getAttribute('data-filter'));
+    if (filterBtns.length > 0) {
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                setFilter(btn.getAttribute('data-filter'));
+            });
         });
-    });
-
-    // Default to FEATURED
-    setFilter('featured');
+        // Default to FEATURED
+        setFilter('featured');
+    }
 
     // 5. Case Study Modal Logic
     const modal = document.getElementById('project-modal');
-    const modalContent = document.getElementById('modal-content');
     const closeBtn = document.querySelector('.modal-close');
+    const allWorkCards = document.querySelectorAll('.work-card');
     
     const projects = {
-        // BRANDING
         "buqyan-branding": {
             title: "BUQYAN STUDIOS",
             category: "BRAND IDENTITY",
@@ -267,7 +309,6 @@ document.addEventListener("DOMContentLoaded", () => {
             category: "BRANDING & PRINT DESIGN",
             link: "https://www.behance.net/gallery/248879001/MBG-BROCHURE-%28First-draft-design%29"
         },
-        // POSTERS (Using default Behance profile as requested link wasn't specific)
         "al-balad": { title: "Al Balad", category: "POSTER DESIGN", overview: "Visual storytelling through minimal poster design.", link: "https://www.instagram.com/p/DTdQO4zCc_J/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" },
         "7-up": { title: "7 UP", category: "POSTER DESIGN", overview: "Creative advertising poster for 7 UP.", link: "https://www.instagram.com/p/DRxN96XEqAQ/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" },
         "uefa": { title: "UEFA CHAMPIONS LEAGUE", category: "POSTER DESIGN", overview: "Dynamic sports poster design.", link: "https://www.instagram.com/p/DRMr7OQCTa_/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" },
@@ -282,7 +323,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "bakeland-grid": { title: "Bake Land Instagram Grid", category: "SOCIAL MEDIA DESIGN", overview: "Cohesive Instagram grid design for Bake Land.", link: "https://www.behance.net/muhammedsidhan2" },
         "malabar-mess": { title: "Malabar Mess", category: "POSTER DESIGN", overview: "Visual storytelling for Malabar Mess.", link: "https://www.behance.net/muhammedsidhan2" },
         "super-sunday": { title: "Super Sunday Poster", category: "POSTER DESIGN", overview: "Promotional poster for Super Sunday at Bake Land.", link: "https://www.behance.net/muhammedsidhan2" },
-        // VIDEO
         "akale-video": {
             title: "AKALE SHORT FILM",
             category: "VIDEO PRODUCTION",
@@ -301,7 +341,6 @@ document.addEventListener("DOMContentLoaded", () => {
             overview: "Dynamic video edit featuring character-driven action and vibrant visuals.",
             link: "https://youtu.be/-jTDNNV1JnU?si=IoqN-geyxhfHxQbH"
         },
-        // MOTION
         "buqyan-motion": {
             title: "BUQYAN STUDIOS ANIMATION",
             category: "MOTION GRAPHICS",
@@ -326,7 +365,6 @@ document.addEventListener("DOMContentLoaded", () => {
             overview: "Dynamic logo animation for Boat, capturing the energy of sound and movement.",
             link: "https://youtu.be/r6qnNStNwN4?si=TlMpoprsDi8vMCPF"
         },
-        // PRINT
         "samsung-print": {
             title: "SAMSUNG CATALOGUE",
             category: "PRINT DESIGN",
@@ -351,7 +389,6 @@ document.addEventListener("DOMContentLoaded", () => {
             overview: "Premium menu design for Bake Land Bakery, highlighting their exquisite offerings.",
             link: "https://www.behance.net/muhammedsidhan2"
         },
-        // UPCOMING WORKS
         "mbg-nigeria": {
             title: "MBG INTEGRATED FARMS PVT LMT",
             category: "NIGERIA | BROCHURE DESIGN",
@@ -372,24 +409,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    allWorkCards.forEach(card => {
-        card.addEventListener('click', () => {
-            const pId = card.getAttribute('data-project');
-            const data = projects[pId];
-            
-            if (data && data.link) {
-                window.open(data.link, '_blank');
-            } else {
-                // Fallback to Behance profile if no specific link
-                window.open("https://www.behance.net/muhammedsidhan2", '_blank');
-            }
+    if (allWorkCards.length > 0) {
+        allWorkCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const pId = card.getAttribute('data-project');
+                const data = projects[pId];
+                
+                if (data && data.link) {
+                    window.open(data.link, '_blank');
+                } else {
+                    // Fallback to Behance profile if no specific link
+                    window.open("https://www.behance.net/muhammedsidhan2", '_blank');
+                }
+            });
         });
-    });
+    }
 
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    });
+    if (closeBtn && modal) {
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+    }
 
     // 6. Contact Form Handling
     const contactForm = document.getElementById('contact-form');
@@ -399,13 +440,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (contactForm) {
         contactForm.addEventListener('submit', () => {
             window.submitted = true;
-            submitBtn.disabled = true;
-            submitBtn.innerText = "Sending...";
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerText = "Sending...";
+            }
         });
     }
 
     window.handleFormResponse = function() {
-        if (window.submitted) {
+        if (window.submitted && contactForm && formSuccess) {
             contactForm.style.display = 'none';
             formSuccess.style.display = 'block';
             window.submitted = false; // Reset for next time
@@ -418,11 +461,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     window.resetForm = function() {
-        contactForm.reset();
-        contactForm.style.display = 'block';
-        formSuccess.style.display = 'none';
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Send Message";
+        if (contactForm && formSuccess) {
+            contactForm.reset();
+            contactForm.style.display = 'block';
+            formSuccess.style.display = 'none';
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Send Message";
+            }
+        }
     };
 
     // 7. Step-by-Step Poster Slider (Auto-Scroll + Manual Controls with transform: translateX)
@@ -521,7 +568,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // 8. Magic Wand Cursor Effect
-
     document.addEventListener('mousemove', (e) => {
         // Spawn sparkles occasionally for a trail effect
         if (Math.random() > 0.85) {
@@ -576,65 +622,72 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 9. Kibblix Pet Nutrition Showcase — pixel-based vertical slider
     (function () {
-        var viewport = document.getElementById('kibblixViewport');
-        var track    = document.getElementById('kibblixTrack');
-        var upBtn    = document.getElementById('kibblixUpBtn');
-        var downBtn  = document.getElementById('kibblixDownBtn');
+        const viewport = document.getElementById('kibblixViewport');
+        const track    = document.getElementById('kibblixTrack');
+        const upBtn    = document.getElementById('kibblixUpBtn');
+        const downBtn  = document.getElementById('kibblixDownBtn');
 
         if (!viewport || !track || !upBtn || !downBtn) return;
 
-        var scrollAmount = 0;
+        let scrollAmount = 0;
 
-        function maxScroll() {
-            // offsetHeight = true rendered height, unaffected by translateY transforms
-            return Math.max(0, track.offsetHeight - viewport.clientHeight);
-        }
-
-        function clamp(val) {
-            return Math.max(0, Math.min(val, maxScroll()));
+        function getMaxScroll() {
+            return Math.max(0, track.scrollHeight - viewport.clientHeight);
         }
 
         function applyTranslate() {
             track.style.transform = 'translateY(-' + scrollAmount + 'px)';
-            var atTop    = scrollAmount <= 0;
-            var atBottom = scrollAmount >= maxScroll();
+            
+            // Toggle disabled visual styles
+            const atTop = scrollAmount <= 0;
+            const atBottom = scrollAmount >= getMaxScroll();
             upBtn.classList.toggle('disabled', atTop);
             downBtn.classList.toggle('disabled', atBottom);
         }
 
-        downBtn.addEventListener('click', function (e) {
+        downBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            scrollAmount = clamp(scrollAmount + viewport.clientHeight);
+            const max = getMaxScroll();
+            scrollAmount += viewport.clientHeight;
+            if (scrollAmount > max) {
+                scrollAmount = max;
+            }
             applyTranslate();
         });
 
-        upBtn.addEventListener('click', function (e) {
+        upBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            scrollAmount = clamp(scrollAmount - viewport.clientHeight);
+            scrollAmount -= viewport.clientHeight;
+            if (scrollAmount < 0) {
+                scrollAmount = 0;
+            }
             applyTranslate();
         });
 
         // Debounced resize — prevents continuous main-thread work on mobile/orientation flip
-        var resizeTimer;
-        window.addEventListener('resize', function () {
+        let resizeTimer;
+        window.addEventListener('resize', () => {
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function () {
-                scrollAmount = clamp(scrollAmount);
+            resizeTimer = setTimeout(() => {
+                const max = getMaxScroll();
+                if (scrollAmount > max) {
+                    scrollAmount = max;
+                }
+                if (scrollAmount < 0) {
+                    scrollAmount = 0;
+                }
                 applyTranslate();
             }, 150);
         });
 
-        // Wait until images have loaded so offsetHeight is accurate
-        window.addEventListener('load', function () {
-            scrollAmount = 0;
+        // Wait until images have loaded so scroll bounds are correct
+        window.addEventListener('load', () => {
             applyTranslate();
         });
 
         // Fallback init — handles cases where DOMContentLoaded fires before images report height
-        setTimeout(function () {
-            scrollAmount = 0;
+        setTimeout(() => {
             applyTranslate();
         }, 600);
     }());
-// Manual Slider logic initialized above
 });
