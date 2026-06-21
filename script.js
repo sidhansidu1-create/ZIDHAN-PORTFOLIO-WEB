@@ -448,9 +448,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 submitBtn.innerText = "Sending...";
             }
 
-            // If running locally as a file:// (e.g. double-clicked index.html), bypass API fetch
-            if (window.location.protocol === 'file:') {
-                console.warn('Running locally via file:// protocol. Bypassing API spam verification and mocking successful submission.');
+            // If running locally as a file:// or plain localhost dev server (not Cloudflare Pages),
+            // bypass the API call entirely and mock a successful submission.
+            const isLocalFile = window.location.protocol === 'file:';
+            const isPlainLocalhost = (
+                window.location.hostname === 'localhost' ||
+                window.location.hostname === '127.0.0.1'
+            ) && window.location.port !== '8788'; // 8788 = wrangler pages dev port
+            if (isLocalFile || isPlainLocalhost) {
+                console.warn('Local environment detected (non-Cloudflare dev server). Mocking successful submission.');
                 window.submitted = true;
                 window.handleFormResponse();
                 return;
@@ -467,13 +473,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 formData.set('cf-turnstile-response', 'TURNSTILE_LOAD_FAILED');
             }
 
-
             try {
                 const response = await fetch('/api/submit-contact', {
                     method: 'POST',
                     body: formData
                 });
-                
+
+                // Guard: non-2xx responses may return HTML (e.g. 404 page), not JSON.
+                // Parsing HTML as JSON throws SyntaxError, so check ok first.
+                if (!response.ok) {
+                    const statusText = `Server error: ${response.status} ${response.statusText}`;
+                    console.error(statusText);
+                    alert('Something went wrong. Please try again later. (' + response.status + ')');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = 'Send Message';
+                    }
+                    if (typeof turnstile !== 'undefined') { turnstile.reset(); }
+                    return;
+                }
+
                 const result = await response.json();
                 
                 if (result.success) {
@@ -501,6 +520,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     turnstile.reset();
                 }
             }
+
         });
     }
 
