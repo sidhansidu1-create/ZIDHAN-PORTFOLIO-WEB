@@ -16,8 +16,13 @@
     
     <!-- Icons (Lucide & Font Awesome) -->
     <script src="https://unpkg.com/lucide@latest" defer></script>
-    <!-- Cloudflare Turnstile API -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer
+    <!-- Cloudflare Turnstile: explicit preload silences the browser preload-not-used warning
+         (Cloudflare's own CDN edge/Speed injects one automatically; declaring it ourselves
+          ensures the correct as="script" + crossorigin attrs and suppresses the console noise) -->
+    <link rel="preload" href="https://challenges.cloudflare.com/turnstile/v0/api.js" as="script" crossorigin="anonymous">
+    <!-- defer (not async+defer) so the script executes in document order after parsing,
+         matching the preload timing the browser expects -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" defer crossorigin="anonymous"
         onerror="window.turnstileLoadFailed=true;console.warn('Turnstile failed to load – spam check skipped.');"></script>
     <!-- Non-blocking Font Awesome (media=print trick): renders page instantly, icons stream in async -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous">
@@ -909,7 +914,14 @@
                             </div>
                             
                             <!-- Cloudflare Turnstile Widget -->
-                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-size="flexible" style="margin-bottom:0.5rem;"></div>
+                            <!-- data-callback fires the instant Turnstile renders, ensuring
+                                 the widget hooks onto the preloaded script synchronously -->
+                            <div class="cf-turnstile"
+                                 data-sitekey="1x00000000000000000000AA"
+                                 data-size="flexible"
+                                 data-callback="onTurnstileSuccess"
+                                 data-error-callback="onTurnstileError"
+                                 style="margin-bottom:0.5rem;"></div>
                             
                             <button type="submit" class="btn-gradient" id="submit-btn">Send Message</button>
                         </form>

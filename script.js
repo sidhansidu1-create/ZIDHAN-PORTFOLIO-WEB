@@ -768,3 +768,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 600);
     }());
 });
+
+// Cloudflare Turnstile global callbacks.
+// Declared as window properties so Turnstile can call them synchronously via
+// data-callback / data-error-callback the moment the widget initialises,
+// matching the browser's preload intent and silencing the preload-not-used warning.
+window.onTurnstileSuccess = function(token) {
+    // Token is automatically injected into the form field by Turnstile.
+    // Nothing extra needed here — the token will be present in FormData on submit.
+    console.debug('[Turnstile] Widget verified successfully.');
+};
+
+window.onTurnstileError = function() {
+    // If the widget itself errors (bad network, sitekey mismatch, etc.),
+    // mark the load as failed so the submit handler sends the fallback sentinel.
+    window.turnstileLoadFailed = true;
+    console.warn('[Turnstile] Widget encountered an error — spam checks will run without token verification.');
+};
