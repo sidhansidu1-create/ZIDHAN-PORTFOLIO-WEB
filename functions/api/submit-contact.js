@@ -58,35 +58,42 @@ export async function onRequestPost(context) {
     }
 
     // 5. Cloudflare Turnstile token validation
+    // If the client signals that the Turnstile script itself failed to load
+    // (e.g. network block / ad-blocker), skip token verification but keep all
+    // other spam guards active (honeypot, timestamp, rate-limit).
+    const SKIP_TURNSTILE = turnstileResponse === 'TURNSTILE_LOAD_FAILED';
     if (!turnstileResponse) {
       return new Response(
-        JSON.stringify({ success: false, error: 'Verification required' }),
+        JSON.stringify({ success: false, error: 'Verification required. Please complete the challenge.' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
 
-    const secretKey = context.env.TURNSTILE_SECRET_KEY || '1x00000000000000000000000000000000';
-    const turnstileUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+    if (!SKIP_TURNSTILE) {
+      const secretKey = context.env.TURNSTILE_SECRET_KEY || '1x0000000000000000000000000000000AA';
+      const turnstileUrl = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 
-    const verifyResponse = await fetch(turnstileUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        secret: secretKey,
-        response: turnstileResponse,
-        remoteip: ip
-      })
-    });
+      const verifyResponse = await fetch(turnstileUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          secret: secretKey,
+          response: turnstileResponse,
+          remoteip: ip
+        })
+      });
 
-    const verifyJson = await verifyResponse.json();
-    if (!verifyJson.success) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Security verification failed. Please try again.' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
+      const verifyJson = await verifyResponse.json();
+      if (!verifyJson.success) {
+        return new Response(
+          JSON.stringify({ success: false, error: 'Security verification failed. Please try again.' }),
+          { status: 400, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
     }
+
 
     // 6. Forward submission to Google Forms (URL-encoded POST request)
     const googleFormUrl = 'https://docs.google.com/forms/u/0/d/e/1FAIpQLSeeY05n7skKAStonYKY544id_LPvJvf7naQJeQ9BqMo1FvMyg/formResponse';

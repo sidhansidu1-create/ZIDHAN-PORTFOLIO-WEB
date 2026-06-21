@@ -17,7 +17,8 @@
     <!-- Icons (Lucide & Font Awesome) -->
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <!-- Cloudflare Turnstile API -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer
+        onerror="window.turnstileLoadFailed=true;console.warn('Turnstile failed to load – spam check skipped.');"></script>
     <!-- Non-blocking Font Awesome (media=print trick): renders page instantly, icons stream in async -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"></noscript>
@@ -907,8 +908,8 @@
                                 <textarea name="entry.1248789437" rows="4" placeholder="Your Message" required></textarea>
                             </div>
                             
-                            <!-- Cloudflare Turnstile Invisible Widget -->
-                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-size="invisible"></div>
+                            <!-- Cloudflare Turnstile Widget -->
+                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-size="flexible" style="margin-bottom:0.5rem;"></div>
                             
                             <button type="submit" class="btn-gradient" id="submit-btn">Send Message</button>
                         </form>

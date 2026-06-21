@@ -461,6 +461,13 @@ document.addEventListener("DOMContentLoaded", () => {
             // Append the recorded load time
             formData.append('form_load_time', window.formLoadTime || Date.now());
 
+            // If Turnstile script failed to load (e.g. blocked by ad-blocker), append
+            // a sentinel value so the server knows to skip token verification gracefully.
+            if (window.turnstileLoadFailed) {
+                formData.set('cf-turnstile-response', 'TURNSTILE_LOAD_FAILED');
+            }
+
+
             try {
                 const response = await fetch('/api/submit-contact', {
                     method: 'POST',
