@@ -2522,3 +2522,8 @@ footer {
         min-height: 36px;
     }
 }
+
+/* Honeypot field for spam prevention */
+.honeypot-field {
+    display: none !important;
+}

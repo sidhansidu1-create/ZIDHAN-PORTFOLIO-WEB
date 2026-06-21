@@ -2156,3 +2156,8 @@ footer{
         padding: 1.2rem;
     }
 }
+
+/* Honeypot field for spam prevention */
+.honeypot-field {
+    display: none !important;
+}

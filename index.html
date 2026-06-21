@@ -16,6 +16,8 @@
     
     <!-- Icons (Lucide & Font Awesome) -->
     <script src="https://unpkg.com/lucide@latest" defer></script>
+    <!-- Cloudflare Turnstile API -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <!-- Non-blocking Font Awesome (media=print trick): renders page instantly, icons stream in async -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous"></noscript>
@@ -889,6 +891,9 @@
                 <div class="collaborate-container fade-up">
                     <div class="collaborate-card">
                         <form class="contact-form" id="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeeY05n7skKAStonYKY544id_LPvJvf7naQJeQ9BqMo1FvMyg/formResponse" method="POST" target="hidden_iframe">
+                            <!-- Hidden honeypot field to catch spam bots -->
+                            <input type="text" name="website" class="honeypot-field" autocomplete="off" tabindex="-1">
+                            
                             <div class="form-group">
                                 <label>Name</label>
                                 <input type="text" name="entry.269513773" placeholder="Your Name" required>
@@ -901,6 +906,10 @@
                                 <label>Message</label>
                                 <textarea name="entry.1248789437" rows="4" placeholder="Your Message" required></textarea>
                             </div>
+                            
+                            <!-- Cloudflare Turnstile Invisible Widget -->
+                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-size="invisible"></div>
+                            
                             <button type="submit" class="btn-gradient" id="submit-btn">Send Message</button>
                         </form>
                         

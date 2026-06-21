@@ -1,3 +1,5 @@
+window.formLoadTime = Date.now();
+
 if (typeof lucide !== 'undefined') {
     lucide.createIcons();
 }
@@ -438,11 +440,59 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitBtn = document.getElementById('submit-btn');
 
     if (contactForm) {
-        contactForm.addEventListener('submit', () => {
-            window.submitted = true;
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Stop direct submission to Google Forms iframe
+            
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.innerText = "Sending...";
+            }
+
+            // If running locally as a file:// (e.g. double-clicked index.html), bypass API fetch
+            if (window.location.protocol === 'file:') {
+                console.warn('Running locally via file:// protocol. Bypassing API spam verification and mocking successful submission.');
+                window.submitted = true;
+                window.handleFormResponse();
+                return;
+            }
+
+            const formData = new FormData(contactForm);
+            
+            // Append the recorded load time
+            formData.append('form_load_time', window.formLoadTime || Date.now());
+
+            try {
+                const response = await fetch('/api/submit-contact', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Trigger original success screen
+                    window.submitted = true;
+                    window.handleFormResponse();
+                } else {
+                    alert(result.error || 'Verification check failed. Please try again.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = "Send Message";
+                    }
+                    if (typeof turnstile !== 'undefined') {
+                        turnstile.reset();
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Something went wrong. Please try again.');
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "Send Message";
+                }
+                if (typeof turnstile !== 'undefined') {
+                    turnstile.reset();
+                }
             }
         });
     }
