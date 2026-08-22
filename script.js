@@ -295,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
             challenge: "Balancing approachability and trust in a category where quality perception directly impacts purchase decisions.",
             solution: "Developed a distinctive logotype paired with a warm, natural color palette and clean typography to communicate both care and credibility.",
             outcome: "A cohesive brand identity that positions Kibblix as a premium yet accessible pet nutrition brand.",
-            link: "https://www.behance.net/gallery/249492929/Kibblix-Premium-Pet-Nutrition-Brand-Identity-Design?platform=direct"
+            link: "https://www.behance.net/gallery/249492929/Kibblix-Premium-Pet-Nutrition-Brand-Identity-Design"
         },
         "buqyan-branding": {
             title: "BUQYAN STUDIOS",
