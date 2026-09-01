@@ -13,28 +13,74 @@ document.addEventListener("DOMContentLoaded", () => {
     const navbar = document.getElementById('navbar');
     const menuToggle = document.getElementById('menu-toggle');
     const navLinks = document.getElementById('nav-links');
-    const menuIcon = menuToggle ? menuToggle.querySelector('i') : null;
-    
+
+    // Function to safely open/close mobile navigation
+    const toggleMenu = (openState) => {
+        if (!navLinks) return;
+        const isOpen = typeof openState === 'boolean' ? openState : !navLinks.classList.contains('active');
+
+        if (isOpen) {
+            navLinks.classList.add('active');
+            if (menuToggle) {
+                menuToggle.innerHTML = '<i data-lucide="x"></i>';
+                menuToggle.setAttribute('aria-expanded', 'true');
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+            document.body.style.overflow = 'hidden';
+        } else {
+            navLinks.classList.remove('active');
+            if (menuToggle) {
+                menuToggle.innerHTML = '<i data-lucide="menu"></i>';
+                menuToggle.setAttribute('aria-expanded', 'false');
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            }
+            document.body.style.overflow = '';
+        }
+    };
+
+    if (menuToggle) {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        });
+    }
+
+    // Close menu when clicking any nav link
+    if (navLinks) {
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                toggleMenu(false);
+            });
+        });
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (navLinks && navLinks.classList.contains('active')) {
+            if (!navLinks.contains(e.target) && menuToggle && !menuToggle.contains(e.target)) {
+                toggleMenu(false);
+            }
+        }
+    });
+
+    // Close menu on resize back to desktop screen width
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && navLinks && navLinks.classList.contains('active')) {
+            toggleMenu(false);
+        }
+    });
+
     // Robust Smooth Scroll for Anchor Links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
             const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
+            if (!targetId || targetId === '#') return;
             
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
+                e.preventDefault();
                 targetElement.scrollIntoView({ behavior: 'smooth' });
-                // Close mobile menu if open
-                if (navLinks && navLinks.classList.contains('active')) {
-                    navLinks.classList.remove('active');
-                    if (menuIcon) {
-                        menuIcon.setAttribute('data-lucide', 'menu');
-                        if (typeof lucide !== 'undefined') {
-                            lucide.createIcons();
-                        }
-                    }
-                }
+                toggleMenu(false);
             } else {
                 console.warn(`[Scroll Anchor] Target section '${targetId}' not found in DOM.`);
             }
@@ -53,17 +99,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
-            }
-        });
-    }
-
-    if (menuToggle && navLinks && menuIcon) {
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            const isOpen = navLinks.classList.contains('active');
-            menuIcon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
-            if (typeof lucide !== 'undefined') {
-                lucide.createIcons();
             }
         });
     }
@@ -103,12 +138,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const toggleSearch = (state) => {
         if (!searchOverlay) return;
         if (state) {
+            toggleMenu(false); // Close mobile menu if opening search
             searchOverlay.classList.add('active');
             if (searchInput) setTimeout(() => searchInput.focus(), 300);
             document.body.style.overflow = 'hidden';
         } else {
             searchOverlay.classList.remove('active');
-            document.body.style.overflow = '';
+            if (!navLinks || !navLinks.classList.contains('active')) {
+                document.body.style.overflow = '';
+            }
             if (searchInput) searchInput.value = '';
             if (searchResultsList) searchResultsList.innerHTML = '';
         }
@@ -123,7 +161,10 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // ESC key to close
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') toggleSearch(false);
+        if (e.key === 'Escape') {
+            toggleSearch(false);
+            toggleMenu(false);
+        }
     });
 
     if (searchInput) {
@@ -171,29 +212,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     const targetId = href.substring(1);
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
                     }
                 }
             });
         });
     };
-
-    if (navLinks) {
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                if (menuIcon) {
-                    menuIcon.setAttribute('data-lucide', 'menu');
-                    if (typeof lucide !== 'undefined') {
-                        lucide.createIcons();
-                    }
-                }
-            });
-        });
-    }
 
     // Helper functions for safe animations
     const safeAnimate = (selector, keyframes, options) => {
