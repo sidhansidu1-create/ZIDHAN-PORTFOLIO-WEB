@@ -2349,7 +2349,10 @@ footer {
     /* About */
     .about-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
     .about-text-container { padding: 0; }
-    .about-stats { grid-template-columns: 1fr; gap: 1.5rem; }
+    .about-stats { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    .stat-number { font-size: 1.3rem; }
+    .stat-label { font-size: 0.65rem; }
+    .stat-icon i, .stat-icon svg { width: 22px; height: 22px; }
 
     /* Work / Portfolio */
     .work-grid { grid-template-columns: 1fr !important; gap: 1.5rem; }

@@ -906,21 +906,21 @@
                 
                 <div class="collaborate-container fade-up">
                     <div class="collaborate-card">
-                        <form class="contact-form" id="contact-form" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSeeY05n7skKAStonYKY544id_LPvJvf7naQJeQ9BqMo1FvMyg/formResponse" method="POST" target="hidden_iframe">
+                        <form class="contact-form" id="contact-form">
                             <!-- Hidden honeypot field to catch spam bots -->
-                            <input type="text" name="website" class="honeypot-field" autocomplete="off" tabindex="-1">
+                            <input type="text" name="website" class="honeypot-field" autocomplete="off" tabindex="-1" aria-hidden="true">
                             
                             <div class="form-group">
-                                <label>Name</label>
-                                <input type="text" name="entry.269513773" placeholder="Your Name" required>
+                                <label for="form-name">Name</label>
+                                <input type="text" id="form-name" name="entry.269513773" placeholder="Your Name" required maxlength="100" autocomplete="name">
                             </div>
                             <div class="form-group">
-                                <label>Email</label>
-                                <input type="email" name="entry.1315283641" placeholder="Email Address" required>
+                                <label for="form-email">Email</label>
+                                <input type="email" id="form-email" name="entry.1315283641" placeholder="Email Address" required maxlength="150" autocomplete="email">
                             </div>
                             <div class="form-group">
-                                <label>Message</label>
-                                <textarea name="entry.1248789437" rows="4" placeholder="Your Message" required></textarea>
+                                <label for="form-message">Message</label>
+                                <textarea id="form-message" name="entry.1248789437" rows="4" placeholder="Your Message (minimum 10 characters)" required minlength="10" maxlength="3000"></textarea>
                             </div>
                             
                             <!-- Cloudflare Turnstile Widget -->
@@ -943,9 +943,6 @@
                             <p>Thank you for reaching out. I'll get back to you as soon as possible.</p>
                             <button class="btn btn-secondary" onclick="resetForm()">Send Another Message</button>
                         </div>
-
-                        <!-- Hidden iframe for form submission -->
-                        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(typeof handleFormResponse === 'function') handleFormResponse();"></iframe>
                     </div>
                     
                     <div class="social-links-area fade-up">

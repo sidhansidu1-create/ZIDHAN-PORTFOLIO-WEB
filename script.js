@@ -474,31 +474,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Stop direct submission to Google Forms iframe
+            e.preventDefault(); // Stop default form submit
             
+            const formData = new FormData(contactForm);
+            const name = (formData.get('entry.269513773') || '').toString().trim();
+            const email = (formData.get('entry.1315283641') || '').toString().trim();
+            const message = (formData.get('entry.1248789437') || '').toString().trim();
+            const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
+            // Client-side pre-validation
+            if (name.length < 2 || name.length > 100) {
+                alert('Please enter a valid name (2-100 characters).');
+                const nameInput = document.getElementById('form-name');
+                if (nameInput) nameInput.focus();
+                return;
+            }
+
+            if (email.length < 5 || email.length > 150 || !emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                const emailInput = document.getElementById('form-email');
+                if (emailInput) emailInput.focus();
+                return;
+            }
+
+            if (message.length < 10 || message.length > 3000) {
+                alert('Please enter a message between 10 and 3,000 characters.');
+                const messageInput = document.getElementById('form-message');
+                if (messageInput) messageInput.focus();
+                return;
+            }
+
             if (submitBtn) {
                 submitBtn.disabled = true;
                 submitBtn.innerText = "Sending...";
             }
 
-            // If running locally as a file:// or plain localhost dev server (not Cloudflare Pages),
-            // bypass the API call entirely and mock a successful submission.
+            // If running locally as a file:// or plain localhost dev server (not Cloudflare Pages / Workers),
+            // mock a successful submission for dev convenience.
             const isLocalFile = window.location.protocol === 'file:';
             const isPlainLocalhost = (
                 window.location.hostname === 'localhost' ||
                 window.location.hostname === '127.0.0.1'
-            ) && window.location.port !== '8788'; // 8788 = wrangler pages dev port
+            ) && window.location.port !== '8788' && window.location.port !== '8787'; // 8788 = pages dev, 8787 = worker dev
+            
             if (isLocalFile || isPlainLocalhost) {
                 console.warn('Local environment detected (non-Cloudflare dev server). Mocking successful submission.');
-                window.submitted = true;
-                window.handleFormResponse();
+                setTimeout(() => {
+                    window.submitted = true;
+                    window.handleFormResponse();
+                }, 400);
                 return;
             }
-
-            const formData = new FormData(contactForm);
             
             // Append the recorded load time
-            formData.append('form_load_time', window.formLoadTime || Date.now());
+            formData.set('form_load_time', (window.formLoadTime || Date.now()).toString());
 
             // If Turnstile script failed to load (e.g. blocked by ad-blocker), append
             // a sentinel value so the server knows to skip token verification gracefully.
@@ -512,28 +541,21 @@ document.addEventListener("DOMContentLoaded", () => {
                     body: formData
                 });
 
-                // Guard: non-2xx responses may return HTML (e.g. 404 page), not JSON.
-                // Parsing HTML as JSON throws SyntaxError, so check ok first.
-                if (!response.ok) {
-                    const statusText = `Server error: ${response.status} ${response.statusText}`;
-                    console.error(statusText);
-                    alert('Something went wrong. Please try again later. (' + response.status + ')');
-                    if (submitBtn) {
-                        submitBtn.disabled = false;
-                        submitBtn.innerText = 'Send Message';
-                    }
-                    if (typeof turnstile !== 'undefined') { turnstile.reset(); }
-                    return;
+                let result;
+                try {
+                    result = await response.json();
+                } catch (parseErr) {
+                    result = null;
                 }
 
-                const result = await response.json();
-                
-                if (result.success) {
-                    // Trigger original success screen
+                if (response.ok && result && result.success) {
                     window.submitted = true;
                     window.handleFormResponse();
                 } else {
-                    alert(result.error || 'Verification check failed. Please try again.');
+                    const errorMsg = (result && result.error) 
+                        ? result.error 
+                        : `Submission failed (${response.status}: ${response.statusText || 'Error'}). Please try again.`;
+                    alert(errorMsg);
                     if (submitBtn) {
                         submitBtn.disabled = false;
                         submitBtn.innerText = "Send Message";
@@ -543,8 +565,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
             } catch (err) {
-                console.error(err);
-                alert('Something went wrong. Please try again.');
+                console.error('[Contact Form Error]:', err);
+                alert('A network error occurred while sending your message. Please check your connection and try again.');
                 if (submitBtn) {
                     submitBtn.disabled = false;
                     submitBtn.innerText = "Send Message";
@@ -553,7 +575,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     turnstile.reset();
                 }
             }
-
         });
     }
 
@@ -573,11 +594,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.resetForm = function() {
         if (contactForm && formSuccess) {
             contactForm.reset();
+            window.formLoadTime = Date.now(); // Reset timer
             contactForm.style.display = 'block';
             formSuccess.style.display = 'none';
             if (submitBtn) {
                 submitBtn.disabled = false;
                 submitBtn.innerText = "Send Message";
+            }
+            if (typeof turnstile !== 'undefined') {
+                turnstile.reset();
             }
         }
     };
