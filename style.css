@@ -2536,15 +2536,18 @@ footer {
     }
 
     .kibblix-controls {
-        /* Switch from side pill → bottom horizontal bar */
-        top: auto;
-        bottom: 0.75rem;
-        right: 50%;
-        transform: translateX(50%);
+        /* Take out of absolute flow → appear below the image */
+        position: static;
+        transform: none;
         flex-direction: row;
+        justify-content: center;
         gap: 0.6rem;
         padding: 0.55rem 0.9rem;
         border-radius: 999px;
+        margin-top: 1rem;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .kibblix-btn {
