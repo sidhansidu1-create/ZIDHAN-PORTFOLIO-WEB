@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://zidhanzid.com/</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png</image:loc>
+      <image:title>Muhammed Sidhan Brand Design Portfolio - Kibblix Branding</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_600/v1778087347/c_cu1zhm.jpg</image:loc>
+      <image:title>Muhammed Sidhan Brand Designer Portrait</image:title>
+    </image:image>
+  </url>
+
+  <!-- Dedicated 9-Grid Campaign Strategy Landing Page -->
+  <url>
+    <loc>https://zidhanzid.com/campaign.html</loc>
+    <lastmod>2026-09-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778681835/FRAGRO_1_oblsh9.png</image:loc>
+      <image:title>FRAGRO Perfume Lab 9-Grid Instagram Campaign Strategy</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778699861/BAKE_LAND_1_4x-100_g2fw45.jpg</image:loc>
+      <image:title>Bake Land Bakery Instagram Visual Identity Grid</image:title>
+    </image:image>
+  </url>
+
+</urlset>

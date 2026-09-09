@@ -1,0 +1,35 @@
+# Production Robots.txt for Muhammed Sidhan Portfolio (ZIDHANZID)
+# Website: https://zidhanzid.com
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /functions/
+
+# Specific instructions for AI Crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+# Canonical XML Sitemap Location
+Sitemap: https://zidhanzid.com/sitemap.xml

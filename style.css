@@ -716,32 +716,49 @@ h1:hover, h2:hover, h3:hover {
 
 @media (max-width: 768px) {
     .brand-cards-container {
-        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
         gap: 1rem;
-        padding: 0 1rem;
+        padding: 0 1.5rem 1.2rem;
+        /* hide scrollbar */
+        scrollbar-width: none;
+        -ms-overflow-style: none;
     }
-    .brand-comment-section {
-        padding: 0.8rem;
-        gap: 0.75rem;
-    }
-    .brand-avatar-wrapper {
-        width: 36px;
-        height: 36px;
-    }
-    .brand-handle {
-        font-size: 0.75rem;
-    }
-    .comment-text {
-        font-size: 0.75rem;
-        line-height: 1.4;
-    }
-    .btn-view-post {
-        padding: 0.6rem 0.5rem;
-        font-size: 0.68rem;
-        letter-spacing: 0.8px;
+    .brand-cards-container::-webkit-scrollbar {
+        display: none;
     }
     .brand-card {
+        flex: 0 0 80vw;
+        max-width: 320px;
+        scroll-snap-align: center;
         border-radius: 12px;
+    }
+    .brand-comment-section {
+        padding: 1rem;
+        gap: 0.8rem;
+    }
+
+    /* Dot indicators */
+    .brand-slider-dots {
+        display: flex !important;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1.2rem;
+    }
+    .brand-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.25);
+        transition: background 0.3s, transform 0.3s;
+        cursor: pointer;
+    }
+    .brand-dot.active {
+        background: #00e5a0;
+        transform: scale(1.3);
     }
 }
 
