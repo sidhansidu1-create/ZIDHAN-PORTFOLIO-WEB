@@ -2532,15 +2532,15 @@ footer {
         box-shadow: 0 0 10px rgba(0, 210, 255, 0.6);
     }
 
-    /* Projects Section Mobile Horizontal Slide */
+    /* Projects Section Mobile Horizontal Slide - Next Slide Peeking */
     .projects {
         padding: 4rem 0 !important;
         overflow: hidden;
     }
 
     .project-filters {
-        margin-bottom: 2rem !important;
-        gap: 0.85rem 1.5rem !important;
+        margin-bottom: 1.8rem !important;
+        gap: 0.75rem 1.2rem !important;
     }
 
     .filter-btn {
@@ -2555,11 +2555,13 @@ footer {
         overflow-x: auto !important;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
-        gap: 1.25rem !important;
-        padding: 0.5rem 1.5rem 1.5rem !important;
-        margin-left: -1.5rem !important;
-        margin-right: -1.5rem !important;
-        margin-top: 1.5rem !important;
+        gap: 1rem !important;
+        padding: 0.5rem 1.25rem 1.5rem !important;
+        margin-left: -1rem !important;
+        margin-right: -1rem !important;
+        margin-top: 1rem !important;
+        scroll-padding-left: 1.25rem;
+        scroll-padding-right: 1.25rem;
         scrollbar-width: none;
         -ms-overflow-style: none;
     }
@@ -2569,17 +2571,17 @@ footer {
     }
 
     #main-work-grid .work-card {
-        flex: 0 0 84vw !important;
-        max-width: 330px !important;
-        width: 84vw !important;
+        flex: 0 0 74vw !important;
+        max-width: 285px !important;
+        width: 74vw !important;
         margin: 0 !important;
-        scroll-snap-align: center;
-        scroll-snap-stop: always;
+        scroll-snap-align: start !important;
+        scroll-snap-stop: normal;
         border-radius: 16px;
         background: #131a1c;
-        border: 1.5px solid rgba(0, 229, 160, 0.3);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-        padding: 1.1rem;
+        border: 1.5px solid rgba(0, 229, 160, 0.35);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+        padding: 1rem;
         display: flex !important;
         flex-direction: column;
     }
@@ -2590,10 +2592,10 @@ footer {
 
     #main-work-grid .work-image-container {
         width: 100%;
-        aspect-ratio: 16 / 10;
+        aspect-ratio: 16 / 11;
         border-radius: 12px;
         overflow: hidden;
-        margin-bottom: 1rem;
+        margin-bottom: 0.9rem;
         background: #090e10;
     }
 
@@ -2608,44 +2610,66 @@ footer {
     }
 
     #main-work-grid .work-title {
-        font-size: 1.25rem;
+        font-size: 1.12rem;
         font-weight: 800;
-        margin-bottom: 0.35rem;
+        margin-bottom: 0.3rem;
         color: #ffffff;
     }
 
     #main-work-grid .work-category {
-        font-size: 0.72rem;
-        letter-spacing: 1.5px;
+        font-size: 0.68rem;
+        letter-spacing: 1.2px;
         color: var(--text-secondary);
-        margin-bottom: 0.6rem;
+        margin-bottom: 0.5rem;
     }
 
     #main-work-grid .btn-text-link {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 700;
         letter-spacing: 1px;
         color: var(--accent-color);
         display: inline-block;
     }
 
-    .projects-slider-hint {
+    /* Projects Mobile Slide Controls (Arrows & Counter) */
+    .projects-slider-controls {
         display: flex !important;
         justify-content: center;
         align-items: center;
-        gap: 0.5rem;
-        color: var(--text-secondary);
-        font-size: 0.75rem;
-        letter-spacing: 1.2px;
-        text-transform: uppercase;
-        margin-top: 1rem;
-        opacity: 0.8;
+        gap: 1.25rem;
+        margin-top: 1.2rem;
     }
 
-    .projects-slider-hint svg, .projects-slider-hint i {
-        width: 14px;
-        height: 14px;
-        color: var(--accent-color);
+    .proj-nav-btn {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(19, 26, 28, 0.9);
+        border: 1.5px solid rgba(0, 229, 160, 0.45);
+        color: #00e5a0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+
+    .proj-nav-btn:hover, .proj-nav-btn:active {
+        background: rgba(0, 229, 160, 0.18);
+        border-color: #00e5a0;
+        transform: scale(1.08);
+    }
+
+    .proj-counter-pill {
+        padding: 0.4rem 1.1rem;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
     }
 
     .projects-footer {
@@ -2719,8 +2743,8 @@ footer {
         max-width: 290px !important;
     }
     #main-work-grid .work-card {
-        flex: 0 0 86vw !important;
-        max-width: 295px !important;
+        flex: 0 0 76vw !important;
+        max-width: 265px !important;
     }
     .hero-title { font-size: 2.2rem; }
     .section-title { font-size: 1.8rem; }

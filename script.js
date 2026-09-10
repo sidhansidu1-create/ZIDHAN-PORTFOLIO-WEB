@@ -301,6 +301,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (mainWorkGrid) {
             mainWorkGrid.scrollTo({ left: 0, behavior: 'smooth' });
         }
+        if (typeof window.updateProjectsCounter === 'function') {
+            setTimeout(window.updateProjectsCounter, 100);
+        }
     }
 
     if (filterBtns.length > 0) {
@@ -925,6 +928,53 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setupMobileSliderDots('brandCardsTrack', 'brandSliderDots', 'brand-dot');
     setupMobileSliderDots('upcomingWorksTrack', 'upcomingSliderDots', 'upcoming-dot');
+
+    // Projects Mobile Slider Controls & Live Counter
+    const setupProjectsMobileSlider = () => {
+        const grid = document.getElementById('main-work-grid');
+        const prevBtn = document.getElementById('projPrevBtn');
+        const nextBtn = document.getElementById('projNextBtn');
+        const currentEl = document.getElementById('projCurrentIndex');
+        const totalEl = document.getElementById('projTotalCount');
+        if (!grid) return;
+
+        const getVisibleCards = () => Array.from(grid.querySelectorAll('.work-card:not(.hidden)'));
+
+        const updateCounter = () => {
+            const visible = getVisibleCards();
+            if (totalEl) totalEl.textContent = visible.length;
+            if (visible.length === 0) return;
+
+            const scrollLeft = grid.scrollLeft;
+            const cardWidth = visible[0].offsetWidth + 16;
+            const activeIdx = Math.min(visible.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
+            if (currentEl) currentEl.textContent = activeIdx + 1;
+        };
+
+        grid.addEventListener('scroll', updateCounter, { passive: true });
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                const visible = getVisibleCards();
+                const cardWidth = visible[0] ? visible[0].offsetWidth + 16 : 280;
+                grid.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                const visible = getVisibleCards();
+                const cardWidth = visible[0] ? visible[0].offsetWidth + 16 : 280;
+                grid.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            });
+        }
+
+        window.updateProjectsCounter = updateCounter;
+        updateCounter();
+    };
+
+    setupProjectsMobileSlider();
+
     }());
 });
 
