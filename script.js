@@ -109,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { title: "Recent Works", category: "Section", desc: "Latest projects and campaigns", link: "#recent" },
         { title: "Work / Projects", category: "Section", desc: "Full portfolio gallery", link: "#work" },
         { title: "Campaign", category: "Page", desc: "Detailed 9-grid strategy and breakdown", link: "campaign.html" },
+        { title: "AI Prompt Library", category: "Page", desc: "30+ practical, copy-ready AI prompts for graphic designers", link: "prompts.html" },
         { title: "Services", category: "Section", desc: "What I offer: Branding, Web, etc.", link: "#services" },
         { title: "Contact", category: "Section", desc: "Start a project together", link: "#contact" },
         { title: "About", category: "Section", desc: "My story and design philosophy", link: "#about" },
@@ -294,6 +295,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         });
+
+        // Reset scroll position to beginning on mobile slide when filter changes
+        const mainWorkGrid = document.getElementById('main-work-grid');
+        if (mainWorkGrid) {
+            mainWorkGrid.scrollTo({ left: 0, behavior: 'smooth' });
+        }
     }
 
     if (filterBtns.length > 0) {
