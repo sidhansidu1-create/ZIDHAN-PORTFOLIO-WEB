@@ -152,6 +152,69 @@
       ]
     },
     {
+      "@type": "ItemList",
+      "@id": "https://zidhan.com/#portfolio",
+      "name": "Featured Brand Projects & Creative Case Studies",
+      "description": "Selected commercial brand identity, packaging, and advertising projects designed by Muhammed Sidhan (ZIDHANZID).",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Tic Tac India Commercial Recognition",
+            "description": "Official creative design campaign recognized and featured by Tic Tac India (@tictacindia).",
+            "creator": { "@id": "https://zidhan.com/#person" },
+            "image": "https://zidhan.com/images/tictac_post.png"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "7UP India Brand Recognition",
+            "description": "Creative visual brand feature recognized and praised by 7UP India (@7upindia).",
+            "creator": { "@id": "https://zidhan.com/#person" },
+            "image": "https://zidhan.com/images/7up-cover.jpg"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Kibblix Pet Nutrition Brand & Packaging System",
+            "description": "End-to-end brand visual identity, custom mascot styling, and premium pouch packaging for Kibblix Pet Nutrition.",
+            "creator": { "@id": "https://zidhan.com/#person" },
+            "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "FRAGRO Perfume Lab 9-Grid Instagram Strategy",
+            "description": "9-grid luxury Instagram campaign and digital brochure visual direction for FRAGRO Perfume Lab.",
+            "creator": { "@id": "https://zidhan.com/#person" },
+            "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778681835/FRAGRO_1_oblsh9.png"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Bake Land Bakery Visual Identity",
+            "description": "Modern artisanal bakery branding, social grid architecture, and product menu design.",
+            "creator": { "@id": "https://zidhan.com/#person" },
+            "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778699861/BAKE_LAND_1_4x-100_g2fw45.jpg"
+          }
+        }
+      ]
+    },
+    {
       "@type": "BreadcrumbList",
       "@id": "https://zidhan.com/#breadcrumb",
       "itemListElement": [

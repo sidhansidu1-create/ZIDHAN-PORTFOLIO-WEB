@@ -30,23 +30,67 @@
     <meta name="twitter:image" content="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778681835/FRAGRO_1_oblsh9.png">
     <meta name="twitter:creator" content="@zid_dzigns">
 
-    <!-- BreadcrumbList Schema -->
+    <!-- Structured Data: Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
+      "@graph": [
         {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://zidhan.com/"
+          "@type": "BreadcrumbList",
+          "@id": "https://zidhan.com/campaign.html#breadcrumb",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://zidhan.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "9-Grid Campaign Strategy",
+              "item": "https://zidhan.com/campaign.html"
+            }
+          ]
         },
         {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "9-Grid Campaign Strategy",
-          "item": "https://zidhan.com/campaign.html"
+          "@type": "TechArticle",
+          "@id": "https://zidhan.com/campaign.html#article",
+          "headline": "Instagram 9-Grid Strategy & Campaign Design",
+          "description": "Transform your Instagram profile into a high-converting digital brochure with a strategic 9-grid layout framework, case studies, and visual storytelling architecture.",
+          "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778681835/FRAGRO_1_oblsh9.png",
+          "datePublished": "2026-03-01T08:00:00+05:30",
+          "dateModified": "2026-09-10T15:00:00+05:30",
+          "inLanguage": "en",
+          "mainEntityOfPage": "https://zidhan.com/campaign.html",
+          "author": {
+            "@type": "Person",
+            "name": "Muhammed Sidhan",
+            "jobTitle": "Brand Designer & Visual Storyteller",
+            "url": "https://zidhan.com/"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "ZIDHANZID",
+            "url": "https://zidhan.com/",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png"
+            }
+          }
+        },
+        {
+          "@type": "Service",
+          "@id": "https://zidhan.com/campaign.html#service",
+          "name": "9-Grid Instagram Campaign Strategy & Design Service",
+          "serviceType": "Instagram Profile Architecture & Social Media Visual Identity",
+          "description": "Professional 9-grid Instagram profile transformation creating a cohesive visual brochure with curated typography, cohesive lighting, and strategic storytelling.",
+          "provider": {
+            "@type": "ProfessionalService",
+            "name": "ZIDHANZID Creative Studio",
+            "url": "https://zidhan.com/"
+          },
+          "areaServed": "Worldwide"
         }
       ]
     }
