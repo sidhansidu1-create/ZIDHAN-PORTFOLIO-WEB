@@ -131,6 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
         { title: "Branding & Logo Design", category: "Service", desc: "Creating unique visual identities", link: "#services" },
         { title: "9-Grid Instagram Strategy", category: "Service", desc: "Social media profile storytelling", link: "campaign.html" },
         { title: "Video Editing", category: "Service", desc: "Cinematic and commercial editing", link: "#services" },
+        { title: "AI Video Creation", category: "Skill", desc: "Generative AI video with Veo, Kling, Magnific & Antigravity", link: "#skills" },
         { title: "Motion Graphics", category: "Service", desc: "Animated brand elements", link: "#services" },
         { title: "Print Design", category: "Service", desc: "Brochures, catalogues, and posters", link: "#services" },
         { title: "Web Development", category: "Service", desc: "Modern, responsive websites", link: "#services" }
