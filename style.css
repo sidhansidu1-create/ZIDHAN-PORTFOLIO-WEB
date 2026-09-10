@@ -2233,10 +2233,6 @@ footer {
     color: var(--text-secondary);
     font-style: italic;
 }
-    font-style: italic;
-    color: #fff;
-    line-height: 1.6;
-}
 
 .closing-cta-gold {
     text-align: center;
