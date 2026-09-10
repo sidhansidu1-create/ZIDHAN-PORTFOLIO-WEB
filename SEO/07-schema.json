@@ -26,8 +26,8 @@
       "image": {
         "@type": "ImageObject",
         "@id": "https://zidhan.com/#person-image",
-        "url": "https://zidhan.com/images/profile.jpg",
-        "contentUrl": "https://zidhan.com/images/profile.jpg",
+        "url": "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1789033531/1758737572106_1_xsoshc.png",
+        "contentUrl": "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1789033531/1758737572106_1_xsoshc.png",
         "caption": "Muhammed Sidhan (ZIDHANZID) - Brand Identity Designer & Visual Storyteller",
         "representativeOfPage": true
       },
@@ -36,6 +36,7 @@
       "sameAs": [
         "https://www.behance.net/muhammedsidhan2",
         "https://www.instagram.com/zid_dzigns",
+        "https://www.instagram.com/zidhan_zid_",
         "https://www.linkedin.com/in/muhammed-sidan-k-h-zidhan",
         "https://github.com/sidhansidu1-create"
       ],

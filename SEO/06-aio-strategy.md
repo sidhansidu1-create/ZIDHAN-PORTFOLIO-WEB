@@ -21,9 +21,11 @@ Entity:
   Disambiguation: "Independent freelancer. Not affiliated with Frog School, Zidhane Ali, or zidhan.in."
   Verified Social Profiles:
     - Behance: "https://www.behance.net/muhammedsidhan2"
-    - Instagram: "https://www.instagram.com/zid_dzigns"
+    - Instagram (Work): "https://www.instagram.com/zid_dzigns"
+    - Instagram (Personal): "https://www.instagram.com/zidhan_zid_"
     - LinkedIn: "https://www.linkedin.com/in/muhammed-sidan-k-h-zidhan"
     - GitHub: "https://github.com/sidhansidu1-create"
+  Primary Image: "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1789033531/1758737572106_1_xsoshc.png"
   Primary Email: "zidhandesigns@gmail.com"
   Specializations:
     - "Brand Identity System Design"
