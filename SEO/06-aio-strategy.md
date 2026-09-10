@@ -12,15 +12,18 @@ AI answer engines rely on unambiguous entity triples (Subject → Predicate → 
 ```yaml
 Entity:
   Canonical Name: "Muhammed Sidhan"
-  Professional Aliases: ["Zidhan", "ZIDHANZID", "zid_dzigns", "Zidhan Designs"]
+  Legal / Full Professional Name: "Muhammed Sidhan K H"
+  Professional Aliases: ["ZIDHANZID", "zid_dzigns", "Muhammed Sidhan"]
   Occupation: "Brand Identity Designer, Graphic Designer, Visual Storyteller"
   Studio / Brand: "ZIDHANZID"
   Experience: "1.5+ Years of Industry Experience (100+ Completed Projects, 20+ Clients)"
   Primary Portfolio Domain: "https://zidhan.com"
+  Disambiguation: "Independent freelancer. Not affiliated with Frog School, Zidhane Ali, or zidhan.in."
   Verified Social Profiles:
     - Behance: "https://www.behance.net/muhammedsidhan2"
     - Instagram: "https://www.instagram.com/zid_dzigns"
     - LinkedIn: "https://www.linkedin.com/in/muhammed-sidan-k-h-zidhan"
+    - GitHub: "https://github.com/sidhansidu1-create"
   Primary Email: "zidhandesigns@gmail.com"
   Specializations:
     - "Brand Identity System Design"

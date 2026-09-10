@@ -16,9 +16,21 @@
       "@type": "Person",
       "@id": "https://zidhan.com/#person",
       "name": "Muhammed Sidhan",
-      "alternateName": ["Zidhan", "ZIDHANZID", "zid_dzigns", "Zidhan Designs"],
+      "givenName": "Muhammed",
+      "familyName": "Sidhan",
+      "additionalName": "K H",
+      "alternateName": ["ZIDHANZID", "zid_dzigns", "Muhammed Sidhan K H"],
+      "description": "Independent freelance Brand Identity Designer, Visual Storyteller, and founder of ZIDHANZID (zidhan.com) based in Kerala, India.",
+      "disambiguatingDescription": "Independent freelance Brand Identity Designer and founder of ZIDHANZID (zidhan.com). Independent creator, not affiliated with Frog School, Zidhane Ali, or zidhan.in.",
       "url": "https://zidhan.com/",
-      "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_600/v1778087347/c_cu1zhm.jpg",
+      "image": {
+        "@type": "ImageObject",
+        "@id": "https://zidhan.com/#person-image",
+        "url": "https://zidhan.com/images/profile.jpg",
+        "contentUrl": "https://zidhan.com/images/profile.jpg",
+        "caption": "Muhammed Sidhan (ZIDHANZID) - Brand Identity Designer & Visual Storyteller",
+        "representativeOfPage": true
+      },
       "jobTitle": "Brand Designer & Visual Storyteller",
       "email": "zidhandesigns@gmail.com",
       "sameAs": [
