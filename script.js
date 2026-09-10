@@ -761,6 +761,66 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => sparkle.remove(), duration);
     }
+    // Mobile & Tablet Tap Droplet Effect with Cursor Glazing
+    function createDroplet(x, y) {
+        const container = document.createElement('div');
+        container.className = 'tap-droplet-container';
+        container.style.left = x + 'px';
+        container.style.top = y + 'px';
+
+        const core = document.createElement('div');
+        core.className = 'tap-droplet-core';
+
+        const wave1 = document.createElement('div');
+        wave1.className = 'tap-droplet-wave';
+
+        const wave2 = document.createElement('div');
+        wave2.className = 'tap-droplet-wave wave-2';
+
+        container.appendChild(wave1);
+        container.appendChild(wave2);
+        container.appendChild(core);
+        document.body.appendChild(container);
+
+        // Radiant glazing sparkle burst around droplet
+        const count = 5;
+        for (let i = 0; i < count; i++) {
+            const angle = (i / count) * Math.PI * 2 + (Math.random() * 0.4 - 0.2);
+            const dist = Math.random() * 24 + 10;
+            createSparkle(x + Math.cos(angle) * dist, y + Math.sin(angle) * dist);
+        }
+
+        setTimeout(() => container.remove(), 850);
+    }
+
+    // Touch & Tablet Tap listener
+    let lastTapTime = 0;
+    const handleTouchOrPointerTap = (x, y) => {
+        const now = Date.now();
+        if (now - lastTapTime < 140) return;
+        lastTapTime = now;
+        createDroplet(x, y);
+    };
+
+    document.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'touch' || e.pointerType === 'pen' || window.innerWidth <= 1024) {
+            handleTouchOrPointerTap(e.clientX, e.clientY);
+        }
+    }, { passive: true });
+
+    // Glazing trail while moving finger across mobile/tablet screen
+    let lastTouchTrail = 0;
+    document.addEventListener('touchmove', (e) => {
+        const now = Date.now();
+        if (now - lastTouchTrail > 45) {
+            lastTouchTrail = now;
+            const touch = e.touches[0];
+            if (touch) {
+                createSparkle(touch.clientX, touch.clientY);
+            }
+        }
+    }, { passive: true });
+
 
     // 9. Kibblix Pet Nutrition Showcase — pixel-based vertical slider
     (function () {
