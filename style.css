@@ -1649,6 +1649,19 @@ footer {
     }
 }
 /* Recent Works - Instagram Grid */
+/* Upcoming Branding Works */
+.upcoming-works {
+    padding: var(--section-padding);
+    background: var(--bg-accent);
+}
+
+.upcoming-works-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
 .recent-works {
     padding: var(--section-padding);
     background: var(--bg-main);
@@ -2393,6 +2406,67 @@ footer {
     .stat-label { font-size: 0.65rem; }
     .stat-icon i, .stat-icon svg { width: 22px; height: 22px; }
 
+    /* Upcoming Branding Works Mobile Slider */
+    .upcoming-works {
+        padding: 4rem 0 3rem !important;
+    }
+
+    .upcoming-works-container {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 1.2rem;
+        padding: 0.5rem 1.5rem 1.5rem;
+        margin-top: 2rem;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .upcoming-works-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .upcoming-works-container .work-card {
+        flex: 0 0 82vw !important;
+        max-width: 320px !important;
+        margin: 0 !important;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        border-radius: 14px;
+        background: var(--bg-main);
+        border: 1px solid var(--glass-border);
+    }
+
+    .upcoming-works-container .work-image-container {
+        aspect-ratio: 16 / 10;
+        margin-bottom: 1rem;
+    }
+
+    .upcoming-slider-dots {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        gap: 0.55rem;
+        margin-top: 1.2rem;
+    }
+
+    .upcoming-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.25);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        cursor: pointer;
+    }
+
+    .upcoming-dot.active {
+        background: #00d2ff;
+        transform: scale(1.4);
+        box-shadow: 0 0 10px rgba(0, 210, 255, 0.6);
+    }
+
     /* Work / Portfolio */
     .work-grid { grid-template-columns: 1fr !important; gap: 1.5rem; }
     .work-card { max-width: 480px; width: 100%; margin: 0 auto; }
@@ -2439,6 +2513,10 @@ footer {
 
 /* Small Mobile (up to 390px) */
 @media (max-width: 390px) {
+    .upcoming-works-container .work-card {
+        flex: 0 0 85vw !important;
+        max-width: 290px !important;
+    }
     .hero-title { font-size: 2.2rem; }
     .section-title { font-size: 1.8rem; }
     .poster-item { width: 260px !important; min-width: 260px !important; flex: 0 0 260px !important; }

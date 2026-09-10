@@ -824,6 +824,40 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             applyTranslate();
         }, 600);
+
+    // Mobile Slider Dots Synchronization (Brand Recognition & Upcoming Works)
+    const setupMobileSliderDots = (trackId, dotsId, dotClass) => {
+        const track = document.getElementById(trackId);
+        const dotsContainer = document.getElementById(dotsId);
+        if (!track || !dotsContainer) return;
+        const dots = dotsContainer.querySelectorAll(`.${dotClass}`);
+        if (dots.length === 0) return;
+
+        track.addEventListener('scroll', () => {
+            const scrollLeft = track.scrollLeft;
+            const card = track.querySelector('.brand-card, .work-card');
+            const cardWidth = card ? card.offsetWidth + 16 : 300;
+            const activeIndex = Math.min(dots.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
+            dots.forEach((dot, idx) => {
+                if (idx === activeIndex) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }, { passive: true });
+
+        dots.forEach((dot, idx) => {
+            dot.addEventListener('click', () => {
+                const card = track.querySelector('.brand-card, .work-card');
+                const cardWidth = card ? card.offsetWidth + 16 : 300;
+                track.scrollTo({ left: idx * cardWidth, behavior: 'smooth' });
+            });
+        });
+    };
+
+    setupMobileSliderDots('brandCardsTrack', 'brandSliderDots', 'brand-dot');
+    setupMobileSliderDots('upcomingWorksTrack', 'upcomingSliderDots', 'upcoming-dot');
     }());
 });
 

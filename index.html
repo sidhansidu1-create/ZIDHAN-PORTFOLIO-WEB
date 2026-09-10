@@ -243,7 +243,7 @@
                     <h2 class="section-title-brands">RECOGNIZED BY THE BRANDS</h2>
                 </div>
                 
-                <div class="brand-cards-container fade-up">
+                <div class="brand-cards-container fade-up" id="brandCardsTrack">
                     <!-- Tic Tac Card -->
                     <div class="brand-card">
                         <div class="brand-card-inner">
@@ -413,13 +413,13 @@
         </section>
 
         <!-- UPCOMING BRANDING WORKS -->
-        <section class="upcoming-works" style="padding: 6rem 0; background: var(--bg-accent);">
+        <section class="upcoming-works" id="upcoming">
             <div class="container">
                 <h2 class="section-title">Upcoming Branding Works</h2>
                 <p class="section-subtitle">Exclusive sneak peek into global branding projects currently in development.</p>
                 
-                <div class="work-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem;">
-                    <div class="work-card fade-up" data-project="fragro-branding">
+                <div class="upcoming-works-container fade-up" id="upcomingWorksTrack">
+                    <div class="work-card" data-project="fragro-branding">
                         <div class="work-image-container">
                             <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778787978/FRAGRO_16_9_ugay9u.png" alt="Fragro Branding" class="work-image" loading="lazy" decoding="async">
                         </div>
@@ -428,7 +428,7 @@
                             <p class="work-category">BRANDING & IDENTITY</p>
                         </div>
                     </div>
-                    <div class="work-card fade-up" data-project="global-solution">
+                    <div class="work-card" data-project="global-solution">
                         <div class="work-image-container">
                             <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_800/v1778087338/GLOBAL_SOLUTION_CATERING_kb378l.jpg" alt="Global Solution Catering" class="work-image" loading="lazy" decoding="async">
                         </div>
@@ -437,7 +437,7 @@
                             <p class="work-category">QATAR | BRANDING</p>
                         </div>
                     </div>
-                    <div class="work-card fade-up" data-project="zidhaf-kitchen">
+                    <div class="work-card" data-project="zidhaf-kitchen">
                         <div class="work-image-container">
                             <img src="images/ZIDHAF BRANDING.jpg" alt="Zidhaf Kitchen" class="work-image" loading="lazy" decoding="async">
                         </div>
@@ -446,6 +446,13 @@
                             <p class="work-category">INDONESIA | BRANDING</p>
                         </div>
                     </div>
+                </div>
+
+                <!-- Mobile slider dots for upcoming works -->
+                <div class="upcoming-slider-dots" style="display:none;" id="upcomingSliderDots">
+                    <span class="upcoming-dot active" data-index="0"></span>
+                    <span class="upcoming-dot" data-index="1"></span>
+                    <span class="upcoming-dot" data-index="2"></span>
                 </div>
             </div>
         </section>
