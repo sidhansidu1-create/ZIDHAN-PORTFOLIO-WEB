@@ -34,4 +34,16 @@
     </image:image>
   </url>
 
+  <!-- Dedicated AI Prompt Library Page -->
+  <url>
+    <loc>https://zidhanzid.com/prompts.html</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png</image:loc>
+      <image:title>AI Prompts for Graphic Designers - ZIDHAN</image:title>
+    </image:image>
+  </url>
+
 </urlset>
