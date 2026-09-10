@@ -53,11 +53,11 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     min-height: 100vh;
-    cursor: url('https://res.cloudinary.com/dwtfgjpcj/image/upload/v1788540207/feather_s9absw.png'), auto;
+    cursor: url('https://res.cloudinary.com/dwtfgjpcj/image/upload/w_36,h_36,c_fit/v1789036548/wand_iexn7m.png') 7 7, url('https://res.cloudinary.com/dwtfgjpcj/image/upload/v1789036548/wand_iexn7m.png') 7 7, auto;
 }
 
-a, button, .work-card, .filter-btn, .modal-close, .nav-links a, .logo {
-    cursor: url('https://res.cloudinary.com/dwtfgjpcj/image/upload/v1788540207/feather_s9absw.png'), pointer;
+a, button, .work-card, .filter-btn, .modal-close, .nav-links a, .logo, .search-toggle, .menu-toggle, .control-btn, .kibblix-btn, .btn, [role="button"] {
+    cursor: url('https://res.cloudinary.com/dwtfgjpcj/image/upload/w_36,h_36,c_fit/v1789036548/wand_iexn7m.png') 7 7, url('https://res.cloudinary.com/dwtfgjpcj/image/upload/v1789036548/wand_iexn7m.png') 7 7, pointer;
 }
 
 /* Background Animated Glows */
@@ -864,6 +864,7 @@ h1:hover, h2:hover, h3:hover {
     font-size: 1.8rem;
     font-weight: 800;
     color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
 }
 
 .stat-label {
@@ -1625,6 +1626,17 @@ footer {
     .hero-ctas .btn { width: 100%; text-align: center; padding: 1rem 2rem; }
     .section-title { font-size: 2rem; }
     .section-padding { padding: 4rem 1.2rem; }
+}
+
+/* Wand Glowing Line Trail Canvas */
+#wand-trail-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 99999;
 }
 
 /* Cursor Sparkle / Magic Trail Effect */

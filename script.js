@@ -259,6 +259,106 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // 3.5 About Stats Live Count-Up Animation
+    (function initStatsCountUp() {
+        const statsSection = document.querySelector('.about-stats');
+        if (!statsSection) return;
+
+        const statElements = Array.from(statsSection.querySelectorAll('.stat-number'));
+        if (!statElements.length) return;
+
+        const statsData = statElements.map(el => {
+            const raw = el.getAttribute('data-target') || el.textContent.replace(/[^\d.]/g, '');
+            const target = parseFloat(raw) || 0;
+            const hasDot = raw.includes('.');
+            const decimals = parseInt(el.getAttribute('data-decimals') || (hasDot ? '1' : '0'), 10);
+            const suffix = el.getAttribute('data-suffix') !== null ? el.getAttribute('data-suffix') : (el.textContent.includes('+') ? '+' : '');
+            return { el, target, decimals, suffix, currentAnimId: null };
+        });
+
+        // Initialize display to 0 if not already in viewport on load
+        const rect = statsSection.getBoundingClientRect();
+        const isInViewportInitially = (rect.top < window.innerHeight && rect.bottom > 0);
+        if (!isInViewportInitially) {
+            statsData.forEach(item => {
+                item.el.textContent = (0).toFixed(item.decimals) + item.suffix;
+            });
+        }
+
+        let isVisible = false;
+
+        const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+
+        const startCountUp = () => {
+            statsData.forEach((item, index) => {
+                if (item.currentAnimId) {
+                    cancelAnimationFrame(item.currentAnimId);
+                }
+
+                // Start from 0
+                item.el.textContent = (0).toFixed(item.decimals) + item.suffix;
+
+                const duration = 1600; // ms
+                let startTime = null;
+
+                const step = (timestamp) => {
+                    if (!startTime) startTime = timestamp;
+                    const elapsed = timestamp - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = easeOutExpo(progress);
+
+                    const val = (eased * item.target).toFixed(item.decimals);
+                    item.el.textContent = val + item.suffix;
+
+                    if (progress < 1) {
+                        item.currentAnimId = requestAnimationFrame(step);
+                    } else {
+                        item.el.textContent = item.target.toFixed(item.decimals) + item.suffix;
+                        item.currentAnimId = null;
+                    }
+                };
+
+                // Stagger each counter for fluid wave motion
+                setTimeout(() => {
+                    item.currentAnimId = requestAnimationFrame(step);
+                }, index * 90);
+            });
+        };
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (!isVisible) {
+                            isVisible = true;
+                            startCountUp();
+                        }
+                    } else {
+                        // Reset when scrolled completely out of view so it animates each time user slides into section
+                        if (entry.intersectionRatio === 0) {
+                            isVisible = false;
+                            statsData.forEach(item => {
+                                if (item.currentAnimId) {
+                                    cancelAnimationFrame(item.currentAnimId);
+                                    item.currentAnimId = null;
+                                }
+                                item.el.textContent = (0).toFixed(item.decimals) + item.suffix;
+                            });
+                        }
+                    }
+                });
+            }, {
+                threshold: [0, 0.25],
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            observer.observe(statsSection);
+        } else {
+            startCountUp();
+        }
+    })();
+
+
     // 4. Project Filtering Logic
     const filterBtns = document.querySelectorAll('.filter-btn');
     const filterCards = document.querySelectorAll('#main-work-grid .work-card');
@@ -713,13 +813,215 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 8. Magic Wand Cursor Effect
-    document.addEventListener('mousemove', (e) => {
-        // Spawn sparkles occasionally for a trail effect
-        if (Math.random() > 0.85) {
-            createSparkle(e.clientX, e.clientY);
+    // 8. Magic Wand Cursor Effect — Continuous Glowing Line Trail
+    (function initMagicWandTrail() {
+        let canvas = document.getElementById('wand-trail-canvas');
+        if (!canvas) {
+            canvas = document.createElement('canvas');
+            canvas.id = 'wand-trail-canvas';
+            document.body.appendChild(canvas);
         }
-    });
+        const ctx = canvas.getContext('2d', { alpha: true });
+        if (!ctx) return;
+
+        let dpr = window.devicePixelRatio || 1;
+        function resizeCanvas() {
+            dpr = window.devicePixelRatio || 1;
+            canvas.width = Math.round(window.innerWidth * dpr);
+            canvas.height = Math.round(window.innerHeight * dpr);
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas, { passive: true });
+
+        const points = [];
+        const particles = [];
+        const TRAIL_LIFETIME = 450;
+        let isRendering = false;
+        let lastMoveTime = 0;
+        let animFrameId = null;
+
+        function addPoint(x, y) {
+            const now = performance.now();
+            lastMoveTime = now;
+
+            if (points.length > 0) {
+                const last = points[points.length - 1];
+                const dx = x - last.x;
+                const dy = y - last.y;
+                const distSq = dx * dx + dy * dy;
+                if (distSq < 2.5) return;
+
+                if (Math.random() > 0.45 && distSq > 9) {
+                    particles.push({
+                        x: x + (Math.random() - 0.5) * 6,
+                        y: y + (Math.random() - 0.5) * 6,
+                        vx: (Math.random() - 0.5) * 1.2,
+                        vy: (Math.random() - 0.5) * 1.2 - 0.3,
+                        size: Math.random() * 2.2 + 1.2,
+                        alpha: 1,
+                        decay: Math.random() * 0.035 + 0.025,
+                        color: Math.random() > 0.4 ? '#00f2fe' : (Math.random() > 0.5 ? '#ffffff' : '#a163f7')
+                    });
+                }
+            }
+
+            points.push({ x, y, time: now });
+            if (!isRendering) {
+                isRendering = true;
+                animFrameId = requestAnimationFrame(render);
+            }
+        }
+
+        function drawWandStarFlare(cx, cy, size, alpha) {
+            ctx.save();
+            ctx.translate(cx, cy);
+
+            const rad = ctx.createRadialGradient(0, 0, 0, 0, 0, size * 2.2);
+            rad.addColorStop(0, `rgba(255, 255, 255, ${alpha * 0.95})`);
+            rad.addColorStop(0.35, `rgba(0, 242, 254, ${alpha * 0.75})`);
+            rad.addColorStop(0.7, `rgba(161, 99, 247, ${alpha * 0.35})`);
+            rad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = rad;
+            ctx.beginPath();
+            ctx.arc(0, 0, size * 2.2, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = `rgba(255, 255, 255, ${alpha * 0.9})`;
+            ctx.beginPath();
+            ctx.moveTo(0, -size * 1.6);
+            ctx.quadraticCurveTo(0, 0, size * 1.6, 0);
+            ctx.quadraticCurveTo(0, 0, 0, size * 1.6);
+            ctx.quadraticCurveTo(0, 0, -size * 1.6, 0);
+            ctx.quadraticCurveTo(0, 0, 0, -size * 1.6);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function render() {
+            const now = performance.now();
+
+            while (points.length > 0 && now - points[0].time > TRAIL_LIFETIME) {
+                points.shift();
+            }
+
+            if (points.length === 0 && particles.length === 0) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                isRendering = false;
+                animFrameId = null;
+                return;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.scale(dpr, dpr);
+            ctx.globalCompositeOperation = 'lighter';
+
+            if (points.length >= 2) {
+                const midpoints = [];
+                for (let i = 0; i < points.length - 1; i++) {
+                    midpoints.push({
+                        x: (points[i].x + points[i + 1].x) / 2,
+                        y: (points[i].y + points[i + 1].y) / 2
+                    });
+                }
+
+                const passes = [
+                    { widthMult: 2.8, blur: 12, stroke: (a) => `rgba(161, 99, 247, ${a * 0.35})`, shadow: '#a163f7' },
+                    { widthMult: 1.5, blur: 6, stroke: (a) => `rgba(0, 242, 254, ${a * 0.8})`, shadow: '#00f2fe' },
+                    { widthMult: 0.55, blur: 2, stroke: (a) => `rgba(255, 255, 255, ${a * 0.95})`, shadow: '#ffffff' }
+                ];
+
+                for (let p = 0; p < passes.length; p++) {
+                    const pass = passes[p];
+                    ctx.shadowColor = pass.shadow;
+                    ctx.shadowBlur = pass.blur * dpr;
+                    ctx.lineCap = 'round';
+                    ctx.lineJoin = 'round';
+
+                    for (let i = 0; i < points.length - 1; i++) {
+                        const pt = points[i + 1];
+                        const age = now - pt.time;
+                        let progress = 1 - (age / TRAIL_LIFETIME);
+                        if (progress < 0) progress = 0;
+                        if (progress > 1) progress = 1;
+
+                        const baseWidth = 0.5 + 5.5 * Math.pow(progress, 1.2);
+                        const width = Math.max(0.6, baseWidth * pass.widthMult);
+                        const alpha = Math.pow(progress, 1.3);
+
+                        ctx.lineWidth = width;
+                        ctx.strokeStyle = pass.stroke(alpha);
+
+                        ctx.beginPath();
+                        if (i === 0) {
+                            ctx.moveTo(points[0].x, points[0].y);
+                            ctx.lineTo(midpoints[0].x, midpoints[0].y);
+                        } else {
+                            ctx.moveTo(midpoints[i - 1].x, midpoints[i - 1].y);
+                            ctx.quadraticCurveTo(points[i].x, points[i].y, midpoints[i].x, midpoints[i].y);
+                        }
+
+                        if (i === points.length - 2) {
+                            ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+                        }
+                        ctx.stroke();
+                    }
+                }
+
+                const head = points[points.length - 1];
+                const timeSinceMove = now - lastMoveTime;
+                if (timeSinceMove < 150) {
+                    const tipAlpha = Math.max(0, 1 - (timeSinceMove / 150));
+                    drawWandStarFlare(head.x, head.y, 6.5, tipAlpha);
+                }
+            }
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const pt = particles[i];
+                pt.x += pt.vx;
+                pt.y += pt.vy;
+                pt.alpha -= pt.decay;
+
+                if (pt.alpha <= 0) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+
+                ctx.save();
+                ctx.translate(pt.x, pt.y);
+                ctx.fillStyle = pt.color;
+                ctx.shadowColor = pt.color;
+                ctx.shadowBlur = 6 * dpr;
+
+                const pSize = pt.size * pt.alpha;
+                ctx.beginPath();
+                ctx.moveTo(0, -pSize);
+                ctx.lineTo(pSize * 0.6, 0);
+                ctx.lineTo(0, pSize);
+                ctx.lineTo(-pSize * 0.6, 0);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+
+            ctx.restore();
+            animFrameId = requestAnimationFrame(render);
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            addPoint(e.clientX, e.clientY);
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            const touch = e.touches[0];
+            if (touch) {
+                addPoint(touch.clientX, touch.clientY);
+            }
+        }, { passive: true });
+    })();
 
     function createSparkle(x, y) {
         const sparkle = document.createElement('div');
