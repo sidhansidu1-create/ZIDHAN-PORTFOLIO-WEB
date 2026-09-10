@@ -975,6 +975,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setupProjectsMobileSlider();
 
+    // Skills & Expertise Mobile Slider Controls & Live Counter
+    const setupSkillsMobileSlider = () => {
+        const track = document.getElementById('skillsTrack');
+        const prevBtn = document.getElementById('skillPrevBtn');
+        const nextBtn = document.getElementById('skillNextBtn');
+        const currentEl = document.getElementById('skillCurrentIndex');
+        const totalEl = document.getElementById('skillTotalCount');
+        if (!track) return;
+
+        const cards = Array.from(track.querySelectorAll('.skill-card'));
+        if (totalEl) totalEl.textContent = cards.length;
+
+        const updateCounter = () => {
+            if (cards.length === 0) return;
+            const scrollLeft = track.scrollLeft;
+            const cardWidth = cards[0].offsetWidth + 16;
+            const activeIdx = Math.min(cards.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
+            if (currentEl) currentEl.textContent = activeIdx + 1;
+        };
+
+        track.addEventListener('scroll', updateCounter, { passive: true });
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                const cardWidth = cards[0] ? cards[0].offsetWidth + 16 : 280;
+                track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                const cardWidth = cards[0] ? cards[0].offsetWidth + 16 : 280;
+                track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            });
+        }
+
+        updateCounter();
+    };
+
+    setupSkillsMobileSlider();
+
+
     }());
 });
 
