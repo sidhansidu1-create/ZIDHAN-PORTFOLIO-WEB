@@ -28,7 +28,7 @@ A structured 4-phase execution roadmap prioritizing high-impact optimizations fo
 *(Requires User Action — follow `SEO/SETUP-GUIDE-FOR-CLIENT.md`)*
 - [ ] **USER ACTION:** Create Google Analytics 4 (GA4) property and obtain Measurement ID (`G-XXXXXXXXXX`).
 - [ ] **USER ACTION:** Verify domain ownership in Google Search Console (GSC) via DNS TXT or HTML Tag.
-- [ ] **USER ACTION:** Submit `https://zidhanzid.com/sitemap.xml` in Google Search Console.
+- [ ] **USER ACTION:** Submit `https://zidhan.com/sitemap.xml` in Google Search Console.
 - [ ] **USER ACTION:** Use GSC URL Inspection tool to request priority indexing for `/` and `/campaign.html`.
 - [ ] **USER ACTION:** Import Google Search Console verification into Microsoft Bing Webmaster Tools.
 
@@ -36,8 +36,8 @@ A structured 4-phase execution roadmap prioritizing high-impact optimizations fo
 
 ## Phase 4: Authority & Off-Page Signals (Ongoing) [Priority: MEDIUM]
 
-- [ ] **Cross-Link Behance to Portfolio:** Ensure Behance profile (`behance.net/muhammedsidhan2`) links directly to `https://zidhanzid.com`.
-- [ ] **Instagram Bio Link:** Update `@zid_dzigns` link to `https://zidhanzid.com/` (or campaign landing page).
-- [ ] **LinkedIn Featured Section:** Feature `https://zidhanzid.com` as primary website in LinkedIn profile.
+- [ ] **Cross-Link Behance to Portfolio:** Ensure Behance profile (`behance.net/muhammedsidhan2`) links directly to `https://zidhan.com`.
+- [ ] **Instagram Bio Link:** Update `@zid_dzigns` link to `https://zidhan.com/` (or campaign landing page).
+- [ ] **LinkedIn Featured Section:** Feature `https://zidhan.com` as primary website in LinkedIn profile.
 - [ ] **Design Directory Submissions:** Submit portfolio to curated design galleries (Awwwards, Best Website Gallery, Godly, One Page Love) to acquire high-authority design backlinks.
 - [ ] **Case Study Syndication:** Publish behind-the-scenes breakdowns of the Kibblix and FRAGRO campaigns on Medium / LinkedIn Articles linking back to the website.

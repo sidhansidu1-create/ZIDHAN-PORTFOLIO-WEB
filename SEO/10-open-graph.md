@@ -9,7 +9,7 @@ This document defines the social graph metadata for rich preview snippets across
 ```html
 <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://zidhanzid.com/">
+<meta property="og:url" content="https://zidhan.com/">
 <meta property="og:title" content="Muhammed Sidhan | Brand Designer & Visual Storyteller | ZIDHANZID">
 <meta property="og:description" content="Premium brand identity design, packaging systems, and strategic 9-grid Instagram campaigns. Recognized by Tic Tac India and 7UP India.">
 <meta property="og:image" content="https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png">
@@ -21,7 +21,7 @@ This document defines the social graph metadata for rich preview snippets across
 
 <!-- Twitter / X Cards -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://zidhanzid.com/">
+<meta name="twitter:url" content="https://zidhan.com/">
 <meta name="twitter:title" content="Muhammed Sidhan | Brand Designer & Visual Storyteller">
 <meta name="twitter:description" content="Crafting premium brand identities and strategic 9-grid Instagram campaigns. View selected work.">
 <meta name="twitter:image" content="https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png">
@@ -35,7 +35,7 @@ This document defines the social graph metadata for rich preview snippets across
 ```html
 <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://zidhanzid.com/campaign.html">
+<meta property="og:url" content="https://zidhan.com/campaign.html">
 <meta property="og:title" content="9-Grid Instagram Campaign Strategy | Muhammed Sidhan">
 <meta property="og:description" content="Transform your Instagram profile into a high-converting digital brochure with a strategic 9-grid layout. Case studies: FRAGRO Perfume Lab & Bake Land.">
 <meta property="og:image" content="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778681835/FRAGRO_1_oblsh9.png">
@@ -47,7 +47,7 @@ This document defines the social graph metadata for rich preview snippets across
 
 <!-- Twitter / X Cards -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://zidhanzid.com/campaign.html">
+<meta name="twitter:url" content="https://zidhan.com/campaign.html">
 <meta name="twitter:title" content="9-Grid Instagram Strategy | Muhammed Sidhan">
 <meta name="twitter:description" content="A strategic Instagram layout designed to turn your profile's first impression into a complete brand visual story.">
 <meta name="twitter:image" content="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778681835/FRAGRO_1_oblsh9.png">

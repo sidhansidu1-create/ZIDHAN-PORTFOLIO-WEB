@@ -29,7 +29,7 @@ Google Analytics lets you see how many people visit your website, which countrie
 
 ### Step 4: Create Web Data Stream
 1. In the platform options, click **Web**.
-2. **Website URL:** Enter `https://` `zidhanzid.com` *(or your active Cloudflare domain)*.
+2. **Website URL:** Enter `https://` `zidhan.com` *(or your active Cloudflare domain)*.
 3. **Stream name:** Enter `Main Portfolio`.
 4. Click **Create stream**.
 
@@ -75,7 +75,7 @@ You will see two options: **Domain** or **URL prefix**.
 
 * **Recommended Option:** Choose **URL prefix** (it is faster and does not require DNS changes if you use HTML tag or Cloudflare).
 * **USER ACTION REQUIRED:** In the **URL prefix** box on the right, enter your full website URL:
-  `https://zidhanzid.com`
+  `https://zidhan.com`
 * Click **Continue**.
 
 ### Step 3: Verify Ownership
@@ -103,11 +103,11 @@ Once ownership is verified:
 
 ### Step 5: Request Priority Indexing for Your Key Pages
 1. At the very top search bar in Search Console ("Inspect any URL in..."), paste:
-   `https://zidhanzid.com/`
+   `https://zidhan.com/`
 2. Press Enter.
 3. Click the gray button **Request Indexing**.
 4. Repeat this for:
-   `https://zidhanzid.com/campaign.html`
+   `https://zidhan.com/campaign.html`
 5. This asks Google to index your pages within 24–48 hours instead of waiting weeks.
 
 ---
@@ -142,7 +142,7 @@ Setting up a Google Business Profile allows your studio to appear in Google Maps
 2. **Business category:** `Graphic designer` or `Marketing agency`
 3. **Location:** If you work from a home studio and meet clients remotely, choose **"No, I deliver goods and services to my customers"** (Service Area Business).
 4. **Service areas:** Add `Kerala`, `Kochi`, `Calicut`, `Malappuram`, `India`, `Qatar`, `Dubai`.
-5. **Contact info:** Enter your phone / WhatsApp number and website URL (`https://zidhanzid.com`).
+5. **Contact info:** Enter your phone / WhatsApp number and website URL (`https://zidhan.com`).
 
 ---
 
@@ -153,5 +153,5 @@ Follow this quick checklist once all steps are complete:
 - [ ] **Google Analytics:** Visit the live site from your phone → Check Realtime dashboard in GA4 → 1 active user appears.
 - [ ] **Google Search Console:** Sitemaps tab shows `sitemap.xml` status as green **Success**.
 - [ ] **Index Request:** URL inspection shows "Indexing requested" for `index.html` and `campaign.html`.
-- [ ] **Robots.txt check:** Open `https://zidhanzid.com/robots.txt` in your browser. It should display your crawl rules and sitemap link.
-- [ ] **Sitemap check:** Open `https://zidhanzid.com/sitemap.xml` in your browser. It should show your clean XML structure.
+- [ ] **Robots.txt check:** Open `https://zidhan.com/robots.txt` in your browser. It should display your crawl rules and sitemap link.
+- [ ] **Sitemap check:** Open `https://zidhan.com/sitemap.xml` in your browser. It should show your clean XML structure.

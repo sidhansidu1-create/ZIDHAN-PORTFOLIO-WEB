@@ -3,21 +3,21 @@
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://zidhanzid.com/#website",
-      "url": "https://zidhanzid.com/",
+      "@id": "https://zidhan.com/#website",
+      "url": "https://zidhan.com/",
       "name": "Muhammed Sidhan | ZIDHANZID Portfolio",
       "description": "Portfolio of Muhammed Sidhan, an elite brand designer and visual storyteller specializing in brand identity systems and 9-grid Instagram campaigns.",
       "publisher": {
-        "@id": "https://zidhanzid.com/#person"
+        "@id": "https://zidhan.com/#person"
       },
       "inLanguage": "en"
     },
     {
       "@type": "Person",
-      "@id": "https://zidhanzid.com/#person",
+      "@id": "https://zidhan.com/#person",
       "name": "Muhammed Sidhan",
       "alternateName": ["Zidhan", "ZIDHANZID", "zid_dzigns", "Zidhan Designs"],
-      "url": "https://zidhanzid.com/",
+      "url": "https://zidhan.com/",
       "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_600/v1778087347/c_cu1zhm.jpg",
       "jobTitle": "Brand Designer & Visual Storyteller",
       "email": "zidhandesigns@gmail.com",
@@ -42,14 +42,14 @@
     },
     {
       "@type": "ProfessionalService",
-      "@id": "https://zidhanzid.com/#business",
+      "@id": "https://zidhan.com/#business",
       "name": "ZIDHANZID Creative Studio",
-      "url": "https://zidhanzid.com/",
+      "url": "https://zidhan.com/",
       "logo": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_600/v1778087347/c_cu1zhm.jpg",
       "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png",
       "description": "Professional brand design studio offering complete visual identity architecture, packaging design, and strategic 9-grid Instagram profile transformations for global brands.",
       "founder": {
-        "@id": "https://zidhanzid.com/#person"
+        "@id": "https://zidhan.com/#person"
       },
       "email": "zidhandesigns@gmail.com",
       "priceRange": "$$",
@@ -102,7 +102,7 @@
     },
     {
       "@type": "FAQPage",
-      "@id": "https://zidhanzid.com/#faq",
+      "@id": "https://zidhan.com/#faq",
       "mainEntity": [
         {
           "@type": "Question",
@@ -140,19 +140,19 @@
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://zidhanzid.com/#breadcrumb",
+      "@id": "https://zidhan.com/#breadcrumb",
       "itemListElement": [
         {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://zidhanzid.com/"
+          "item": "https://zidhan.com/"
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "9-Grid Campaign Strategy",
-          "item": "https://zidhanzid.com/campaign.html"
+          "item": "https://zidhan.com/campaign.html"
         }
       ]
     }

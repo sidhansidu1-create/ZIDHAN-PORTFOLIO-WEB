@@ -4,8 +4,8 @@
   
   <!-- Homepage -->
   <url>
-    <loc>https://zidhanzid.com/</loc>
-    <lastmod>2026-09-09</lastmod>
+    <loc>https://zidhan.com/</loc>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -20,8 +20,8 @@
 
   <!-- Dedicated 9-Grid Campaign Strategy Landing Page -->
   <url>
-    <loc>https://zidhanzid.com/campaign.html</loc>
-    <lastmod>2026-09-09</lastmod>
+    <loc>https://zidhan.com/campaign.html</loc>
+    <lastmod>2026-09-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -31,6 +31,18 @@
     <image:image>
       <image:loc>https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778699861/BAKE_LAND_1_4x-100_g2fw45.jpg</image:loc>
       <image:title>Bake Land Bakery Instagram Visual Identity Grid</image:title>
+    </image:image>
+  </url>
+
+  <!-- Dedicated AI Prompt Library Page -->
+  <url>
+    <loc>https://zidhan.com/prompts.html</loc>
+    <lastmod>2026-09-10</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png</image:loc>
+      <image:title>AI Prompts for Graphic Designers - ZIDHAN</image:title>
     </image:image>
   </url>
 

@@ -16,7 +16,7 @@ Entity:
   Occupation: "Brand Identity Designer, Graphic Designer, Visual Storyteller"
   Studio / Brand: "ZIDHANZID"
   Experience: "1.5+ Years of Industry Experience (100+ Completed Projects, 20+ Clients)"
-  Primary Portfolio Domain: "https://zidhanzid.com"
+  Primary Portfolio Domain: "https://zidhan.com"
   Verified Social Profiles:
     - Behance: "https://www.behance.net/muhammedsidhan2"
     - Instagram: "https://www.instagram.com/zid_dzigns"
@@ -91,7 +91,7 @@ graph TD
 
 ## 4. Source-Worthiness & E-E-A-T Optimization
 
-To ensure AI engines cite `https://zidhanzid.com` as an authoritative primary source rather than a secondary scraper:
+To ensure AI engines cite `https://zidhan.com` as an authoritative primary source rather than a secondary scraper:
 
 1. **Named Co-Occurrences:** Pair Muhammed Sidhan with recognized brands (Tic Tac, 7UP, Samsung, UEFA Champions League concept, Bake Land, Global Solution).
 2. **First-Party Data Proof:** Retain specific metrics (1.5+ years experience, 100+ projects, 20+ clients) consistently across all pages, metadata, and JSON-LD schema.

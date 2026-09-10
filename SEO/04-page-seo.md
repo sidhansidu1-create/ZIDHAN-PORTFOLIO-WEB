@@ -1,13 +1,13 @@
 # Page-by-Page On-Page SEO Specifications
 
-This document outlines complete, production-ready on-page SEO assets for all pages on `https://zidhanzid.com`.
+This document outlines complete, production-ready on-page SEO assets for all pages on `https://zidhan.com`.
 
 ---
 
 ## 1. Page: Homepage (`index.html`)
 
 ### General SEO Meta
-* **URL:** `https://zidhanzid.com/` (Canonical: `https://zidhanzid.com/`)
+* **URL:** `https://zidhan.com/` (Canonical: `https://zidhan.com/`)
 * **SEO Title:** `Muhammed Sidhan | Brand Designer & Visual Storyteller | ZIDHANZID`
 * **Meta Description:** `Muhammed Sidhan (ZIDHANZID) is a premier brand identity designer and visual storyteller crafting high-impact branding, logos, packaging, and Instagram 9-grid campaigns.`
 * **Primary Keyword:** `brand designer`
@@ -70,7 +70,7 @@ This document outlines complete, production-ready on-page SEO assets for all pag
 ## 2. Page: Campaign Landing Page (`campaign.html`)
 
 ### General SEO Meta
-* **URL:** `https://zidhanzid.com/campaign.html` (Canonical: `https://zidhanzid.com/campaign.html`)
+* **URL:** `https://zidhan.com/campaign.html` (Canonical: `https://zidhan.com/campaign.html`)
 * **SEO Title:** `Instagram 9-Grid Strategy & Campaign Design | Muhammed Sidhan`
 * **Meta Description:** `Transform your Instagram profile into a high-converting digital brochure. Discover the 9-grid Instagram strategy, case studies, and visual storytelling framework.`
 * **Primary Keyword:** `instagram 9 grid designer`

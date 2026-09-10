@@ -1,6 +1,6 @@
 # Website Analysis & Audit Report
 
-**Website URL:** `https://zidhanzid.com` *(Cloudflare Workers with Assets: `zidhan-portfolio`)*  
+**Website URL:** `https://zidhan.com` *(Cloudflare Workers with Assets: `zidhan-portfolio`)*  
 **Brand Identity:** ZIDHANZID | Muhammed Sidhan (Brand Designer & Visual Storyteller)  
 **Primary Contact:** `zidhandesigns@gmail.com` | WhatsApp: Connected  
 **Analysis Date:** September 2026  

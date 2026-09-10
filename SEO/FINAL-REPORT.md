@@ -1,6 +1,6 @@
 # Complete SEO & AIO Website Optimization Final Report
 
-**Website Audited & Optimized:** `https://zidhanzid.com` *(Cloudflare Workers with Assets: `zidhan-portfolio`)*  
+**Website Audited & Optimized:** `https://zidhan.com` *(Cloudflare Workers with Assets: `zidhan-portfolio`)*  
 **Brand Identity:** ZIDHANZID | Muhammed Sidhan  
 **Role:** Brand Identity Designer & Visual Storyteller  
 **Execution Date:** September 2026  

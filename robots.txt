@@ -1,5 +1,5 @@
 # Production Robots.txt for Muhammed Sidhan Portfolio (ZIDHANZID)
-# Website: https://zidhanzid.com
+# Website: https://zidhan.com
 
 User-agent: *
 Allow: /
@@ -32,4 +32,4 @@ User-agent: CCBot
 Allow: /
 
 # Canonical XML Sitemap Location
-Sitemap: https://zidhanzid.com/sitemap.xml
+Sitemap: https://zidhan.com/sitemap.xml

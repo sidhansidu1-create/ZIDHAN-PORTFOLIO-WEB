@@ -1,6 +1,6 @@
 # Comprehensive SEO Strategy
 
-**Domain:** `https://zidhanzid.com` *(Cloudflare Workers with Assets: `zidhan-portfolio`)*  
+**Domain:** `https://zidhan.com` *(Cloudflare Workers with Assets: `zidhan-portfolio`)*  
 **Brand:** Muhammed Sidhan (ZIDHANZID)  
 **Niche:** Brand Identity Architecture, Visual Storytelling, 9-Grid Instagram Campaigns  
 
@@ -65,7 +65,7 @@
 ## 4. Page Architecture & Ranking Map
 
 ```
-https://zidhanzid.com/
+https://zidhan.com/
 │
 ├── index.html (Homepage)
 │   ├── #home (Primary Brand Entity: Muhammed Sidhan, Brand Designer & Visual Storyteller)
