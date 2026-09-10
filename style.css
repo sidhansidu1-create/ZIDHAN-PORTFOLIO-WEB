@@ -781,84 +781,33 @@ h1:hover, h2:hover, h3:hover {
     margin: 0 auto;
 }
 
-/* Ambient glow aura behind the outline */
-.about-image-container::before {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 23px;
-    background: linear-gradient(135deg, #00d2ff, #a855f7, #00e5a0, #00d2ff);
-    background-size: 300% 300%;
-    z-index: 0;
-    opacity: 0;
-    filter: blur(14px);
-    transition: opacity 0.45s ease, filter 0.45s ease;
-    pointer-events: none;
-}
-
-.about-image-container:hover::before {
-    opacity: 0.75;
-    filter: blur(18px);
-    animation: rotateAuraShine 4s linear infinite;
-}
-
-@keyframes rotateAuraShine {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
 .profile-frame {
     position: relative;
     aspect-ratio: 4/5;
     background: #111;
     border-radius: 20px;
     overflow: hidden;
-    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: border-color 0.35s ease, 
+                box-shadow 0.35s ease, 
+                transform 0.35s ease;
     z-index: 1;
     cursor: pointer;
 }
 
-/* Shining Outline & Luminous Neon Glow on Hover */
+/* Medium Balanced Outline Shine on Hover */
 .about-image-container:hover .profile-frame,
 .profile-frame:hover {
-    border-color: #00d2ff;
+    border-color: rgba(0, 210, 255, 0.75);
     box-shadow: 
-        0 0 0 2px #00d2ff,
-        0 0 20px rgba(0, 210, 255, 0.8),
-        0 0 45px rgba(0, 210, 255, 0.45),
-        0 0 75px rgba(0, 210, 255, 0.25),
-        inset 0 0 20px rgba(0, 210, 255, 0.25);
-    transform: translateY(-5px);
-    animation: outlineGlowPulse 2.5s infinite ease-in-out;
+        0 0 12px rgba(0, 210, 255, 0.35),
+        0 0 24px rgba(0, 210, 255, 0.15),
+        0 14px 35px rgba(0, 0, 0, 0.55);
+    transform: translateY(-4px);
 }
 
-@keyframes outlineGlowPulse {
-    0%, 100% {
-        border-color: #00d2ff;
-        box-shadow: 
-            0 0 0 2px #00d2ff,
-            0 0 20px rgba(0, 210, 255, 0.8),
-            0 0 45px rgba(0, 210, 255, 0.45),
-            0 0 75px rgba(0, 210, 255, 0.25),
-            inset 0 0 20px rgba(0, 210, 255, 0.25);
-    }
-    50% {
-        border-color: #a855f7;
-        box-shadow: 
-            0 0 0 2px #a855f7,
-            0 0 25px rgba(168, 85, 247, 0.85),
-            0 0 55px rgba(168, 85, 247, 0.5),
-            0 0 85px rgba(168, 85, 247, 0.25),
-            inset 0 0 25px rgba(168, 85, 247, 0.3);
-    }
-}
-
-/* Light Sheen Sweep Across the Photo */
+/* Subtle Light Sheen Sweep Across the Photo */
 .profile-frame::after {
     content: '';
     position: absolute;
@@ -868,11 +817,9 @@ h1:hover, h2:hover, h3:hover {
     height: 200%;
     background: linear-gradient(
         60deg,
-        transparent 35%,
-        rgba(0, 210, 255, 0.15) 45%,
-        rgba(255, 255, 255, 0.4) 50%,
-        rgba(168, 85, 247, 0.15) 55%,
-        transparent 65%
+        transparent 40%,
+        rgba(255, 255, 255, 0.12) 50%,
+        transparent 60%
     );
     transform: translateX(-120%) rotate(25deg);
     pointer-events: none;
