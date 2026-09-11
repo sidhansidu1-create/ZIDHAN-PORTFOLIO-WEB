@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 menuToggle.setAttribute('aria-expanded', 'true');
                 safeCreateLucideIcons();
             }
-            document.body.style.overflow = 'hidden';
         } else {
             navLinks.classList.remove('active');
             if (menuToggle) {
@@ -53,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 menuToggle.setAttribute('aria-expanded', 'false');
                 safeCreateLucideIcons();
             }
-            document.body.style.overflow = '';
         }
     };
 
@@ -73,14 +71,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
+    // Close menu when clicking or tapping outside
+    const handleOutsideClick = (e) => {
         if (navLinks && navLinks.classList.contains('active')) {
             if (!navLinks.contains(e.target) && menuToggle && !menuToggle.contains(e.target)) {
                 toggleMenu(false);
             }
         }
-    });
+    };
+    document.addEventListener('click', handleOutsideClick);
+    document.addEventListener('touchstart', handleOutsideClick, { passive: true });
 
     // Close menu on resize back to desktop screen width
     window.addEventListener('resize', () => {
