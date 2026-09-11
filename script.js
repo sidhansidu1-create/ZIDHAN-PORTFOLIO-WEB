@@ -1,7 +1,24 @@
 window.formLoadTime = Date.now();
 
-if (typeof lucide !== 'undefined') {
-    lucide.createIcons();
+function safeCreateLucideIcons() {
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+        return true;
+    }
+    return false;
+}
+
+safeCreateLucideIcons();
+
+if (typeof window !== 'undefined') {
+    window.addEventListener('load', safeCreateLucideIcons);
+    let lucideAttempts = 0;
+    const lucidePoll = setInterval(() => {
+        lucideAttempts++;
+        if (safeCreateLucideIcons() || lucideAttempts > 25) {
+            clearInterval(lucidePoll);
+        }
+    }, 100);
 }
 
 const { animate, inView, stagger } = typeof Motion !== 'undefined' ? Motion : { animate: () => {}, inView: () => {}, stagger: () => {} };
@@ -9,6 +26,8 @@ const { animate, inView, stagger } = typeof Motion !== 'undefined' ? Motion : { 
 console.log("Muhammed Sidhan Portfolio Script Initialized");
 
 document.addEventListener("DOMContentLoaded", () => {
+    safeCreateLucideIcons();
+
     // 1. Navbar Scroll & Mobile Menu & Search
     const navbar = document.getElementById('navbar');
     const menuToggle = document.getElementById('menu-toggle');
@@ -22,17 +41,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isOpen) {
             navLinks.classList.add('active');
             if (menuToggle) {
-                menuToggle.innerHTML = '<i data-lucide="x"></i>';
+                menuToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>';
                 menuToggle.setAttribute('aria-expanded', 'true');
-                if (typeof lucide !== 'undefined') lucide.createIcons();
+                safeCreateLucideIcons();
             }
             document.body.style.overflow = 'hidden';
         } else {
             navLinks.classList.remove('active');
             if (menuToggle) {
-                menuToggle.innerHTML = '<i data-lucide="menu"></i>';
+                menuToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>';
                 menuToggle.setAttribute('aria-expanded', 'false');
-                if (typeof lucide !== 'undefined') lucide.createIcons();
+                safeCreateLucideIcons();
             }
             document.body.style.overflow = '';
         }
@@ -844,6 +863,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         function addPoint(x, y) {
             const now = performance.now();
+            const dt = now - lastMoveTime;
             lastMoveTime = now;
 
             if (points.length > 0) {
@@ -852,6 +872,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 const dy = y - last.y;
                 const distSq = dx * dx + dy * dy;
                 if (distSq < 2.5) return;
+
+                if (dt > 0) {
+                    const dist = Math.sqrt(distSq);
+                    const speed = (dist / dt) * 1000;
+                    triggerWandSound(x, y, speed, dist);
+                }
 
                 if (Math.random() > 0.45 && distSq > 9) {
                     particles.push({
@@ -1021,6 +1047,184 @@ document.addEventListener("DOMContentLoaded", () => {
                 addPoint(touch.clientX, touch.clientY);
             }
         }, { passive: true });
+
+        // ==========================================
+        // Real-time Procedural Web Audio Synthesizer
+        // ==========================================
+        let audioCtx = null;
+        let masterGain = null;
+        let isMuted = localStorage.getItem('wand_sfx_muted') === 'true';
+
+        // E Major Pentatonic Celestial Chimes Scale (E5 up to G#7)
+        const CHIME_FREQS = [
+            659.25, 739.99, 830.61, 987.77, 1108.73,
+            1318.51, 1479.98, 1661.22, 1975.53, 2217.46,
+            2637.02, 2959.96, 3322.44
+        ];
+        let noteCycle = 0;
+        let lastChimeTime = 0;
+        let lastChimeX = 0;
+        let lastChimeY = 0;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return null;
+                audioCtx = new AudioCtx();
+                masterGain = audioCtx.createGain();
+                masterGain.gain.setValueAtTime(isMuted ? 0 : 0.08, audioCtx.currentTime);
+                masterGain.connect(audioCtx.destination);
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume().catch(() => {});
+            }
+            return audioCtx;
+        }
+
+        // Silent unlock on first interaction (required by browser autoplay policy)
+        const unlockAudio = () => {
+            const ctx = getAudioContext();
+            if (ctx && ctx.state === 'suspended') {
+                ctx.resume().catch(() => {});
+            }
+            window.removeEventListener('pointerdown', unlockAudio);
+            window.removeEventListener('keydown', unlockAudio);
+            window.removeEventListener('touchstart', unlockAudio);
+        };
+        window.addEventListener('pointerdown', unlockAudio, { passive: true });
+        window.addEventListener('keydown', unlockAudio, { passive: true });
+        window.addEventListener('touchstart', unlockAudio, { passive: true });
+
+        function triggerWandSound(x, y, speed, dist) {
+            if (isMuted) return;
+            const ctx = getAudioContext();
+            if (!ctx || ctx.state !== 'running') return;
+
+            const now = performance.now();
+            const timeSinceLast = now - lastChimeTime;
+            const distFromLast = Math.hypot(x - lastChimeX, y - lastChimeY);
+
+            // Velocity & distance thresholds: require decisive wand motion
+            if (speed < 180 || timeSinceLast < 65 || distFromLast < 32) return;
+
+            lastChimeTime = now;
+            lastChimeX = x;
+            lastChimeY = y;
+
+            const t = ctx.currentTime;
+
+            // Select pitch based on speed: faster wand flick = higher shimmering notes
+            const speedRatio = Math.min(Math.max((speed - 180) / 1200, 0), 1);
+            const baseIndex = Math.floor(speedRatio * (CHIME_FREQS.length - 5));
+            const freq = CHIME_FREQS[(baseIndex + (noteCycle++ % 4)) % CHIME_FREQS.length];
+
+            const vol = Math.min(0.04 + speedRatio * 0.07, 0.11);
+
+            // Primary crystal chime oscillator
+            const osc1 = ctx.createOscillator();
+            const gain1 = ctx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(freq, t);
+
+            gain1.gain.setValueAtTime(0.0001, t);
+            gain1.gain.linearRampToValueAtTime(vol, t + 0.006);
+            gain1.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+
+            // High harmonic overtone (sparkling bell timbre)
+            const osc2 = ctx.createOscillator();
+            const gain2 = ctx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(freq * 2.756, t);
+
+            gain2.gain.setValueAtTime(0.0001, t);
+            gain2.gain.linearRampToValueAtTime(vol * 0.28, t + 0.004);
+            gain2.gain.exponentialRampToValueAtTime(0.0001, t + 0.11);
+
+            // Stereo Panning (pans left-to-right as wand sweeps across screen)
+            if (typeof ctx.createStereoPanner === 'function') {
+                const panner = ctx.createStereoPanner();
+                const panVal = Math.max(-0.85, Math.min(0.85, (x / (window.innerWidth || 1)) * 1.7 - 0.85));
+                panner.pan.setValueAtTime(panVal, t);
+
+                osc1.connect(gain1);
+                osc2.connect(gain2);
+                gain1.connect(panner);
+                gain2.connect(panner);
+                panner.connect(masterGain);
+            } else {
+                osc1.connect(gain1);
+                osc2.connect(gain2);
+                gain1.connect(masterGain);
+                gain2.connect(masterGain);
+            }
+
+            osc1.start(t);
+            osc1.stop(t + 0.24);
+            osc2.start(t);
+            osc2.stop(t + 0.13);
+        }
+
+        // Navbar Sound Toggle Management
+        function setupSoundToggle() {
+            const toggle = document.getElementById('sound-toggle');
+            if (!toggle) return;
+
+            const iconOn = toggle.querySelector('.sound-icon-on');
+            const iconOff = toggle.querySelector('.sound-icon-off');
+
+            function updateToggleUI() {
+                if (isMuted) {
+                    toggle.classList.add('muted');
+                    toggle.setAttribute('aria-pressed', 'false');
+                    toggle.setAttribute('title', 'Unmute Wand Sound');
+                    if (iconOn) iconOn.style.display = 'none';
+                    if (iconOff) iconOff.style.display = '';
+                    if (masterGain && audioCtx) {
+                        masterGain.gain.setValueAtTime(0, audioCtx.currentTime);
+                    }
+                } else {
+                    toggle.classList.remove('muted');
+                    toggle.setAttribute('aria-pressed', 'true');
+                    toggle.setAttribute('title', 'Mute Wand Sound');
+                    if (iconOn) iconOn.style.display = '';
+                    if (iconOff) iconOff.style.display = 'none';
+                    if (masterGain && audioCtx) {
+                        masterGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    }
+                }
+            }
+
+            updateToggleUI();
+
+            const handleToggleClick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                isMuted = !isMuted;
+                localStorage.setItem('wand_sfx_muted', isMuted ? 'true' : 'false');
+                updateToggleUI();
+
+                // If unmuting, resume audio context and play a welcoming preview chime
+                if (!isMuted) {
+                    const ctx = getAudioContext();
+                    if (ctx && ctx.state === 'suspended') {
+                        ctx.resume().then(() => {
+                            triggerWandSound(window.innerWidth / 2, window.innerHeight / 2, 800, 100);
+                        }).catch(() => {});
+                    } else {
+                        triggerWandSound(window.innerWidth / 2, window.innerHeight / 2, 800, 100);
+                    }
+                }
+            };
+
+            toggle.addEventListener('click', handleToggleClick);
+            toggle.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    handleToggleClick(e);
+                }
+            });
+        }
+
+        setupSoundToggle();
     })();
 
     function createSparkle(x, y) {
@@ -1318,6 +1522,127 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     setupSkillsMobileSlider();
+
+    // 11. Testimonials - Torn Paper Interactive Slider
+    const setupTestimonialsSlider = () => {
+        const stage = document.getElementById('testimonialStage');
+        const prevBtn = document.getElementById('testimonialPrev');
+        const nextBtn = document.getElementById('testimonialNext');
+        const dotsContainer = document.getElementById('testimonialDots');
+        
+        if (!stage) return;
+
+        const slides = stage.querySelectorAll('.testimonial-card-item');
+        const dots = dotsContainer ? dotsContainer.querySelectorAll('.testimonial-dot') : [];
+        if (slides.length <= 1) return;
+
+        let currentIndex = 0;
+        let autoSlideTimer = null;
+        const autoSlideDelay = 6500; // 6.5s gentle auto-rotation
+
+        const goToSlide = (index) => {
+            if (index < 0) {
+                currentIndex = slides.length - 1;
+            } else if (index >= slides.length) {
+                currentIndex = 0;
+            } else {
+                currentIndex = index;
+            }
+
+            slides.forEach((slide, i) => {
+                const isActive = i === currentIndex;
+                slide.classList.toggle('active', isActive);
+                slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+            });
+
+            dots.forEach((dot, i) => {
+                const isActive = i === currentIndex;
+                dot.classList.toggle('active', isActive);
+                dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+        };
+
+        const nextSlide = () => goToSlide(currentIndex + 1);
+        const prevSlide = () => goToSlide(currentIndex - 1);
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                resetAutoTimer();
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                resetAutoTimer();
+            });
+        }
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                goToSlide(i);
+                resetAutoTimer();
+            });
+        });
+
+        // Touch & Swipe Support for Mobile / Tablet
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        stage.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches[0]) {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        stage.addEventListener('touchend', (e) => {
+            if (e.changedTouches && e.changedTouches[0]) {
+                touchEndX = e.changedTouches[0].clientX;
+                touchEndY = e.changedTouches[0].clientY;
+                const diffX = touchStartX - touchEndX;
+                const diffY = touchStartY - touchEndY;
+
+                if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+                    if (diffX > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    resetAutoTimer();
+                }
+            }
+        }, { passive: true });
+
+        // Keyboard navigation when hovering or focusing the slider container
+        const sliderContainer = stage.closest('.testimonial-slider-container');
+        if (sliderContainer) {
+            sliderContainer.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                    resetAutoTimer();
+                } else if (e.key === 'ArrowRight') {
+                    nextSlide();
+                    resetAutoTimer();
+                }
+            });
+
+            sliderContainer.addEventListener('mouseenter', () => clearInterval(autoSlideTimer));
+            sliderContainer.addEventListener('mouseleave', () => resetAutoTimer());
+        }
+
+        const resetAutoTimer = () => {
+            clearInterval(autoSlideTimer);
+            autoSlideTimer = setInterval(nextSlide, autoSlideDelay);
+        };
+
+        resetAutoTimer();
+    };
+
+    setupTestimonialsSlider();
 
 
     }());

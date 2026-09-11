@@ -85,6 +85,19 @@ function minifyCSS(css) {
     .trim();
 }
 
+function minifyJS(js) {
+  return js
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .split('\n')
+    .map(line => {
+      const trimmed = line.trim();
+      if (trimmed.startsWith('//')) return '';
+      return trimmed;
+    })
+    .filter(line => line.length > 0)
+    .join('\n');
+}
+
 function build() {
   console.log('=== RUNNING PRODUCTION BUILD & SANITY SUITE ===');
 
@@ -108,10 +121,10 @@ function build() {
     const rawJS = fs.readFileSync(SCRIPT_SRC, 'utf8');
     validateJS(rawJS, 'script.js');
 
-    if (fs.existsSync(SCRIPT_MIN)) {
-      const minJS = fs.readFileSync(SCRIPT_MIN, 'utf8');
-      validateJS(minJS, 'script.min.js');
-    }
+    const minifiedJS = minifyJS(rawJS);
+    validateJS(minifiedJS, 'script.min.js');
+    fs.writeFileSync(SCRIPT_MIN, minifiedJS, 'utf8');
+    console.log(`  [SAVED] ${SCRIPT_MIN}`);
   }
 
   console.log('=== BUILD SUCCESSFUL: All assets safe, valid, and production-ready! ===');

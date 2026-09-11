@@ -285,11 +285,15 @@
         </div>
 
         <div class="nav-actions">
+            <div class="sound-toggle" id="sound-toggle" role="button" aria-label="Toggle magic wand sound effect" title="Toggle Wand Sound (Mute/Unmute)" tabindex="0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sound-icon-on"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sound-icon-off" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></svg>
+            </div>
             <div class="search-toggle" id="search-toggle" role="button" aria-label="Search">
-                <i data-lucide="search"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             </div>
             <div class="menu-toggle" id="menu-toggle" role="button" aria-label="Toggle navigation menu" aria-expanded="false">
-                <i data-lucide="menu"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
             </div>
         </div>
     </nav>
@@ -299,11 +303,11 @@
         <div class="search-container">
             <div class="search-header">
                 <div class="search-input-wrapper">
-                    <i data-lucide="search" class="search-input-icon"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-input-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                     <input type="text" id="search-input" placeholder="Search services, projects, skills..." autocomplete="off">
                 </div>
-                <button class="search-close" id="search-close">
-                    <i data-lucide="x"></i>
+                <button class="search-close" id="search-close" aria-label="Close search">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
                 </button>
             </div>
             <div class="search-results-area">
@@ -1223,18 +1227,209 @@
         </section>
 
         <!-- 9. TESTIMONIALS -->
-        <section class="testimonials">
+        <section class="testimonials" id="testimonials">
+            <div class="testimonials-ambient-glow glow-cyan"></div>
+            <div class="testimonials-ambient-glow glow-purple"></div>
             <div class="container">
                 <h2 class="section-title">Testimonials</h2>
-                <div class="testimonial-grid">
-                    <div class="testimonial-card fade-up">
-                        <p class="testimonial-text">"The branding for Global Solution Catering was exceptional. We are really satisfied with the thorough case study and research that went into our visual identity."</p>
-                        <p class="testimonial-author">Fahad Saneem | Business Partner of GLOBAL SOLUTION CATERING</p>
+                
+                <div class="testimonial-slider-container">
+                    <!-- Prev Nav Button -->
+                    <button class="testimonial-nav-btn prev" id="testimonialPrev" aria-label="Previous testimonial">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+
+                    <!-- Viewport Stage -->
+                    <div class="testimonial-stage" id="testimonialStage" role="region" aria-roledescription="carousel" aria-label="Client Testimonials">
+                        
+                        <!-- Slide 1: Bake Land (Matching Reference) -->
+                        <div class="testimonial-card-item active" data-index="0" role="group" aria-roledescription="slide" aria-label="1 of 3">
+                            <div class="torn-paper-wrapper">
+                                <!-- Torn Paper SVG Background -->
+                                <div class="torn-paper-bg" aria-hidden="true">
+                                    <svg viewBox="0 0 780 440" preserveAspectRatio="none">
+                                        <defs>
+                                            <linearGradient id="paperGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                <stop offset="50%" stop-color="#f8f8f6"/>
+                                                <stop offset="100%" stop-color="#eeeeea"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <!-- White Deckle Edge Torn Fibers -->
+                                        <path class="torn-fiber-path" d="M 12.0,15.5 L 21.4,12.5 L 31.0,14.8 L 40.5,13.2 L 50.1,16.5 L 59.6,15.2 L 69.2,12.8 L 78.7,14.9 L 88.3,16.1 L 97.8,13.4 L 107.4,14.7 L 116.9,17.2 L 126.5,15.1 L 136.0,13.5 L 145.6,16.8 L 155.1,15.4 L 164.7,13.9 L 174.2,16.2 L 183.8,17.5 L 193.3,14.1 L 202.9,13.8 L 212.4,16.7 L 222.0,15.9 L 231.5,13.5 L 241.1,15.2 L 250.6,17.4 L 260.2,15.5 L 269.7,13.8 L 279.3,16.1 L 288.8,17.2 L 298.4,14.5 L 307.9,13.9 L 317.5,16.8 L 327.0,15.6 L 336.6,13.4 L 346.1,15.7 L 355.7,17.1 L 365.2,15.2 L 374.8,13.8 L 384.3,16.4 L 393.9,17.3 L 403.4,14.6 L 413.0,13.7 L 422.5,16.9 L 432.1,15.4 L 441.6,13.5 L 451.2,15.8 L 460.7,17.2 L 470.3,15.1 L 479.8,13.9 L 489.4,16.5 L 498.9,17.4 L 508.5,14.8 L 518.0,13.6 L 527.6,16.7 L 537.1,15.5 L 546.7,13.4 L 556.2,15.9 L 565.8,17.3 L 575.3,15.2 L 584.9,13.8 L 594.4,16.6 L 604.0,17.1 L 613.5,14.7 L 623.1,13.8 L 632.6,16.8 L 642.2,15.3 L 651.7,13.5 L 661.3,16.0 L 670.8,17.2 L 680.4,15.0 L 689.9,13.9 L 699.5,16.7 L 709.0,17.3 L 718.6,14.9 L 728.1,13.6 L 737.7,16.5 L 747.2,15.4 L 756.8,13.5 L 768.0,15.0 L 767.2,21.5 L 769.5,31.2 L 766.8,40.8 L 768.4,50.5 L 766.1,60.1 L 769.2,69.8 L 767.5,79.4 L 768.9,89.1 L 766.3,98.7 L 768.7,108.4 L 767.1,118.0 L 769.4,127.7 L 766.8,137.3 L 768.2,147.0 L 766.5,156.6 L 769.1,166.3 L 767.4,175.9 L 768.8,185.6 L 766.2,195.2 L 768.6,204.9 L 767.0,214.5 L 769.3,224.2 L 766.7,233.8 L 768.1,243.5 L 766.4,253.1 L 769.0,262.8 L 767.3,272.4 L 768.7,282.1 L 766.1,291.7 L 768.5,301.4 L 766.9,311.0 L 769.2,320.7 L 766.6,330.3 L 768.0,340.0 L 766.3,349.6 L 768.9,359.3 L 767.2,368.9 L 768.6,378.6 L 766.0,388.2 L 768.4,397.9 L 766.8,407.5 L 769.1,417.2 L 767.0,425.5 L 756.8,426.5 L 747.2,424.8 L 737.7,427.2 L 728.1,425.4 L 718.6,423.8 L 709.0,426.9 L 699.5,425.2 L 689.9,423.9 L 680.4,427.1 L 670.8,425.5 L 661.3,423.6 L 651.7,426.8 L 642.2,425.3 L 632.6,423.7 L 623.1,427.0 L 613.5,425.4 L 604.0,423.8 L 594.4,426.9 L 584.9,425.2 L 575.3,423.9 L 565.8,427.2 L 556.2,425.1 L 546.7,423.7 L 537.1,426.8 L 527.6,425.3 L 518.0,423.8 L 508.5,427.1 L 498.9,425.4 L 489.4,423.6 L 479.8,426.9 L 470.3,425.2 L 460.7,423.8 L 451.2,427.0 L 441.6,425.3 L 432.1,423.9 L 422.5,427.2 L 413.0,425.1 L 403.4,423.6 L 393.9,426.8 L 384.3,425.4 L 374.8,423.7 L 365.2,427.1 L 355.7,425.3 L 346.1,423.8 L 336.6,426.9 L 327.0,425.2 L 317.5,423.9 L 307.9,427.2 L 298.4,425.1 L 288.8,423.7 L 279.3,426.8 L 269.7,425.3 L 260.2,423.8 L 250.6,427.1 L 241.1,425.4 L 231.5,423.6 L 222.0,426.9 L 212.4,425.2 L 202.9,423.8 L 193.3,427.0 L 183.8,425.3 L 174.2,423.9 L 164.7,427.2 L 155.1,425.1 L 145.6,423.6 L 136.0,426.8 L 126.5,425.4 L 116.9,423.7 L 107.4,427.1 L 97.8,425.3 L 88.3,423.8 L 78.7,426.9 L 69.2,425.2 L 59.6,423.9 L 50.1,427.2 L 40.5,425.1 L 31.0,423.7 L 21.4,426.8 L 12.0,424.5 L 11.2,417.2 L 13.5,407.5 L 10.8,397.9 L 12.4,388.2 L 10.1,378.6 L 13.2,368.9 L 11.5,359.3 L 12.9,349.6 L 10.3,340.0 L 12.7,330.3 L 11.1,320.7 L 13.4,311.0 L 10.8,301.4 L 12.2,291.7 L 10.5,282.1 L 13.1,272.4 L 11.4,262.8 L 12.8,253.1 L 10.2,243.5 L 12.6,233.8 L 11.0,224.2 L 13.3,214.5 L 10.7,204.9 L 12.1,195.2 L 10.4,185.6 L 13.0,175.9 L 11.3,166.3 L 12.7,156.6 L 10.1,147.0 L 12.5,137.3 L 10.9,127.7 L 13.2,118.0 L 10.6,108.4 L 12.0,98.7 L 10.3,89.1 L 12.9,79.4 L 11.2,69.8 L 12.6,60.1 L 10.0,50.5 L 12.4,40.8 L 10.8,31.2 L 13.1,21.5 Z"/>
+                                        <!-- Paper Main Body -->
+                                        <path class="torn-body-path" fill="url(#paperGrad1)" d="M 16.0,19.5 L 25.4,16.5 L 35.0,18.8 L 44.5,17.2 L 54.1,20.5 L 63.6,19.2 L 73.2,16.8 L 82.7,18.9 L 92.3,20.1 L 101.8,17.4 L 111.4,18.7 L 120.9,21.2 L 130.5,19.1 L 140.0,17.5 L 149.6,20.8 L 159.1,19.4 L 168.7,17.9 L 178.2,20.2 L 187.8,21.5 L 197.3,18.1 L 206.9,17.8 L 216.4,20.7 L 226.0,19.9 L 235.5,17.5 L 245.1,19.2 L 254.6,21.4 L 264.2,19.5 L 273.7,17.8 L 283.3,20.1 L 292.8,21.2 L 302.4,18.5 L 311.9,17.9 L 321.5,20.8 L 331.0,19.6 L 340.6,17.4 L 350.1,19.7 L 359.7,21.1 L 369.2,19.2 L 378.8,17.8 L 388.3,20.4 L 397.9,21.3 L 407.4,18.6 L 417.0,17.7 L 426.5,20.9 L 436.1,19.4 L 445.6,17.5 L 455.2,19.8 L 464.7,21.2 L 474.3,19.1 L 483.8,17.9 L 493.4,20.5 L 502.9,21.4 L 512.5,18.8 L 522.0,17.6 L 531.6,20.7 L 541.1,19.5 L 550.7,17.4 L 560.2,19.9 L 569.8,21.3 L 579.3,19.2 L 588.9,17.8 L 598.4,20.6 L 608.0,21.1 L 617.5,18.7 L 627.1,17.8 L 636.6,20.8 L 646.2,19.3 L 655.7,17.5 L 665.3,20.0 L 674.8,21.2 L 684.4,19.0 L 693.9,17.9 L 703.5,20.7 L 713.0,21.3 L 722.6,18.9 L 732.1,17.6 L 741.7,20.5 L 751.2,19.4 L 760.8,17.5 L 763.5,23.5 L 765.5,33.2 L 762.8,42.8 L 764.4,52.5 L 762.1,62.1 L 765.2,71.8 L 763.5,81.4 L 764.9,91.1 L 762.3,100.7 L 764.7,110.4 L 763.1,120.0 L 765.4,129.7 L 762.8,139.3 L 764.2,149.0 L 762.5,158.6 L 765.1,168.3 L 763.4,177.9 L 764.8,187.6 L 762.2,197.2 L 764.6,206.9 L 763.0,216.5 L 765.3,226.2 L 762.7,235.8 L 764.1,245.5 L 762.4,255.1 L 765.0,264.8 L 763.3,274.4 L 764.7,284.1 L 762.1,293.7 L 764.5,303.4 L 762.9,313.0 L 765.2,322.7 L 762.6,332.3 L 764.0,342.0 L 762.3,351.6 L 764.9,361.3 L 763.2,370.9 L 764.6,380.6 L 762.0,390.2 L 764.4,399.9 L 762.8,409.5 L 763.0,420.5 L 752.8,421.5 L 743.2,419.8 L 733.7,422.2 L 724.1,420.4 L 714.6,418.8 L 705.0,421.9 L 695.5,420.2 L 685.9,418.9 L 676.4,422.1 L 666.8,420.5 L 657.3,418.6 L 647.7,421.8 L 638.2,420.3 L 628.6,418.7 L 619.1,422.0 L 609.5,420.4 L 600.0,418.8 L 590.4,421.9 L 580.9,420.2 L 571.3,418.9 L 561.8,422.2 L 552.2,420.1 L 542.7,418.7 L 533.1,421.8 L 523.6,420.3 L 514.0,418.8 L 504.5,422.1 L 494.9,420.4 L 485.4,418.6 L 475.8,421.9 L 466.3,420.2 L 456.7,418.8 L 447.2,422.0 L 437.6,420.3 L 428.1,418.9 L 418.5,422.2 L 409.0,420.1 L 399.4,418.6 L 389.9,421.8 L 380.3,420.4 L 370.8,418.7 L 361.2,422.1 L 351.7,420.3 L 342.1,418.8 L 332.6,421.9 L 323.0,420.2 L 313.5,418.9 L 303.9,422.2 L 294.4,420.1 L 284.8,418.7 L 275.3,421.8 L 265.7,420.3 L 256.2,418.8 L 246.6,422.1 L 237.1,420.4 L 227.5,418.6 L 218.0,421.9 L 208.4,420.2 L 198.9,418.8 L 189.3,422.0 L 179.8,420.3 L 170.2,418.9 L 160.7,422.2 L 151.1,420.1 L 141.6,418.6 L 132.0,421.8 L 122.5,420.4 L 112.9,418.7 L 103.4,422.1 L 93.8,420.3 L 84.3,418.8 L 74.7,421.9 L 65.2,420.2 L 55.6,418.9 L 46.1,422.2 L 36.5,420.1 L 27.0,418.7 L 17.4,421.8 L 15.5,414.2 L 17.5,404.5 L 14.8,394.9 L 16.4,385.2 L 14.1,375.6 L 17.2,365.9 L 15.5,356.3 L 16.9,346.6 L 14.3,337.0 L 16.7,327.3 L 15.1,317.7 L 17.4,308.0 L 14.8,298.4 L 16.2,288.7 L 14.5,279.1 L 17.1,269.4 L 15.4,259.8 L 16.8,250.1 L 14.2,240.5 L 16.6,230.8 L 15.0,221.2 L 17.3,211.5 L 14.7,201.9 L 16.1,192.2 L 14.4,182.6 L 17.0,172.9 L 15.3,163.3 L 16.7,153.6 L 14.1,144.0 L 16.5,134.3 L 14.9,124.7 L 17.2,115.0 L 14.6,105.4 L 16.0,95.7 L 14.3,86.1 L 16.9,76.4 L 15.2,66.8 L 16.6,57.1 L 14.0,47.5 L 16.4,37.8 L 14.8,28.2 Z"/>
+                                    </svg>
+                                </div>
+
+                                <!-- Metallic Paperclip at top-left -->
+                                <div class="paper-clip" aria-hidden="true">
+                                    <svg viewBox="0 0 54 125" fill="none">
+                                        <defs>
+                                            <linearGradient id="clipGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#c4b5fd"/>
+                                                <stop offset="30%" stop-color="#818cf8"/>
+                                                <stop offset="70%" stop-color="#38bdf8"/>
+                                                <stop offset="100%" stop-color="#6366f1"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <path d="M 23 105 L 23 30 A 13 13 0 0 1 49 30 L 49 96 A 21 21 0 0 1 7 96 L 7 18 A 16 16 0 0 1 39 18 L 39 88" 
+                                              stroke="url(#clipGrad1)" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+
+                                <!-- Cyan Sparkle Star at top-right -->
+                                <div class="sparkle-star" aria-hidden="true">
+                                    <svg viewBox="0 0 40 40" fill="#00d4ff">
+                                        <path d="M20 0 C20 11 11 20 0 20 C11 20 20 29 20 40 C20 29 29 20 40 20 C29 20 20 11 20 0 Z"/>
+                                    </svg>
+                                </div>
+
+                                <!-- Purple Squiggle Doodle at bottom-right -->
+                                <div class="squiggle-doodle" aria-hidden="true">
+                                    <svg viewBox="0 0 160 50" fill="none" stroke="#7b61ff" stroke-width="2.5" stroke-linecap="round">
+                                        <path d="M 6 36 Q 36 10 70 34 T 128 20 T 156 12"/>
+                                    </svg>
+                                </div>
+
+                                <!-- Content -->
+                                <div class="testimonial-card-body">
+                                    <svg class="testimonial-quote-mark" viewBox="0 0 32 28" fill="currentColor" aria-hidden="true">
+                                        <path d="M9.5 0C4.3 0 0 4.2 0 9.4c0 3.5 1.9 6.5 4.8 8.1-.5 3.7-2.9 6.7-6.1 8.3-.6.3-1 1.1-.7 1.8.3.7 1 1 1.7 1 8 0 14.4-6.4 14.4-14.4v-4.8C14.1 4.2 9.8 0 9.5 0zm17.6 0c-5.2 0-9.5 4.2-9.5 9.4 0 3.5 1.9 6.5 4.8 8.1-.5 3.7-2.9 6.7-6.1 8.3-.6.3-1 1.1-.7 1.8.3.7 1 1 1.7 1 8 0 14.4-6.4 14.4-14.4v-4.8C31.7 4.2 27.4 0 27.1 0z"/>
+                                    </svg>
+                                    <blockquote class="testimonial-quote">
+                                        "Our brand identity went from generic to iconic under his direction. Highly recommended."
+                                    </blockquote>
+                                    <div class="testimonial-author-row">
+                                        <span class="testimonial-author-name">SHAJEER TK</span>
+                                        <span class="testimonial-author-sep" aria-hidden="true">|</span>
+                                        <span class="testimonial-author-title">FOUNDER OF BAKE LAND</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2: Global Solution Catering -->
+                        <div class="testimonial-card-item" data-index="1" role="group" aria-roledescription="slide" aria-label="2 of 3">
+                            <div class="torn-paper-wrapper">
+                                <div class="torn-paper-bg" aria-hidden="true">
+                                    <svg viewBox="0 0 780 440" preserveAspectRatio="none">
+                                        <defs>
+                                            <linearGradient id="paperGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                <stop offset="50%" stop-color="#f8f8f6"/>
+                                                <stop offset="100%" stop-color="#eeeeea"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <path class="torn-fiber-path" d="M 12.0,15.5 L 21.4,12.5 L 31.0,14.8 L 40.5,13.2 L 50.1,16.5 L 59.6,15.2 L 69.2,12.8 L 78.7,14.9 L 88.3,16.1 L 97.8,13.4 L 107.4,14.7 L 116.9,17.2 L 126.5,15.1 L 136.0,13.5 L 145.6,16.8 L 155.1,15.4 L 164.7,13.9 L 174.2,16.2 L 183.8,17.5 L 193.3,14.1 L 202.9,13.8 L 212.4,16.7 L 222.0,15.9 L 231.5,13.5 L 241.1,15.2 L 250.6,17.4 L 260.2,15.5 L 269.7,13.8 L 279.3,16.1 L 288.8,17.2 L 298.4,14.5 L 307.9,13.9 L 317.5,16.8 L 327.0,15.6 L 336.6,13.4 L 346.1,15.7 L 355.7,17.1 L 365.2,15.2 L 374.8,13.8 L 384.3,16.4 L 393.9,17.3 L 403.4,14.6 L 413.0,13.7 L 422.5,16.9 L 432.1,15.4 L 441.6,13.5 L 451.2,15.8 L 460.7,17.2 L 470.3,15.1 L 479.8,13.9 L 489.4,16.5 L 498.9,17.4 L 508.5,14.8 L 518.0,13.6 L 527.6,16.7 L 537.1,15.5 L 546.7,13.4 L 556.2,15.9 L 565.8,17.3 L 575.3,15.2 L 584.9,13.8 L 594.4,16.6 L 604.0,17.1 L 613.5,14.7 L 623.1,13.8 L 632.6,16.8 L 642.2,15.3 L 651.7,13.5 L 661.3,16.0 L 670.8,17.2 L 680.4,15.0 L 689.9,13.9 L 699.5,16.7 L 709.0,17.3 L 718.6,14.9 L 728.1,13.6 L 737.7,16.5 L 747.2,15.4 L 756.8,13.5 L 768.0,15.0 L 767.2,21.5 L 769.5,31.2 L 766.8,40.8 L 768.4,50.5 L 766.1,60.1 L 769.2,69.8 L 767.5,79.4 L 768.9,89.1 L 766.3,98.7 L 768.7,108.4 L 767.1,118.0 L 769.4,127.7 L 766.8,137.3 L 768.2,147.0 L 766.5,156.6 L 769.1,166.3 L 767.4,175.9 L 768.8,185.6 L 766.2,195.2 L 768.6,204.9 L 767.0,214.5 L 769.3,224.2 L 766.7,233.8 L 768.1,243.5 L 766.4,253.1 L 769.0,262.8 L 767.3,272.4 L 768.7,282.1 L 766.1,291.7 L 768.5,301.4 L 766.9,311.0 L 769.2,320.7 L 766.6,330.3 L 768.0,340.0 L 766.3,349.6 L 768.9,359.3 L 767.2,368.9 L 768.6,378.6 L 766.0,388.2 L 768.4,397.9 L 766.8,407.5 L 769.1,417.2 L 767.0,425.5 L 756.8,426.5 L 747.2,424.8 L 737.7,427.2 L 728.1,425.4 L 718.6,423.8 L 709.0,426.9 L 699.5,425.2 L 689.9,423.9 L 680.4,427.1 L 670.8,425.5 L 661.3,423.6 L 651.7,426.8 L 642.2,425.3 L 632.6,423.7 L 623.1,427.0 L 613.5,425.4 L 604.0,423.8 L 594.4,426.9 L 584.9,425.2 L 575.3,423.9 L 565.8,427.2 L 556.2,425.1 L 546.7,423.7 L 537.1,426.8 L 527.6,425.3 L 518.0,423.8 L 508.5,427.1 L 498.9,425.4 L 489.4,423.6 L 479.8,426.9 L 470.3,425.2 L 460.7,423.8 L 451.2,427.0 L 441.6,425.3 L 432.1,423.9 L 422.5,427.2 L 413.0,425.1 L 403.4,423.6 L 393.9,426.8 L 384.3,425.4 L 374.8,423.7 L 365.2,427.1 L 355.7,425.3 L 346.1,423.8 L 336.6,426.9 L 327.0,425.2 L 317.5,423.9 L 307.9,427.2 L 298.4,425.1 L 288.8,423.7 L 279.3,426.8 L 269.7,425.3 L 260.2,423.8 L 250.6,427.1 L 241.1,425.4 L 231.5,423.6 L 222.0,426.9 L 212.4,425.2 L 202.9,423.8 L 193.3,427.0 L 183.8,425.3 L 174.2,423.9 L 164.7,427.2 L 155.1,425.1 L 145.6,423.6 L 136.0,426.8 L 126.5,425.4 L 116.9,423.7 L 107.4,427.1 L 97.8,425.3 L 88.3,423.8 L 78.7,426.9 L 69.2,425.2 L 59.6,423.9 L 50.1,427.2 L 40.5,425.1 L 31.0,423.7 L 21.4,426.8 L 12.0,424.5 L 11.2,417.2 L 13.5,407.5 L 10.8,397.9 L 12.4,388.2 L 10.1,378.6 L 13.2,368.9 L 11.5,359.3 L 12.9,349.6 L 10.3,340.0 L 12.7,330.3 L 11.1,320.7 L 13.4,311.0 L 10.8,301.4 L 12.2,291.7 L 10.5,282.1 L 13.1,272.4 L 11.4,262.8 L 12.8,253.1 L 10.2,243.5 L 12.6,233.8 L 11.0,224.2 L 13.3,214.5 L 10.7,204.9 L 12.1,195.2 L 10.4,185.6 L 13.0,175.9 L 11.3,166.3 L 12.7,156.6 L 10.1,147.0 L 12.5,137.3 L 10.9,127.7 L 13.2,118.0 L 10.6,108.4 L 12.0,98.7 L 10.3,89.1 L 12.9,79.4 L 11.2,69.8 L 12.6,60.1 L 10.0,50.5 L 12.4,40.8 L 10.8,31.2 L 13.1,21.5 Z"/>
+                                        <path class="torn-body-path" fill="url(#paperGrad2)" d="M 16.0,19.5 L 25.4,16.5 L 35.0,18.8 L 44.5,17.2 L 54.1,20.5 L 63.6,19.2 L 73.2,16.8 L 82.7,18.9 L 92.3,20.1 L 101.8,17.4 L 111.4,18.7 L 120.9,21.2 L 130.5,19.1 L 140.0,17.5 L 149.6,20.8 L 159.1,19.4 L 168.7,17.9 L 178.2,20.2 L 187.8,21.5 L 197.3,18.1 L 206.9,17.8 L 216.4,20.7 L 226.0,19.9 L 235.5,17.5 L 245.1,19.2 L 254.6,21.4 L 264.2,19.5 L 273.7,17.8 L 283.3,20.1 L 292.8,21.2 L 302.4,18.5 L 311.9,17.9 L 321.5,20.8 L 331.0,19.6 L 340.6,17.4 L 350.1,19.7 L 359.7,21.1 L 369.2,19.2 L 378.8,17.8 L 388.3,20.4 L 397.9,21.3 L 407.4,18.6 L 417.0,17.7 L 426.5,20.9 L 436.1,19.4 L 445.6,17.5 L 455.2,19.8 L 464.7,21.2 L 474.3,19.1 L 483.8,17.9 L 493.4,20.5 L 502.9,21.4 L 512.5,18.8 L 522.0,17.6 L 531.6,20.7 L 541.1,19.5 L 550.7,17.4 L 560.2,19.9 L 569.8,21.3 L 579.3,19.2 L 588.9,17.8 L 598.4,20.6 L 608.0,21.1 L 617.5,18.7 L 627.1,17.8 L 636.6,20.8 L 646.2,19.3 L 655.7,17.5 L 665.3,20.0 L 674.8,21.2 L 684.4,19.0 L 693.9,17.9 L 703.5,20.7 L 713.0,21.3 L 722.6,18.9 L 732.1,17.6 L 741.7,20.5 L 751.2,19.4 L 760.8,17.5 L 763.5,23.5 L 765.5,33.2 L 762.8,42.8 L 764.4,52.5 L 762.1,62.1 L 765.2,71.8 L 763.5,81.4 L 764.9,91.1 L 762.3,100.7 L 764.7,110.4 L 763.1,120.0 L 765.4,129.7 L 762.8,139.3 L 764.2,149.0 L 762.5,158.6 L 765.1,168.3 L 763.4,177.9 L 764.8,187.6 L 762.2,197.2 L 764.6,206.9 L 763.0,216.5 L 765.3,226.2 L 762.7,235.8 L 764.1,245.5 L 762.4,255.1 L 765.0,264.8 L 763.3,274.4 L 764.7,284.1 L 762.1,293.7 L 764.5,303.4 L 762.9,313.0 L 765.2,322.7 L 762.6,332.3 L 764.0,342.0 L 762.3,351.6 L 764.9,361.3 L 763.2,370.9 L 764.6,380.6 L 762.0,390.2 L 764.4,399.9 L 762.8,409.5 L 763.0,420.5 L 752.8,421.5 L 743.2,419.8 L 733.7,422.2 L 724.1,420.4 L 714.6,418.8 L 705.0,421.9 L 695.5,420.2 L 685.9,418.9 L 676.4,422.1 L 666.8,420.5 L 657.3,418.6 L 647.7,421.8 L 638.2,420.3 L 628.6,418.7 L 619.1,422.0 L 609.5,420.4 L 600.0,418.8 L 590.4,421.9 L 580.9,420.2 L 571.3,418.9 L 561.8,422.2 L 552.2,420.1 L 542.7,418.7 L 533.1,421.8 L 523.6,420.3 L 514.0,418.8 L 504.5,422.1 L 494.9,420.4 L 485.4,418.6 L 475.8,421.9 L 466.3,420.2 L 456.7,418.8 L 447.2,422.0 L 437.6,420.3 L 428.1,418.9 L 418.5,422.2 L 409.0,420.1 L 399.4,418.6 L 389.9,421.8 L 380.3,420.4 L 370.8,418.7 L 361.2,422.1 L 351.7,420.3 L 342.1,418.8 L 332.6,421.9 L 323.0,420.2 L 313.5,418.9 L 303.9,422.2 L 294.4,420.1 L 284.8,418.7 L 275.3,421.8 L 265.7,420.3 L 256.2,418.8 L 246.6,422.1 L 237.1,420.4 L 227.5,418.6 L 218.0,421.9 L 208.4,420.2 L 198.9,418.8 L 189.3,422.0 L 179.8,420.3 L 170.2,418.9 L 160.7,422.2 L 151.1,420.1 L 141.6,418.6 L 132.0,421.8 L 122.5,420.4 L 112.9,418.7 L 103.4,422.1 L 93.8,420.3 L 84.3,418.8 L 74.7,421.9 L 65.2,420.2 L 55.6,418.9 L 46.1,422.2 L 36.5,420.1 L 27.0,418.7 L 17.4,421.8 L 15.5,414.2 L 17.5,404.5 L 14.8,394.9 L 16.4,385.2 L 14.1,375.6 L 17.2,365.9 L 15.5,356.3 L 16.9,346.6 L 14.3,337.0 L 16.7,327.3 L 15.1,317.7 L 17.4,308.0 L 14.8,298.4 L 16.2,288.7 L 14.5,279.1 L 17.1,269.4 L 15.4,259.8 L 16.8,250.1 L 14.2,240.5 L 16.6,230.8 L 15.0,221.2 L 17.3,211.5 L 14.7,201.9 L 16.1,192.2 L 14.4,182.6 L 17.0,172.9 L 15.3,163.3 L 16.7,153.6 L 14.1,144.0 L 16.5,134.3 L 14.9,124.7 L 17.2,115.0 L 14.6,105.4 L 16.0,95.7 L 14.3,86.1 L 16.9,76.4 L 15.2,66.8 L 16.6,57.1 L 14.0,47.5 L 16.4,37.8 L 14.8,28.2 Z"/>
+                                    </svg>
+                                </div>
+
+                                <div class="paper-clip" aria-hidden="true">
+                                    <svg viewBox="0 0 54 125" fill="none">
+                                        <path d="M 23 105 L 23 30 A 13 13 0 0 1 49 30 L 49 96 A 21 21 0 0 1 7 96 L 7 18 A 16 16 0 0 1 39 18 L 39 88" 
+                                              stroke="url(#clipGrad1)" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+
+                                <div class="sparkle-star" aria-hidden="true">
+                                    <svg viewBox="0 0 40 40" fill="#00d4ff">
+                                        <path d="M20 0 C20 11 11 20 0 20 C11 20 20 29 20 40 C20 29 29 20 40 20 C29 20 20 11 20 0 Z"/>
+                                    </svg>
+                                </div>
+
+                                <div class="squiggle-doodle" aria-hidden="true">
+                                    <svg viewBox="0 0 160 50" fill="none" stroke="#7b61ff" stroke-width="2.5" stroke-linecap="round">
+                                        <path d="M 6 36 Q 36 10 70 34 T 128 20 T 156 12"/>
+                                    </svg>
+                                </div>
+
+                                <div class="testimonial-card-body">
+                                    <svg class="testimonial-quote-mark" viewBox="0 0 32 28" fill="currentColor" aria-hidden="true">
+                                        <path d="M9.5 0C4.3 0 0 4.2 0 9.4c0 3.5 1.9 6.5 4.8 8.1-.5 3.7-2.9 6.7-6.1 8.3-.6.3-1 1.1-.7 1.8.3.7 1 1 1.7 1 8 0 14.4-6.4 14.4-14.4v-4.8C14.1 4.2 9.8 0 9.5 0zm17.6 0c-5.2 0-9.5 4.2-9.5 9.4 0 3.5 1.9 6.5 4.8 8.1-.5 3.7-2.9 6.7-6.1 8.3-.6.3-1 1.1-.7 1.8.3.7 1 1 1.7 1 8 0 14.4-6.4 14.4-14.4v-4.8C31.7 4.2 27.4 0 27.1 0z"/>
+                                    </svg>
+                                    <blockquote class="testimonial-quote">
+                                        "The branding for Global Solution Catering was exceptional. We are really satisfied with the thorough case study and research that went into our visual identity."
+                                    </blockquote>
+                                    <div class="testimonial-author-row">
+                                        <span class="testimonial-author-name">FAHAD SANEEM</span>
+                                        <span class="testimonial-author-sep" aria-hidden="true">|</span>
+                                        <span class="testimonial-author-title">BUSINESS PARTNER OF GLOBAL SOLUTION CATERING</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3: FRAGRO Perfume Lab -->
+                        <div class="testimonial-card-item" data-index="2" role="group" aria-roledescription="slide" aria-label="3 of 3">
+                            <div class="torn-paper-wrapper">
+                                <div class="torn-paper-bg" aria-hidden="true">
+                                    <svg viewBox="0 0 780 440" preserveAspectRatio="none">
+                                        <defs>
+                                            <linearGradient id="paperGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#ffffff"/>
+                                                <stop offset="50%" stop-color="#f8f8f6"/>
+                                                <stop offset="100%" stop-color="#eeeeea"/>
+                                            </linearGradient>
+                                        </defs>
+                                        <path class="torn-fiber-path" d="M 12.0,15.5 L 21.4,12.5 L 31.0,14.8 L 40.5,13.2 L 50.1,16.5 L 59.6,15.2 L 69.2,12.8 L 78.7,14.9 L 88.3,16.1 L 97.8,13.4 L 107.4,14.7 L 116.9,17.2 L 126.5,15.1 L 136.0,13.5 L 145.6,16.8 L 155.1,15.4 L 164.7,13.9 L 174.2,16.2 L 183.8,17.5 L 193.3,14.1 L 202.9,13.8 L 212.4,16.7 L 222.0,15.9 L 231.5,13.5 L 241.1,15.2 L 250.6,17.4 L 260.2,15.5 L 269.7,13.8 L 279.3,16.1 L 288.8,17.2 L 298.4,14.5 L 307.9,13.9 L 317.5,16.8 L 327.0,15.6 L 336.6,13.4 L 346.1,15.7 L 355.7,17.1 L 365.2,15.2 L 374.8,13.8 L 384.3,16.4 L 393.9,17.3 L 403.4,14.6 L 413.0,13.7 L 422.5,16.9 L 432.1,15.4 L 441.6,13.5 L 451.2,15.8 L 460.7,17.2 L 470.3,15.1 L 479.8,13.9 L 489.4,16.5 L 498.9,17.4 L 508.5,14.8 L 518.0,13.6 L 527.6,16.7 L 537.1,15.5 L 546.7,13.4 L 556.2,15.9 L 565.8,17.3 L 575.3,15.2 L 584.9,13.8 L 594.4,16.6 L 604.0,17.1 L 613.5,14.7 L 623.1,13.8 L 632.6,16.8 L 642.2,15.3 L 651.7,13.5 L 661.3,16.0 L 670.8,17.2 L 680.4,15.0 L 689.9,13.9 L 699.5,16.7 L 709.0,17.3 L 718.6,14.9 L 728.1,13.6 L 737.7,16.5 L 747.2,15.4 L 756.8,13.5 L 768.0,15.0 L 767.2,21.5 L 769.5,31.2 L 766.8,40.8 L 768.4,50.5 L 766.1,60.1 L 769.2,69.8 L 767.5,79.4 L 768.9,89.1 L 766.3,98.7 L 768.7,108.4 L 767.1,118.0 L 769.4,127.7 L 766.8,137.3 L 768.2,147.0 L 766.5,156.6 L 769.1,166.3 L 767.4,175.9 L 768.8,185.6 L 766.2,195.2 L 768.6,204.9 L 767.0,214.5 L 769.3,224.2 L 766.7,233.8 L 768.1,243.5 L 766.4,253.1 L 769.0,262.8 L 767.3,272.4 L 768.7,282.1 L 766.1,291.7 L 768.5,301.4 L 766.9,311.0 L 769.2,320.7 L 766.6,330.3 L 768.0,340.0 L 766.3,349.6 L 768.9,359.3 L 767.2,368.9 L 768.6,378.6 L 766.0,388.2 L 768.4,397.9 L 766.8,407.5 L 769.1,417.2 L 767.0,425.5 L 756.8,426.5 L 747.2,424.8 L 737.7,427.2 L 728.1,425.4 L 718.6,423.8 L 709.0,426.9 L 699.5,425.2 L 689.9,423.9 L 680.4,427.1 L 670.8,425.5 L 661.3,423.6 L 651.7,426.8 L 642.2,425.3 L 632.6,423.7 L 623.1,427.0 L 613.5,425.4 L 604.0,423.8 L 594.4,426.9 L 584.9,425.2 L 575.3,423.9 L 565.8,427.2 L 556.2,425.1 L 546.7,423.7 L 537.1,426.8 L 527.6,425.3 L 518.0,423.8 L 508.5,427.1 L 498.9,425.4 L 489.4,423.6 L 479.8,426.9 L 470.3,425.2 L 460.7,423.8 L 451.2,427.0 L 441.6,425.3 L 432.1,423.9 L 422.5,427.2 L 413.0,425.1 L 403.4,423.6 L 393.9,426.8 L 384.3,425.4 L 374.8,423.7 L 365.2,427.1 L 355.7,425.3 L 346.1,423.8 L 336.6,426.9 L 327.0,425.2 L 317.5,423.9 L 307.9,427.2 L 298.4,425.1 L 288.8,423.7 L 279.3,426.8 L 269.7,425.3 L 260.2,423.8 L 250.6,427.1 L 241.1,425.4 L 231.5,423.6 L 222.0,426.9 L 212.4,425.2 L 202.9,423.8 L 193.3,427.0 L 183.8,425.3 L 174.2,423.9 L 164.7,427.2 L 155.1,425.1 L 145.6,423.6 L 136.0,426.8 L 126.5,425.4 L 116.9,423.7 L 107.4,427.1 L 97.8,425.3 L 88.3,423.8 L 78.7,426.9 L 69.2,425.2 L 59.6,423.9 L 50.1,427.2 L 40.5,425.1 L 31.0,423.7 L 21.4,426.8 L 12.0,424.5 L 11.2,417.2 L 13.5,407.5 L 10.8,397.9 L 12.4,388.2 L 10.1,378.6 L 13.2,368.9 L 11.5,359.3 L 12.9,349.6 L 10.3,340.0 L 12.7,330.3 L 11.1,320.7 L 13.4,311.0 L 10.8,301.4 L 12.2,291.7 L 10.5,282.1 L 13.1,272.4 L 11.4,262.8 L 12.8,253.1 L 10.2,243.5 L 12.6,233.8 L 11.0,224.2 L 13.3,214.5 L 10.7,204.9 L 12.1,195.2 L 10.4,185.6 L 13.0,175.9 L 11.3,166.3 L 12.7,156.6 L 10.1,147.0 L 12.5,137.3 L 10.9,127.7 L 13.2,118.0 L 10.6,108.4 L 12.0,98.7 L 10.3,89.1 L 12.9,79.4 L 11.2,69.8 L 12.6,60.1 L 10.0,50.5 L 12.4,40.8 L 10.8,31.2 L 13.1,21.5 Z"/>
+                                        <path class="torn-body-path" fill="url(#paperGrad3)" d="M 16.0,19.5 L 25.4,16.5 L 35.0,18.8 L 44.5,17.2 L 54.1,20.5 L 63.6,19.2 L 73.2,16.8 L 82.7,18.9 L 92.3,20.1 L 101.8,17.4 L 111.4,18.7 L 120.9,21.2 L 130.5,19.1 L 140.0,17.5 L 149.6,20.8 L 159.1,19.4 L 168.7,17.9 L 178.2,20.2 L 187.8,21.5 L 197.3,18.1 L 206.9,17.8 L 216.4,20.7 L 226.0,19.9 L 235.5,17.5 L 245.1,19.2 L 254.6,21.4 L 264.2,19.5 L 273.7,17.8 L 283.3,20.1 L 292.8,21.2 L 302.4,18.5 L 311.9,17.9 L 321.5,20.8 L 331.0,19.6 L 340.6,17.4 L 350.1,19.7 L 359.7,21.1 L 369.2,19.2 L 378.8,17.8 L 388.3,20.4 L 397.9,21.3 L 407.4,18.6 L 417.0,17.7 L 426.5,20.9 L 436.1,19.4 L 445.6,17.5 L 455.2,19.8 L 464.7,21.2 L 474.3,19.1 L 483.8,17.9 L 493.4,20.5 L 502.9,21.4 L 512.5,18.8 L 522.0,17.6 L 531.6,20.7 L 541.1,19.5 L 550.7,17.4 L 560.2,19.9 L 569.8,21.3 L 579.3,19.2 L 588.9,17.8 L 598.4,20.6 L 608.0,21.1 L 617.5,18.7 L 627.1,17.8 L 636.6,20.8 L 646.2,19.3 L 655.7,17.5 L 665.3,20.0 L 674.8,21.2 L 684.4,19.0 L 693.9,17.9 L 703.5,20.7 L 713.0,21.3 L 722.6,18.9 L 732.1,17.6 L 741.7,20.5 L 751.2,19.4 L 760.8,17.5 L 763.5,23.5 L 765.5,33.2 L 762.8,42.8 L 764.4,52.5 L 762.1,62.1 L 765.2,71.8 L 763.5,81.4 L 764.9,91.1 L 762.3,100.7 L 764.7,110.4 L 763.1,120.0 L 765.4,129.7 L 762.8,139.3 L 764.2,149.0 L 762.5,158.6 L 765.1,168.3 L 763.4,177.9 L 764.8,187.6 L 762.2,197.2 L 764.6,206.9 L 763.0,216.5 L 765.3,226.2 L 762.7,235.8 L 764.1,245.5 L 762.4,255.1 L 765.0,264.8 L 763.3,274.4 L 764.7,284.1 L 762.1,293.7 L 764.5,303.4 L 762.9,313.0 L 765.2,322.7 L 762.6,332.3 L 764.0,342.0 L 762.3,351.6 L 764.9,361.3 L 763.2,370.9 L 764.6,380.6 L 762.0,390.2 L 764.4,399.9 L 762.8,409.5 L 763.0,420.5 L 752.8,421.5 L 743.2,419.8 L 733.7,422.2 L 724.1,420.4 L 714.6,418.8 L 705.0,421.9 L 695.5,420.2 L 685.9,418.9 L 676.4,422.1 L 666.8,420.5 L 657.3,418.6 L 647.7,421.8 L 638.2,420.3 L 628.6,418.7 L 619.1,422.0 L 609.5,420.4 L 600.0,418.8 L 590.4,421.9 L 580.9,420.2 L 571.3,418.9 L 561.8,422.2 L 552.2,420.1 L 542.7,418.7 L 533.1,421.8 L 523.6,420.3 L 514.0,418.8 L 504.5,422.1 L 494.9,420.4 L 485.4,418.6 L 475.8,421.9 L 466.3,420.2 L 456.7,418.8 L 447.2,422.0 L 437.6,420.3 L 428.1,418.9 L 418.5,422.2 L 409.0,420.1 L 399.4,418.6 L 389.9,421.8 L 380.3,420.4 L 370.8,418.7 L 361.2,422.1 L 351.7,420.3 L 342.1,418.8 L 332.6,421.9 L 323.0,420.2 L 313.5,418.9 L 303.9,422.2 L 294.4,420.1 L 284.8,418.7 L 275.3,421.8 L 265.7,420.3 L 256.2,418.8 L 246.6,422.1 L 237.1,420.4 L 227.5,418.6 L 218.0,421.9 L 208.4,420.2 L 198.9,418.8 L 189.3,422.0 L 179.8,420.3 L 170.2,418.9 L 160.7,422.2 L 151.1,420.1 L 141.6,418.6 L 132.0,421.8 L 122.5,420.4 L 112.9,418.7 L 103.4,422.1 L 93.8,420.3 L 84.3,418.8 L 74.7,421.9 L 65.2,420.2 L 55.6,418.9 L 46.1,422.2 L 36.5,420.1 L 27.0,418.7 L 17.4,421.8 L 15.5,414.2 L 17.5,404.5 L 14.8,394.9 L 16.4,385.2 L 14.1,375.6 L 17.2,365.9 L 15.5,356.3 L 16.9,346.6 L 14.3,337.0 L 16.7,327.3 L 15.1,317.7 L 17.4,308.0 L 14.8,298.4 L 16.2,288.7 L 14.5,279.1 L 17.1,269.4 L 15.4,259.8 L 16.8,250.1 L 14.2,240.5 L 16.6,230.8 L 15.0,221.2 L 17.3,211.5 L 14.7,201.9 L 16.1,192.2 L 14.4,182.6 L 17.0,172.9 L 15.3,163.3 L 16.7,153.6 L 14.1,144.0 L 16.5,134.3 L 14.9,124.7 L 17.2,115.0 L 14.6,105.4 L 16.0,95.7 L 14.3,86.1 L 16.9,76.4 L 15.2,66.8 L 16.6,57.1 L 14.0,47.5 L 16.4,37.8 L 14.8,28.2 Z"/>
+                                    </svg>
+                                </div>
+
+                                <div class="paper-clip" aria-hidden="true">
+                                    <svg viewBox="0 0 54 125" fill="none">
+                                        <path d="M 23 105 L 23 30 A 13 13 0 0 1 49 30 L 49 96 A 21 21 0 0 1 7 96 L 7 18 A 16 16 0 0 1 39 18 L 39 88" 
+                                              stroke="url(#clipGrad1)" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+
+                                <div class="sparkle-star" aria-hidden="true">
+                                    <svg viewBox="0 0 40 40" fill="#00d4ff">
+                                        <path d="M20 0 C20 11 11 20 0 20 C11 20 20 29 20 40 C20 29 29 20 40 20 C29 20 20 11 20 0 Z"/>
+                                    </svg>
+                                </div>
+
+                                <div class="squiggle-doodle" aria-hidden="true">
+                                    <svg viewBox="0 0 160 50" fill="none" stroke="#7b61ff" stroke-width="2.5" stroke-linecap="round">
+                                        <path d="M 6 36 Q 36 10 70 34 T 128 20 T 156 12"/>
+                                    </svg>
+                                </div>
+
+                                <div class="testimonial-card-body">
+                                    <svg class="testimonial-quote-mark" viewBox="0 0 32 28" fill="currentColor" aria-hidden="true">
+                                        <path d="M9.5 0C4.3 0 0 4.2 0 9.4c0 3.5 1.9 6.5 4.8 8.1-.5 3.7-2.9 6.7-6.1 8.3-.6.3-1 1.1-.7 1.8.3.7 1 1 1.7 1 8 0 14.4-6.4 14.4-14.4v-4.8C14.1 4.2 9.8 0 9.5 0zm17.6 0c-5.2 0-9.5 4.2-9.5 9.4 0 3.5 1.9 6.5 4.8 8.1-.5 3.7-2.9 6.7-6.1 8.3-.6.3-1 1.1-.7 1.8.3.7 1 1 1.7 1 8 0 14.4-6.4 14.4-14.4v-4.8C31.7 4.2 27.4 0 27.1 0z"/>
+                                    </svg>
+                                    <blockquote class="testimonial-quote">
+                                        "The visual identity and 9-grid campaign transformed our brand into a luxury statement. Highly creative and detail-driven."
+                                    </blockquote>
+                                    <div class="testimonial-author-row">
+                                        <span class="testimonial-author-name">FRAGRO PERFUME LAB</span>
+                                        <span class="testimonial-author-sep" aria-hidden="true">|</span>
+                                        <span class="testimonial-author-title">CREATIVE DIRECTION CLIENT</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="testimonial-card fade-up">
-                        <p class="testimonial-text">"Our brand identity went from generic to iconic under his direction. Highly recommended."</p>
-                        <p class="testimonial-author">Shajeer TK | Founder of Bake Land</p>
-                    </div>
+
+                    <!-- Next Nav Button -->
+                    <button class="testimonial-nav-btn next" id="testimonialNext" aria-label="Next testimonial">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Pagination Dots -->
+                <div class="testimonial-dots" id="testimonialDots" role="tablist" aria-label="Testimonial navigation dots">
+                    <button class="testimonial-dot active" role="tab" aria-selected="true" aria-label="Testimonial 1 of 3" data-slide="0"></button>
+                    <button class="testimonial-dot" role="tab" aria-selected="false" aria-label="Testimonial 2 of 3" data-slide="1"></button>
+                    <button class="testimonial-dot" role="tab" aria-selected="false" aria-label="Testimonial 3 of 3" data-slide="2"></button>
                 </div>
             </div>
         </section>
