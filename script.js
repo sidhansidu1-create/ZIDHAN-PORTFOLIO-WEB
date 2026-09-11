@@ -1813,6 +1813,97 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setupTestimonialsSlider();
 
+    /* -------------------------------------------------------------------------- */
+    /* Luxury Site Footer: Back to Top & 1-Click Copy Email                       */
+    /* -------------------------------------------------------------------------- */
+    const setupSiteFooter = () => {
+        // 1. Back to Top
+        const backToTopBtn = document.getElementById('footerBackToTop');
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        // 2. 1-Click Email Copy
+        const emailBox = document.getElementById('footerEmailBox');
+        const copyBtn = document.getElementById('footerCopyBtn');
+        const copyStatus = document.getElementById('footerCopyStatus');
+
+        if (emailBox) {
+            const emailAddress = 'zidhandesigns@gmail.com';
+            let resetTimer = null;
+
+            const triggerSuccessState = () => {
+                if (copyBtn) {
+                    copyBtn.classList.add('copied');
+                    const copyIcon = copyBtn.querySelector('.copy-icon-svg');
+                    const checkIcon = copyBtn.querySelector('.check-icon-svg');
+                    if (copyIcon) copyIcon.style.display = 'none';
+                    if (checkIcon) checkIcon.style.display = 'block';
+                }
+                if (copyStatus) {
+                    copyStatus.textContent = 'Copied to clipboard! ✓';
+                    copyStatus.classList.add('copied');
+                }
+
+                if (resetTimer) clearTimeout(resetTimer);
+                resetTimer = setTimeout(() => {
+                    if (copyBtn) {
+                        copyBtn.classList.remove('copied');
+                        const copyIcon = copyBtn.querySelector('.copy-icon-svg');
+                        const checkIcon = copyBtn.querySelector('.check-icon-svg');
+                        if (copyIcon) copyIcon.style.display = 'block';
+                        if (checkIcon) checkIcon.style.display = 'none';
+                    }
+                    if (copyStatus) {
+                        copyStatus.textContent = 'Click to copy email';
+                        copyStatus.classList.remove('copied');
+                    }
+                }, 2400);
+            };
+
+            const fallbackCopy = (text) => {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    triggerSuccessState();
+                } catch (err) {
+                    console.warn('Could not copy email:', err);
+                }
+                document.body.removeChild(ta);
+            };
+
+            const copyEmail = () => {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(emailAddress)
+                        .then(() => triggerSuccessState())
+                        .catch(() => fallbackCopy(emailAddress));
+                } else {
+                    fallbackCopy(emailAddress);
+                }
+            };
+
+            emailBox.addEventListener('click', copyEmail);
+            emailBox.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    copyEmail();
+                }
+            });
+        }
+    };
+
+    setupSiteFooter();
 
     }());
 });
