@@ -3588,53 +3588,11 @@ footer {
         text-decoration: none;
         box-shadow: 0 8px 30px rgba(0, 210, 255, 0.4);
         transition: transform 0.25s ease, box-shadow 0.25s ease;
+        margin-bottom: 0.5rem;
     }
 
     .btn-mobile-project-cta:active {
         transform: scale(0.97);
-    }
-
-    .mobile-nav-bottom-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        max-width: 320px;
-        padding: 0.3rem 0.2rem 0;
-    }
-
-    .mobile-nav-email-link {
-        font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.65);
-        text-decoration: none;
-        letter-spacing: 0.4px;
-        transition: color 0.25s ease;
-    }
-
-    .mobile-nav-email-link:hover,
-    .mobile-nav-email-link:active {
-        color: #00f2fe;
-    }
-
-    .mobile-nav-social-icons {
-        display: flex;
-        align-items: center;
-        gap: 1.1rem;
-    }
-
-    .mobile-nav-social-icons a {
-        color: rgba(255, 255, 255, 0.75);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-decoration: none;
-        transition: color 0.25s ease, transform 0.25s ease;
-    }
-
-    .mobile-nav-social-icons a:hover,
-    .mobile-nav-social-icons a:active {
-        color: #00f2fe;
-        transform: scale(1.18);
     }
 
 
