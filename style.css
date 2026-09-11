@@ -1761,6 +1761,8 @@ h1:hover, h2:hover, h3:hover {
     box-shadow: 0 0 20px rgba(0, 242, 254, 0.3), 0 4px 15px rgba(0, 0, 0, 0.4);
     z-index: 5;
     flex-shrink: 0;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .testimonial-avatar {
