@@ -1590,7 +1590,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     setupSkillsMobileSlider();
 
-    // 11. Testimonials - Torn Paper Interactive Slider
+    // 11. Testimonials - Torn Paper Interactive Slider with Tactile Card Flip SFX
     const setupTestimonialsSlider = () => {
         const stage = document.getElementById('testimonialStage');
         const prevBtn = document.getElementById('testimonialPrev');
@@ -1603,17 +1603,119 @@ document.addEventListener("DOMContentLoaded", () => {
         const dots = dotsContainer ? dotsContainer.querySelectorAll('.testimonial-dot') : [];
         if (slides.length <= 1) return;
 
+        // ----------------------------------------------------
+        // Testimonials Paper Flip Sound Effect Engine
+        // ----------------------------------------------------
+        const FLIP_SFX_URL = 'https://res.cloudinary.com/dwtfgjpcj/video/upload/v1789144151/flip-ct-md_e0hqo3.mp3';
+        const FLIP_SFX_FALLBACK = 'images/flip-sfx.mp3';
+
+        let flipAudioCtx = null;
+        let flipAudioBuffer = null;
+        let isFlipLoading = false;
+        let flipAudioEl = null;
+
+        // Pre-fetch and decode flip audio for 0ms latency polyphonic playback
+        const initFlipAudio = async () => {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (AudioCtx && !flipAudioCtx) {
+                    flipAudioCtx = new AudioCtx();
+                }
+                if (flipAudioCtx && !flipAudioBuffer && !isFlipLoading) {
+                    isFlipLoading = true;
+                    let rawBuf = null;
+                    try {
+                        const res = await fetch(FLIP_SFX_URL);
+                        if (res.ok) rawBuf = await res.arrayBuffer();
+                    } catch (_) {}
+                    if (!rawBuf) {
+                        try {
+                            const resFallback = await fetch(FLIP_SFX_FALLBACK);
+                            if (resFallback.ok) rawBuf = await resFallback.arrayBuffer();
+                        } catch (_) {}
+                    }
+                    if (rawBuf && flipAudioCtx) {
+                        const bufCopy = rawBuf.slice(0);
+                        flipAudioBuffer = await flipAudioCtx.decodeAudioData(bufCopy);
+                    }
+                }
+            } catch (_) {}
+            finally {
+                isFlipLoading = false;
+            }
+
+            // HTML5 Audio fallback
+            if (!flipAudioEl) {
+                try {
+                    flipAudioEl = new Audio();
+                    flipAudioEl.src = FLIP_SFX_URL;
+                    flipAudioEl.preload = 'auto';
+                    flipAudioEl.volume = 0.45;
+                } catch (_) {}
+            }
+        };
+
+        // Eagerly pre-load the flip sound
+        initFlipAudio();
+
+        const isSliderInView = () => {
+            const rect = stage.getBoundingClientRect();
+            return (rect.top < window.innerHeight && rect.bottom > 0);
+        };
+
+        const playFlipSound = () => {
+            // Respect global navbar mute toggle
+            if (localStorage.getItem('wand_sfx_muted') === 'true') return;
+
+            // 1. Web Audio API (Zero latency, polyphonic overlapping)
+            if (flipAudioCtx && flipAudioBuffer) {
+                if (flipAudioCtx.state === 'suspended') {
+                    flipAudioCtx.resume().catch(() => {});
+                }
+                try {
+                    const source = flipAudioCtx.createBufferSource();
+                    source.buffer = flipAudioBuffer;
+                    // Natural tactile pitch variation (0.97x - 1.03x)
+                    source.playbackRate.value = 0.97 + Math.random() * 0.06;
+                    const gainNode = flipAudioCtx.createGain();
+                    gainNode.gain.value = 0.42;
+                    source.connect(gainNode);
+                    gainNode.connect(flipAudioCtx.destination);
+                    source.start(0);
+                    return;
+                } catch (_) {}
+            }
+
+            // 2. HTML5 Audio Fallback
+            if (flipAudioEl) {
+                try {
+                    const soundClone = flipAudioEl.cloneNode();
+                    soundClone.volume = 0.42;
+                    soundClone.play().catch(() => {});
+                } catch (_) {}
+            }
+        };
+
         let currentIndex = 0;
         let autoSlideTimer = null;
         const autoSlideDelay = 6500; // 6.5s gentle auto-rotation
 
-        const goToSlide = (index) => {
-            if (index < 0) {
-                currentIndex = slides.length - 1;
-            } else if (index >= slides.length) {
-                currentIndex = 0;
-            } else {
-                currentIndex = index;
+        const goToSlide = (index, isAuto = false) => {
+            let targetIndex = index;
+            if (targetIndex < 0) {
+                targetIndex = slides.length - 1;
+            } else if (targetIndex >= slides.length) {
+                targetIndex = 0;
+            }
+
+            // Only transition and play SFX if slide actually changes
+            if (targetIndex === currentIndex) return;
+
+            currentIndex = targetIndex;
+
+            // Play flip sound on user action, or on auto-turn if testimonials are visible in viewport
+            if (!isAuto || isSliderInView()) {
+                playFlipSound();
             }
 
             slides.forEach((slide, i) => {
@@ -1629,8 +1731,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        const nextSlide = () => goToSlide(currentIndex + 1);
-        const prevSlide = () => goToSlide(currentIndex - 1);
+        const nextSlide = (isAuto = false) => goToSlide(currentIndex + 1, isAuto);
+        const prevSlide = () => goToSlide(currentIndex - 1, false);
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
@@ -1641,14 +1743,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
-                nextSlide();
+                nextSlide(false);
                 resetAutoTimer();
             });
         }
 
         dots.forEach((dot, i) => {
             dot.addEventListener('click', () => {
-                goToSlide(i);
+                goToSlide(i, false);
                 resetAutoTimer();
             });
         });
@@ -1675,7 +1777,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
                     if (diffX > 0) {
-                        nextSlide();
+                        nextSlide(false);
                     } else {
                         prevSlide();
                     }
@@ -1692,7 +1794,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     prevSlide();
                     resetAutoTimer();
                 } else if (e.key === 'ArrowRight') {
-                    nextSlide();
+                    nextSlide(false);
                     resetAutoTimer();
                 }
             });
@@ -1703,7 +1805,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const resetAutoTimer = () => {
             clearInterval(autoSlideTimer);
-            autoSlideTimer = setInterval(nextSlide, autoSlideDelay);
+            autoSlideTimer = setInterval(() => nextSlide(true), autoSlideDelay);
         };
 
         resetAutoTimer();
