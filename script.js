@@ -1049,22 +1049,41 @@ document.addEventListener("DOMContentLoaded", () => {
         }, { passive: true });
 
         // ==========================================
-        // Real-time Procedural Web Audio Synthesizer
+        // Real-time Wand Sound Effect Engine
         // ==========================================
+        const WAND_SFX_URL = 'https://res.cloudinary.com/dwtfgjpcj/video/upload/v1789143820/15-magic-sound-effects-pizza-hunter-sound_vuPooTMz_gt0yky.mp3';
+        const WAND_SFX_FALLBACK = 'images/wand-sfx.mp3';
+
         let audioCtx = null;
         let masterGain = null;
+        let wandAudioBuffer = null;
+        let isAudioLoading = false;
         let isMuted = localStorage.getItem('wand_sfx_muted') === 'true';
 
-        // E Major Pentatonic Celestial Chimes Scale (E5 up to G#7)
+        let lastSoundTime = 0;
+        let lastSoundX = 0;
+        let lastSoundY = 0;
+
+        // E Major Pentatonic Celestial Chimes (procedural fallback)
         const CHIME_FREQS = [
             659.25, 739.99, 830.61, 987.77, 1108.73,
             1318.51, 1479.98, 1661.22, 1975.53, 2217.46,
             2637.02, 2959.96, 3322.44
         ];
         let noteCycle = 0;
-        let lastChimeTime = 0;
-        let lastChimeX = 0;
-        let lastChimeY = 0;
+
+        // Pre-fetch raw audio arrayBuffer in the background for zero latency
+        let audioArrayBufferPromise = (async () => {
+            try {
+                const res = await fetch(WAND_SFX_URL);
+                if (res.ok) return await res.arrayBuffer();
+            } catch (_) {}
+            try {
+                const localRes = await fetch(WAND_SFX_FALLBACK);
+                if (localRes.ok) return await localRes.arrayBuffer();
+            } catch (_) {}
+            return null;
+        })();
 
         function getAudioContext() {
             if (!audioCtx) {
@@ -1072,13 +1091,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!AudioCtx) return null;
                 audioCtx = new AudioCtx();
                 masterGain = audioCtx.createGain();
-                masterGain.gain.setValueAtTime(isMuted ? 0 : 0.08, audioCtx.currentTime);
+                masterGain.gain.setValueAtTime(isMuted ? 0 : 0.22, audioCtx.currentTime);
                 masterGain.connect(audioCtx.destination);
+
+                decodeWandAudio();
             }
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume().catch(() => {});
             }
             return audioCtx;
+        }
+
+        async function decodeWandAudio() {
+            if (wandAudioBuffer || isAudioLoading) return;
+            isAudioLoading = true;
+            try {
+                const rawBuffer = await audioArrayBufferPromise;
+                if (rawBuffer && audioCtx) {
+                    const bufCopy = rawBuffer.slice(0);
+                    wandAudioBuffer = await audioCtx.decodeAudioData(bufCopy);
+                }
+            } catch (e) {
+                console.warn('Wand audio buffer decode note:', e);
+            } finally {
+                isAudioLoading = false;
+            }
         }
 
         // Silent unlock on first interaction (required by browser autoplay policy)
@@ -1095,52 +1132,82 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener('keydown', unlockAudio, { passive: true });
         window.addEventListener('touchstart', unlockAudio, { passive: true });
 
-        function triggerWandSound(x, y, speed, dist) {
+        function triggerWandSound(x, y, speed, dist, forcePlay = false) {
             if (isMuted) return;
             const ctx = getAudioContext();
             if (!ctx || ctx.state !== 'running') return;
 
             const now = performance.now();
-            const timeSinceLast = now - lastChimeTime;
-            const distFromLast = Math.hypot(x - lastChimeX, y - lastChimeY);
+            const timeSinceLast = now - lastSoundTime;
+            const distFromLast = Math.hypot(x - lastSoundX, y - lastSoundY);
 
-            // Velocity & distance thresholds: require decisive wand motion
-            if (speed < 180 || timeSinceLast < 65 || distFromLast < 32) return;
+            // Require decisive wand motion unless forcePlay is true (e.g. toggle preview)
+            if (!forcePlay) {
+                if (speed < 160 || timeSinceLast < 220 || distFromLast < 28) return;
+            }
 
-            lastChimeTime = now;
-            lastChimeX = x;
-            lastChimeY = y;
+            lastSoundTime = now;
+            lastSoundX = x;
+            lastSoundY = y;
 
             const t = ctx.currentTime;
+            const speedRatio = Math.min(Math.max((speed - 160) / 1400, 0), 1);
 
-            // Select pitch based on speed: faster wand flick = higher shimmering notes
-            const speedRatio = Math.min(Math.max((speed - 180) / 1200, 0), 1);
+            // If authentic magic sound effect buffer is ready, play with dynamic modulation
+            if (wandAudioBuffer) {
+                try {
+                    const source = ctx.createBufferSource();
+                    source.buffer = wandAudioBuffer;
+
+                    // Dynamic pitch based on wand gesture speed (0.96x to 1.20x)
+                    source.playbackRate.setValueAtTime(0.96 + speedRatio * 0.22, t);
+
+                    const soundGain = ctx.createGain();
+                    const vol = Math.min(0.14 + speedRatio * 0.12, 0.28);
+                    soundGain.gain.setValueAtTime(0.001, t);
+                    soundGain.gain.linearRampToValueAtTime(vol, t + 0.02);
+                    soundGain.gain.exponentialRampToValueAtTime(0.001, t + 1.25);
+
+                    if (typeof ctx.createStereoPanner === 'function') {
+                        const panner = ctx.createStereoPanner();
+                        const panVal = Math.max(-0.85, Math.min(0.85, (x / (window.innerWidth || 1)) * 1.7 - 0.85));
+                        panner.pan.setValueAtTime(panVal, t);
+
+                        source.connect(soundGain);
+                        soundGain.connect(panner);
+                        panner.connect(masterGain);
+                    } else {
+                        source.connect(soundGain);
+                        soundGain.connect(masterGain);
+                    }
+
+                    source.start(t);
+                    source.stop(t + 1.3);
+                    return;
+                } catch (_) {}
+            }
+
+            // Procedural crystal chime fallback
             const baseIndex = Math.floor(speedRatio * (CHIME_FREQS.length - 5));
             const freq = CHIME_FREQS[(baseIndex + (noteCycle++ % 4)) % CHIME_FREQS.length];
-
             const vol = Math.min(0.04 + speedRatio * 0.07, 0.11);
 
-            // Primary crystal chime oscillator
             const osc1 = ctx.createOscillator();
             const gain1 = ctx.createGain();
             osc1.type = 'sine';
             osc1.frequency.setValueAtTime(freq, t);
-
             gain1.gain.setValueAtTime(0.0001, t);
             gain1.gain.linearRampToValueAtTime(vol, t + 0.006);
             gain1.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
 
-            // High harmonic overtone (sparkling bell timbre)
             const osc2 = ctx.createOscillator();
             const gain2 = ctx.createGain();
             osc2.type = 'sine';
             osc2.frequency.setValueAtTime(freq * 2.756, t);
-
             gain2.gain.setValueAtTime(0.0001, t);
             gain2.gain.linearRampToValueAtTime(vol * 0.28, t + 0.004);
             gain2.gain.exponentialRampToValueAtTime(0.0001, t + 0.11);
 
-            // Stereo Panning (pans left-to-right as wand sweeps across screen)
             if (typeof ctx.createStereoPanner === 'function') {
                 const panner = ctx.createStereoPanner();
                 const panVal = Math.max(-0.85, Math.min(0.85, (x / (window.innerWidth || 1)) * 1.7 - 0.85));
@@ -1189,7 +1256,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (iconOn) iconOn.style.display = '';
                     if (iconOff) iconOff.style.display = 'none';
                     if (masterGain && audioCtx) {
-                        masterGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                        masterGain.gain.setValueAtTime(0.22, audioCtx.currentTime);
                     }
                 }
             }
@@ -1208,10 +1275,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     const ctx = getAudioContext();
                     if (ctx && ctx.state === 'suspended') {
                         ctx.resume().then(() => {
-                            triggerWandSound(window.innerWidth / 2, window.innerHeight / 2, 800, 100);
+                            triggerWandSound(window.innerWidth / 2, window.innerHeight / 2, 800, 100, true);
                         }).catch(() => {});
                     } else {
-                        triggerWandSound(window.innerWidth / 2, window.innerHeight / 2, 800, 100);
+                        triggerWandSound(window.innerWidth / 2, window.innerHeight / 2, 800, 100, true);
                     }
                 }
             };
