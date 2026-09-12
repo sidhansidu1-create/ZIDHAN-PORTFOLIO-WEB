@@ -2775,25 +2775,16 @@ footer {
     background: var(--bg-accent);
     border: 1px solid var(--glass-border);
     overflow: hidden;
-    transition: all 0.5s var(--transition-main);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease;
     display: flex;
     flex-direction: column;
-    content-visibility: auto;
-    contain-intrinsic-size: 350px;
 }
 
 .work-image {
     width: 100%;
-    aspect-ratio: 16/10;
-    overflow: hidden;
-    position: relative;
-}
-
-.work-image img {
-    width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.8s var(--transition-main);
+    display: block;
 }
 
 .work-info {
@@ -3776,8 +3767,9 @@ footer {
 
     #main-work-grid .work-card {
         flex: 0 0 74vw !important;
-        max-width: 285px !important;
         width: 74vw !important;
+        min-width: 74vw !important;
+        max-width: 285px !important;
         margin: 0 !important;
         scroll-snap-align: start !important;
         scroll-snap-stop: normal;
@@ -3788,6 +3780,10 @@ footer {
         padding: 1rem;
         display: flex !important;
         flex-direction: column;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        content-visibility: visible !important;
+        contain: none !important;
+        box-sizing: border-box !important;
     }
 
     #main-work-grid .work-card.hidden {
@@ -3795,18 +3791,24 @@ footer {
     }
 
     #main-work-grid .work-image-container {
-        width: 100%;
-        aspect-ratio: 16 / 11;
+        width: 100% !important;
+        aspect-ratio: 16 / 11 !important;
         border-radius: 12px;
         overflow: hidden;
         margin-bottom: 0.9rem;
         background: #090e10;
+        position: relative;
+        flex-shrink: 0;
     }
 
     #main-work-grid .work-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: 100% !important;
+        max-height: 100% !important;
+        object-fit: cover !important;
+        display: block;
+        aspect-ratio: auto !important;
     }
 
     #main-work-grid .work-details {
@@ -3881,9 +3883,6 @@ footer {
     }
 
     /* Work / Portfolio */
-    .work-grid { grid-template-columns: 1fr !important; gap: 1.5rem; }
-    .work-card { max-width: 480px; width: 100%; margin: 0 auto; }
-    .work-image { aspect-ratio: 16/9; }
     .work-info { padding: 1.2rem; }
     .work-info h3 { font-size: 1.1rem; }
     .category-tabs { overflow-x: auto; white-space: nowrap; padding-bottom: 0.5rem; justify-content: flex-start; }
@@ -4110,6 +4109,8 @@ footer {
     }
     #main-work-grid .work-card {
         flex: 0 0 76vw !important;
+        width: 76vw !important;
+        min-width: 76vw !important;
         max-width: 265px !important;
     }
     .skills-new-grid .skill-card {

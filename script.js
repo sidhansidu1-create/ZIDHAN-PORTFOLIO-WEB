@@ -408,18 +408,18 @@ document.addEventListener("DOMContentLoaded", () => {
             
             if (filter === 'all') {
                 card.classList.remove('hidden');
-                if (typeof animate !== 'undefined') animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
+                if (typeof animate !== 'undefined') animate(card, { opacity: [0, 1] }, { duration: 0.25 });
             } else if (filter === 'featured') {
                 if (isFeatured) {
                     card.classList.remove('hidden');
-                    if (typeof animate !== 'undefined') animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
+                    if (typeof animate !== 'undefined') animate(card, { opacity: [0, 1] }, { duration: 0.25 });
                 } else {
                     card.classList.add('hidden');
                 }
             } else {
                 if (category && category.includes(filter)) {
                     card.classList.remove('hidden');
-                    if (typeof animate !== 'undefined') animate(card, { opacity: [0, 1], scale: [0.98, 1] }, { duration: 0.3 });
+                    if (typeof animate !== 'undefined') animate(card, { opacity: [0, 1] }, { duration: 0.25 });
                 } else {
                     card.classList.add('hidden');
                 }
