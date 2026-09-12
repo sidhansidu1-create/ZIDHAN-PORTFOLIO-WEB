@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#121a1d" />
+      <stop offset="70%" stop-color="#07090b" />
+      <stop offset="100%" stop-color="#030405" />
+    </radialGradient>
+
+    <!-- Glowing Border Gradient -->
+    <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#4facfe" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#7b61ff" stop-opacity="0.8" />
+    </linearGradient>
+
+    <!-- Z Main Diagonal Gradient -->
+    <linearGradient id="zGradMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="45%" stop-color="#38bdf8" />
+      <stop offset="85%" stop-color="#7b61ff" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+
+    <!-- Z Top Highlight Gradient -->
+    <linearGradient id="zGradTop" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0faff" />
+      <stop offset="50%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#00f2fe" />
+    </linearGradient>
+
+    <!-- Z Bottom Highlight Gradient -->
+    <linearGradient id="zGradBottom" x1="0%" y1="100%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7b61ff" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+
+    <!-- Inner Facet Shade Gradient -->
+    <linearGradient id="zFacet" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#005274" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#3b0764" stop-opacity="0.5" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="cyanGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Dark Obsidian Circular Plaque -->
+  <circle cx="256" cy="256" r="248" fill="url(#bgGrad)" />
+  <circle cx="256" cy="256" r="245" fill="none" stroke="url(#ringGrad)" stroke-width="7" opacity="0.85" />
+  <circle cx="256" cy="256" r="236" fill="none" stroke="rgba(255, 255, 255, 0.05)" stroke-width="1.5" />
+
+  <!-- Ambient Glow Behind Monogram -->
+  <path d="M 130 145 L 382 145 L 340 215 L 235 215 L 382 367 L 382 395 L 130 395 L 172 325 L 277 325 L 130 173 Z"
+        fill="url(#zGradMain)" opacity="0.35" filter="url(#cyanGlow)" />
+
+  <!-- Geometric Monogram "Z" Structure -->
+  <!-- 1. Top Horizontal Wing -->
+  <polygon points="120,135 392,135 342,205 190,205" fill="url(#zGradTop)" />
+  
+  <!-- 2. Main Diagonal Core Beam -->
+  <polygon points="342,205 392,135 392,165 200,377 120,377 120,347" fill="url(#zGradMain)" />
+
+  <!-- 3. Bottom Horizontal Wing -->
+  <polygon points="120,377 322,377 392,377 342,307 170,307" fill="url(#zGradBottom)" />
+
+  <!-- 4. Inner Cyber Facets (Bevels for 3D Depth) -->
+  <polygon points="190,205 342,205 270,277 190,277" fill="url(#zFacet)" opacity="0.45" />
+  <polygon points="170,307 322,307 242,377 160,377" fill="url(#zFacet)" opacity="0.35" />
+
+  <!-- 5. Razor Light Flares -->
+  <polygon points="120,135 256,135 240,147 132,147" fill="#ffffff" opacity="0.7" />
+  <polygon points="260,365 392,365 380,377 248,377" fill="#e9d5ff" opacity="0.6" />
+</svg>
