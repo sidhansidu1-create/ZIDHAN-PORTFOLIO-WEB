@@ -93,8 +93,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
-            if (!targetId || targetId === '#') return;
+            if (!targetId) return;
             
+            if (targetId === '#' || targetId === '#home') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                toggleMenu(false);
+                return;
+            }
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 e.preventDefault();
@@ -234,6 +241,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     const targetElement = document.getElementById(targetId);
                     if (targetElement) {
                         targetElement.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        // On pages like campaign.html or prompts.html, navigate to index.html with the anchor
+                        window.location.href = `index.html${href}`;
                     }
                 }
             });
@@ -1468,6 +1478,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             applyTranslate();
         }, 600);
+    })();
 
     // Mobile Slider Dots Synchronization (Brand Recognition & Upcoming Works)
     const setupMobileSliderDots = (trackId, dotsId, dotClass) => {
@@ -1904,8 +1915,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     setupSiteFooter();
-
-    }());
 });
 
 // Cloudflare Turnstile global callbacks.

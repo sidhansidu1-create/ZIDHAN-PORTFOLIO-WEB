@@ -259,7 +259,7 @@ h1:hover, h2:hover, h3:hover {
 
 .mobile-nav-items {
     display: flex;
-    gap: 2.2rem;
+    gap: 1.6rem;
     align-items: center;
 }
 
@@ -267,10 +267,10 @@ h1:hover, h2:hover, h3:hover {
 .nav-item {
     color: var(--text-primary);
     text-decoration: none;
-    font-size: 0.88rem;
+    font-size: 0.84rem;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.8px;
     opacity: 0.7;
     transition: opacity 0.3s;
     display: inline-flex;
@@ -279,12 +279,63 @@ h1:hover, h2:hover, h3:hover {
 }
 
 .nav-links a:hover,
-.nav-item:hover {
+.nav-item:hover,
+.nav-item.active {
     opacity: 1;
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+}
+
+@media (max-width: 1180px) and (min-width: 769px) {
+    .nav-links {
+        gap: 1rem;
+    }
+    .mobile-nav-items {
+        gap: 0.95rem;
+    }
+    .nav-links a,
+    .nav-item {
+        font-size: 0.74rem;
+        letter-spacing: 0.3px;
+    }
+}
+
+/* Subpage Back to Home Button */
+.subpage-back-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 30px;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.25s ease;
+    margin-bottom: 1.8rem;
+}
+
+.subpage-back-home:hover {
+    background: rgba(0, 242, 254, 0.1);
+    border-color: rgba(0, 242, 254, 0.45);
+    color: #00f2fe;
+    transform: translateX(-3px);
+}
+
+.subpage-back-home svg {
+    transition: transform 0.25s ease;
+}
+
+.subpage-back-home:hover svg {
+    transform: translateX(-2px);
 }
 
 .nav-num,
@@ -3520,14 +3571,16 @@ footer {
     }
 
     .nav-item:hover .nav-label,
-    .nav-item:active .nav-label {
+    .nav-item:active .nav-label,
+    .nav-item.active .nav-label {
         color: var(--accent-color);
         background: none;
         -webkit-text-fill-color: initial;
     }
 
     .nav-item:hover .nav-num,
-    .nav-item:active .nav-num {
+    .nav-item:active .nav-num,
+    .nav-item.active .nav-num {
         color: var(--accent-color);
     }
 
