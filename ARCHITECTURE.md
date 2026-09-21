@@ -80,11 +80,12 @@ ZIDHAN-PORTFOLIO-WEB/
 ### 4.1 Homepage (`index.html`) — 15 Structural Sections
 
 1. **Header & Navigation (`<nav class="navbar">`)**
-   - Fixed blur header (`backdrop-filter: blur(10px)`).
-   - Brand logo (`ZIDHAN.`).
-   - Desktop anchor links (`About`, `Recent`, `Work`, `Campaign`, `AI Prompts`, `Services`, `Contact`).
-   - Quick Search trigger button (opens search modal).
-   - Mobile hamburger menu toggle with full-screen sliding drawer.
+   - Floating glassmorphism capsule (`border-radius: 9999px`, `background: rgba(5, 12, 28, 0.45)`, `backdrop-filter: blur(20px) saturate(160%)`).
+   - Neon cyber glow 1px border with dual ambient dropshadows (cyan `#00f2fe` and electric purple `#7b61ff`).
+   - Geometric vector `Z` monogram logo + `ZIDHANZID` brand label.
+   - Desktop navigation items (`HOME`, `WORK`, `RECOGNITION`, `CAMPAIGN`, `AI PROMPTS`, `SERVICES`, `ABOUT`, `CONTACT`) with glowing pill active badge indicator.
+   - Utility action controls: Interactive sound effect toggle (`#sound-toggle`), subtle vertical divider (`.nav-divider`), and search trigger (`#search-toggle`).
+   - Mobile responsive drawer card attached below floating capsule with hamburger toggle.
 
 2. **Hero Section (`#home`)**
    - Eyebrow tag: `CREATIVE DIRECTOR & BRAND DESIGNER`.

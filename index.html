@@ -283,12 +283,25 @@
 <body>
 
     <nav class="navbar" id="navbar">
-        <a href="#home" class="logo" aria-label="ZIDHANZID Home"><img src="favicon.svg" alt="ZIDHANZID Logo" class="nav-brand-icon" width="28" height="28"><span>ZIDHANZID</span></a>
+        <a href="#home" class="logo" aria-label="ZIDHANZID Home">
+            <span class="nav-brand-icon-wrap" aria-hidden="true">
+                <svg class="nav-brand-z-svg" viewBox="0 0 32 32" width="22" height="22">
+                    <defs>
+                        <linearGradient id="navZGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00f2fe" />
+                            <stop offset="100%" stop-color="#00c8ff" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M 6.5 6 H 25.5 V 11 L 13.5 21 H 25.5 V 26 H 6.5 V 21 L 18.5 11 H 6.5 Z" fill="url(#navZGrad)" />
+                </svg>
+            </span>
+            <span>ZIDHANZID</span>
+        </a>
         
         <div class="nav-links" id="nav-links">
             <div class="mobile-nav-content">
                 <div class="mobile-nav-items">
-                    <a href="#home" class="nav-item">
+                    <a href="#home" class="nav-item active">
                         <span class="nav-num">01</span>
                         <span class="nav-label">HOME</span>
                     </a>
@@ -342,6 +355,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sound-icon-on"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="sound-icon-off" style="display: none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></svg>
             </div>
+            <span class="nav-divider" aria-hidden="true"></span>
             <div class="search-toggle" id="search-toggle" role="button" aria-label="Search">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
             </div>
