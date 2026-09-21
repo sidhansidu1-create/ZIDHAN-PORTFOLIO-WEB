@@ -80,7 +80,7 @@ function minifyCSS(css) {
   return css
     .replace(/\/\*[\s\S]*?\*\//g, '')
     .replace(/\s+/g, ' ')
-    .replace(/\s*([\{\}\:\;\,\>\+\~])\s*/g, (m, char) => char)
+    .replace(/\s*([\{\}\:\;\,\>\~])\s*/g, (m, char) => char)
     .replace(/;\}/g, '}')
     .trim();
 }
