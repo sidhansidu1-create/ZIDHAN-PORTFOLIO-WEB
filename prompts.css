@@ -5,17 +5,17 @@
 
 /* Base & Scoped Variables */
 :root {
-    --prompt-bg-card: rgba(7, 12, 28, 0.7);
-    --prompt-bg-card-hover: rgba(12, 18, 40, 0.95);
-    --prompt-border: rgba(0, 245, 255, 0.1);
-    --prompt-border-hover: rgba(0, 245, 255, 0.45);
-    --prompt-code-bg: #030712;
-    --prompt-code-border: rgba(0, 245, 255, 0.12);
-    --prompt-tag-bg: rgba(0, 245, 255, 0.05);
-    --prompt-tag-border: rgba(0, 245, 255, 0.12);
-    --prompt-accent-cyan: #00f5ff;
-    --prompt-accent-purple: #b76eff;
-    --prompt-accent-gradient: linear-gradient(135deg, #00f5ff 0%, #38bdf8 35%, #a855f7 70%, #b76eff 100%);
+    --prompt-bg-card: rgba(18, 18, 20, 0.7);
+    --prompt-bg-card-hover: rgba(26, 26, 30, 0.95);
+    --prompt-border: rgba(255, 255, 255, 0.08);
+    --prompt-border-hover: rgba(0, 242, 254, 0.4);
+    --prompt-code-bg: #09090b;
+    --prompt-code-border: rgba(255, 255, 255, 0.06);
+    --prompt-tag-bg: rgba(255, 255, 255, 0.04);
+    --prompt-tag-border: rgba(255, 255, 255, 0.08);
+    --prompt-accent-cyan: #00f2fe;
+    --prompt-accent-purple: #7b61ff;
+    --prompt-accent-gradient: linear-gradient(90deg, #00f2fe 0%, #7b61ff 100%);
     --prompt-green-copied: #10b981;
 }
 
