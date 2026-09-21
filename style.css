@@ -206,7 +206,22 @@ h1:hover, h2:hover, h3:hover {
     font-size: clamp(0.9rem, 2vw, 1.1rem);
 }
 
-/* Floating Glassmorphism Capsule Navbar */
+/* Floating Glassmorphism Capsule Navbar with Spinning Cyber Border Light */
+@property --nav-border-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+}
+
+@keyframes spinNavBorder {
+    0% {
+        --nav-border-angle: 0deg;
+    }
+    100% {
+        --nav-border-angle: 360deg;
+    }
+}
+
 .navbar {
     position: fixed;
     top: clamp(1rem, 2.5vw, 1.5rem);
@@ -222,35 +237,91 @@ h1:hover, h2:hover, h3:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: rgba(5, 12, 28, 0.45);
+    background: rgba(5, 12, 28, 0.55);
     backdrop-filter: blur(20px) saturate(160%);
     -webkit-backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid transparent;
+    border: 1.5px solid transparent;
     background-image: 
-        linear-gradient(rgba(5, 12, 28, 0.5), rgba(5, 12, 28, 0.5)), 
-        linear-gradient(90deg, rgba(0, 242, 254, 0.55) 0%, rgba(255, 255, 255, 0.12) 22%, rgba(255, 255, 255, 0.12) 78%, rgba(123, 97, 255, 0.55) 100%);
+        linear-gradient(rgba(5, 12, 28, 0.65), rgba(5, 12, 28, 0.65)), 
+        conic-gradient(from var(--nav-border-angle) at 50% 50%, 
+            #00f2fe 0%, 
+            rgba(0, 242, 254, 0.4) 12%, 
+            rgba(255, 255, 255, 0.18) 25%, 
+            rgba(123, 97, 255, 0.4) 38%, 
+            #7b61ff 50%, 
+            rgba(123, 97, 255, 0.4) 62%, 
+            rgba(255, 255, 255, 0.18) 75%, 
+            rgba(0, 242, 254, 0.4) 88%, 
+            #00f2fe 100%);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     box-shadow: 
-        0 10px 30px rgba(0, 0, 0, 0.5),
-        -10px 0 25px -4px rgba(0, 242, 254, 0.35),
-        10px 0 25px -4px rgba(123, 97, 255, 0.35),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 12px 35px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    animation: spinNavBorder 6s linear infinite;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.navbar::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 9999px;
+    background: conic-gradient(from var(--nav-border-angle) at 50% 50%, 
+        rgba(0, 242, 254, 0.75) 0%, 
+        rgba(0, 242, 254, 0.15) 15%, 
+        transparent 28%, 
+        transparent 35%, 
+        rgba(123, 97, 255, 0.15) 42%, 
+        rgba(123, 97, 255, 0.75) 50%, 
+        rgba(123, 97, 255, 0.15) 65%, 
+        transparent 78%, 
+        transparent 85%, 
+        rgba(0, 242, 254, 0.15) 92%, 
+        rgba(0, 242, 254, 0.75) 100%);
+    filter: blur(14px);
+    opacity: 0.65;
+    z-index: -1;
+    pointer-events: none;
+    animation: spinNavBorder 6s linear infinite;
+    transition: opacity 0.4s ease, filter 0.4s ease;
+}
+
+.navbar:hover::before {
+    opacity: 0.85;
+    filter: blur(16px);
+}
+
 .navbar.scrolled {
-    background: rgba(4, 9, 22, 0.78);
+    background: rgba(4, 9, 22, 0.82);
     background-image: 
-        linear-gradient(rgba(4, 9, 22, 0.78), rgba(4, 9, 22, 0.78)), 
-        linear-gradient(90deg, rgba(0, 242, 254, 0.7) 0%, rgba(255, 255, 255, 0.16) 22%, rgba(255, 255, 255, 0.16) 78%, rgba(123, 97, 255, 0.7) 100%);
+        linear-gradient(rgba(4, 9, 22, 0.82), rgba(4, 9, 22, 0.82)), 
+        conic-gradient(from var(--nav-border-angle) at 50% 50%, 
+            #00f2fe 0%, 
+            rgba(0, 242, 254, 0.45) 12%, 
+            rgba(255, 255, 255, 0.22) 25%, 
+            rgba(123, 97, 255, 0.45) 38%, 
+            #7b61ff 50%, 
+            rgba(123, 97, 255, 0.45) 62%, 
+            rgba(255, 255, 255, 0.22) 75%, 
+            rgba(0, 242, 254, 0.45) 88%, 
+            #00f2fe 100%);
     background-origin: border-box;
     background-clip: padding-box, border-box;
     box-shadow: 
-        0 14px 35px rgba(0, 0, 0, 0.7),
-        -12px 0 30px -2px rgba(0, 242, 254, 0.45),
-        12px 0 30px -2px rgba(123, 97, 255, 0.45),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        0 14px 40px rgba(0, 0, 0, 0.75),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.navbar.scrolled::before {
+    opacity: 0.75;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .navbar,
+    .navbar::before {
+        animation: none !important;
+    }
 }
 
 .logo {
