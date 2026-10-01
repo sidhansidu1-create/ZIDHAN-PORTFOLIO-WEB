@@ -43,9 +43,27 @@ export default {
       return handleSubmitContact(request, env, url);
     }
 
-    // Canonical redirect for secret anniversary route
-    if (url.pathname === '/secret/hafuzidhu' || url.pathname === '/secret/hafu' || url.pathname === '/secret') {
+    // Route: /api/submit-hafu-qa
+    if (url.pathname === '/api/submit-hafu-qa') {
+      if (request.method !== 'POST') {
+        return jsonResponse(
+          { success: false, error: 'Method Not Allowed' },
+          405,
+          { 'Allow': 'POST' }
+        );
+      }
+      return handleSubmitHafuQA(request, env, url);
+    }
+
+    // Canonical redirects for secret routes
+    if (url.pathname === '/secret/hafu') {
+      return Response.redirect(`${url.origin}/secret/hafu/`, 301);
+    }
+    if (url.pathname === '/secret/hafuzidhu') {
       return Response.redirect(`${url.origin}/secret/hafuzidhu/`, 301);
+    }
+    if (url.pathname === '/secret') {
+      return Response.redirect(`${url.origin}/secret/hafu/`, 301);
     }
 
     // Static Asset Delivery with Security Headers
@@ -227,3 +245,57 @@ function jsonResponse(body, status = 200, extraHeaders = {}) {
     },
   });
 }
+
+/**
+ * Handle Hafu 1st Anniversary Q&A Submission -> Proxies directly to Google Forms
+ */
+async function handleSubmitHafuQA(request, env, url) {
+  try {
+    let data;
+    const contentType = request.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      data = await request.json();
+    } else {
+      const formData = await request.formData();
+      data = Object.fromEntries(formData.entries());
+    }
+
+    const q1 = sanitizeInput(data.q1 || '');
+    const q2 = sanitizeInput(data.q2 || '');
+    const q3 = sanitizeInput(data.q3 || '');
+    const q4 = sanitizeInput(data.q4 || '');
+    const q5 = sanitizeInput(data.q5 || '');
+
+    if (!q1 && !q2 && !q3 && !q4 && !q5) {
+      return jsonResponse({ success: false, error: 'Please answer at least one question before submitting.' }, 400);
+    }
+
+    // Google Form: HAFUZIDHU (Q1..Q5 field mappings)
+    const GOOGLE_QA_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSefDHrTURd75UxW12xLGEZVbS3w5LrXPQA73jBtZYaqzCizHQ/formResponse';
+    const params = new URLSearchParams();
+    params.append('entry.522668702', q1 || '-');
+    params.append('entry.1145989366', q2 || '-');
+    params.append('entry.1067143930', q3 || '-');
+    params.append('entry.356707433', q4 || '-');
+    params.append('entry.736682964', q5 || '-');
+
+    const googleRes = await fetch(GOOGLE_QA_FORM_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+    });
+
+    if (googleRes.ok || googleRes.status === 200 || googleRes.status === 302 || googleRes.status === 303) {
+      return jsonResponse({
+        success: true,
+        passcode: 'hafuzidhu',
+        message: 'Your answers have been recorded into Sidhan\'s heart forever! ❤️'
+      }, 200);
+    } else {
+      return jsonResponse({ success: false, error: 'Failed to record response in Google Sheets. Please try again.' }, 502);
+    }
+  } catch (err) {
+    return jsonResponse({ success: false, error: 'Server error: ' + err.message }, 500);
+  }
+}
+
