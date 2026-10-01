@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 38 38" fill="none">
+  <defs>
+    <filter id="hoverGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#fbbf24" flood-opacity="0.8"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="5" flood-color="#f43f5e" flood-opacity="0.9"/>
+    </filter>
+    <linearGradient id="hHeartGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="25%" stop-color="#fda4af"/>
+      <stop offset="60%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#881337"/>
+    </linearGradient>
+  </defs>
+  <!-- Pulsing Heart Pointer for hover state -->
+  <path d="M 19,8 C 14.5,2 5,4 5,13.5 C 5,21.5 16.5,29.5 19,32 C 21.5,29.5 33,21.5 33,13.5 C 33,4 23.5,2 19,8 Z" fill="url(#hHeartGrad)" stroke="#ffffff" stroke-width="1.5" filter="url(#hoverGlow)"/>
+  <!-- Golden sparkle star at top right -->
+  <polygon points="31,4 32,7 35,8 32,9 31,12 30,9 27,8 30,7" fill="#fbbf24"/>
+  <!-- Heart inner shine highlight -->
+  <path d="M 10,9 C 8.5,10.5 8,13 8.5,15" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34" fill="none">
+  <defs>
+    <filter id="hGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#e11d48" flood-opacity="0.9"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#f43f5e" flood-opacity="0.6"/>
+    </filter>
+    <linearGradient id="cursorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe4e6"/>
+      <stop offset="30%" stop-color="#f43f5e"/>
+      <stop offset="100%" stop-color="#9f1239"/>
+    </linearGradient>
+  </defs>
+  <!-- Sleek pointer arrow shaped with an integrated glowing ruby heart -->
+  <path d="M 3,3 L 13,27 L 17.5,17.5 L 27,13 Z" fill="url(#cursorGrad)" stroke="#ffffff" stroke-width="1.2" stroke-linejoin="round" filter="url(#hGlow)"/>
+  <!-- Glowing Heart Badge embedded in pointer -->
+  <path d="M 12,9 C 10.5,7.5 8,8 8,10.2 C 8,12.2 11,14.5 12,15.5 C 13,14.5 16,12.2 16,10.2 C 16,8 13.5,7.5 12,9 Z" fill="#ffd1dc" />
+  <!-- Golden Sparkle Star -->
+  <circle cx="21" cy="21" r="1.5" fill="#fde68a"/>
+</svg>
