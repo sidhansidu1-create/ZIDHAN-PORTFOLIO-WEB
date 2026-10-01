@@ -197,25 +197,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // -------------------------------------------------------------
-    // Secret 1st Love Anniversary Easter Egg for Hafu
+    // Secret 1st Love Anniversary Easter Egg (Passcode: hafuzidhu)
     // -------------------------------------------------------------
-    const SECRET_LOVE_TRIGGERS = ['hafu', 'hafuu', 'love', 'haf', 'haffu'];
     let isHeartTransitioning = false;
     let exactMatchTimer = null;
 
     function isSecretLoveQuery(query) {
         if (!query) return false;
-        const q = query.toLowerCase().trim();
-        return SECRET_LOVE_TRIGGERS.includes(q) || q.startsWith('hafu') || q === 'love';
+        // Normalize: case-insensitive, trim whitespace, ignore internal spaces or hyphens
+        const cleaned = query.toLowerCase().trim().replace(/[\s\-_]+/g, '');
+        return cleaned === 'hafuzidhu';
     }
 
     function getSecretAnniversaryUrl() {
         if (window.location.protocol.startsWith('http')) {
-            return '/secret/hafu/';
+            return '/secret/hafuzidhu/';
         }
         const pathname = window.location.pathname;
         const baseDir = pathname.substring(0, pathname.lastIndexOf('/') + 1);
-        return baseDir + 'secret/hafu/index.html';
+        return baseDir + 'secret/hafuzidhu/index.html';
     }
 
     function playRomanticArpeggio() {
@@ -302,10 +302,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const isSecret = isSecretLoveQuery(query);
 
-            if (isSecret && (query === 'hafu' || query === 'hafuu')) {
+            if (isSecret) {
                 exactMatchTimer = setTimeout(() => {
                     triggerRomanticHeartTransition();
-                }, 800);
+                }, 750);
             }
 
             const matches = searchData.filter(item => 
@@ -319,7 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
-                const query = searchInput.value.toLowerCase().trim();
+                const query = searchInput.value;
                 if (isSecretLoveQuery(query)) {
                     e.preventDefault();
                     if (exactMatchTimer) clearTimeout(exactMatchTimer);
@@ -337,10 +337,10 @@ document.addEventListener("DOMContentLoaded", () => {
             secretCardHtml = `
                 <div class="search-result-item secret-search-result" id="secretLoveTriggerCard" role="button" tabindex="0">
                     <div class="search-result-header">
-                        <span class="search-result-title"><span class="secret-pulse-heart">❤️</span> Secret 1st Anniversary Note for Hafu</span>
-                        <span class="search-result-category secret-confidential-pill">CONFIDENTIAL &bull; FOR HAFU</span>
+                        <span class="search-result-title"><span class="secret-pulse-heart">❤️</span> Secret Passcode Unlocked: Hafu & Zidhu</span>
+                        <span class="search-result-category secret-confidential-pill">1ST ANNIVERSARY</span>
                     </div>
-                    <p class="search-result-desc">Happy 1st Anniversary, my love. Click here or press Enter to unlock the secret letter...</p>
+                    <p class="search-result-desc">Happy 1st Anniversary, Hafu. Press Enter or click here to unlock our secret letter...</p>
                 </div>
             `;
         }

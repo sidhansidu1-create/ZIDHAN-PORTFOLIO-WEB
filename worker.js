@@ -44,8 +44,8 @@ export default {
     }
 
     // Canonical redirect for secret anniversary route
-    if (url.pathname === '/secret/hafu' || url.pathname === '/secret') {
-      return Response.redirect(`${url.origin}/secret/hafu/`, 301);
+    if (url.pathname === '/secret/hafuzidhu' || url.pathname === '/secret/hafu' || url.pathname === '/secret') {
+      return Response.redirect(`${url.origin}/secret/hafuzidhu/`, 301);
     }
 
     // Static Asset Delivery with Security Headers
