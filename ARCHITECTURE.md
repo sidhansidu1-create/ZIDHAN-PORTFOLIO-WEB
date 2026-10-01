@@ -66,6 +66,9 @@ ZIDHAN-PORTFOLIO-WEB/
 ├── robots.txt                   # Search crawler directives (allows Google, Bing, GPTBot)
 ├── script.js                    # Unminified master frontend JavaScript
 ├── script.min.js                # Production-minified frontend JavaScript
+├── secret/                      # Hidden confidential easter egg routes (noindex, unlisted)
+│   └── hafu/
+│       └── index.html           # 1st Love Anniversary interactive celebration page
 ├── sitemap.xml                  # XML sitemap with all routes and priority scores
 ├── style.css                    # Unminified master frontend stylesheet
 ├── style.min.css                # Production-minified frontend stylesheet (CRITICAL FILE)

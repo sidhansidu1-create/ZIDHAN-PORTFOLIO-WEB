@@ -43,6 +43,11 @@ export default {
       return handleSubmitContact(request, env, url);
     }
 
+    // Canonical redirect for secret anniversary route
+    if (url.pathname === '/secret/hafu' || url.pathname === '/secret') {
+      return Response.redirect(`${url.origin}/secret/hafu/`, 301);
+    }
+
     // Static Asset Delivery with Security Headers
     try {
       const response = await env.ASSETS.fetch(request);
@@ -51,6 +56,9 @@ export default {
         if (!newHeaders.has(key)) {
           newHeaders.set(key, value);
         }
+      }
+      if (url.pathname.startsWith('/secret')) {
+        newHeaders.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
       }
       return new Response(response.body, {
         status: response.status,

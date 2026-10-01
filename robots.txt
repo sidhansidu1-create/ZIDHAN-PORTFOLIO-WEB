@@ -5,6 +5,7 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /functions/
+Disallow: /secret/
 
 # Specific instructions for AI Crawlers
 User-agent: Googlebot
