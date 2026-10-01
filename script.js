@@ -196,6 +196,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    // Auto-open search if URL has #search or ?search=1
+    if (window.location.hash === '#search' || window.location.search.includes('search=1')) {
+        setTimeout(() => toggleSearch(true), 400);
+    }
+    window.addEventListener('hashchange', () => {
+        if (window.location.hash === '#search') {
+            toggleSearch(true);
+        }
+    });
+
     // -------------------------------------------------------------
     // -------------------------------------------------------------
     // Secret 1st Love Anniversary Easter Egg
