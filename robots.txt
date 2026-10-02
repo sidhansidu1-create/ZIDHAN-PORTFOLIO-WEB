@@ -6,6 +6,9 @@ Allow: /
 Disallow: /api/
 Disallow: /functions/
 Disallow: /secret/
+Disallow: /brand-discovery
+Disallow: /brand-qa
+Disallow: /brand
 
 # Specific instructions for AI Crawlers
 User-agent: Googlebot

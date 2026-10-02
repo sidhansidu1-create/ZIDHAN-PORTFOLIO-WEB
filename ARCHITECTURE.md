@@ -55,24 +55,33 @@ ZIDHAN-PORTFOLIO-WEB/
 ├── .gitignore                   # Git ignore declarations
 ├── AGENTS.md                    # Universal AI Agent operating instructions
 ├── ARCHITECTURE.md              # THIS MASTER ARCHITECTURAL DOCUMENT
+├── brand-discovery.html         # Confidential VIP Client Branding Discovery Questionnaire (Passcode protected)
 ├── build.js                     # Safe asset minification & validation pipeline
 ├── campaign.html                # Dedicated 9-Grid Instagram Campaign deep-dive page
+├── functions/
+│   └── api/
+│       ├── submit-contact.js    # Contact endpoint logic
+│       └── submit-branding-brief.js # Brand brief Google Form proxy endpoint
 ├── GEMINI.md                    # Antigravity project rules & safety constraints
 ├── index.html                   # Primary portfolio homepage (15 sections)
 ├── prompts-data.js              # Data store of 30+ categorized designer AI prompts
 ├── prompts.css                  # Stylesheet scoped to AI Prompt Library & CTA
 ├── prompts.html                 # Dedicated AI Prompt Library page
 ├── prompts.js                   # Interactive client logic for search, filters & modal
-├── robots.txt                   # Search crawler directives (allows Google, Bing, GPTBot)
+├── robots.txt                   # Search crawler directives (disallows /secret/ and /brand-discovery)
 ├── script.js                    # Unminified master frontend JavaScript
 ├── script.min.js                # Production-minified frontend JavaScript
-├── secret/                      # Hidden confidential easter egg routes (noindex, unlisted)
-│   └── hafu/
-│       └── index.html           # 1st Love Anniversary interactive celebration page
+├── secret/                      # Hidden confidential easter egg and client routes (noindex, unlisted)
+│   ├── brand/
+│   │   └── index.html           # Brand discovery portal redirect
+│   ├── hafu/
+│   │   └── index.html           # 1st Love Anniversary interactive celebration page
+│   └── hafuzidhu/
+│       └── index.html           # Anniversary interactive love letter
 ├── sitemap.xml                  # XML sitemap with all routes and priority scores
 ├── style.css                    # Unminified master frontend stylesheet
 ├── style.min.css                # Production-minified frontend stylesheet (CRITICAL FILE)
-├── worker.js                    # Cloudflare Worker edge entry point + secure API
+├── worker.js                    # Cloudflare Worker edge entry point + secure APIs (/api/submit-contact, /api/submit-branding-brief)
 └── wrangler.jsonc               # Cloudflare Workers configuration file
 ```
 
