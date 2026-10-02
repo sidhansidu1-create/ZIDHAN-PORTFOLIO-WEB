@@ -15,43 +15,48 @@
     <!-- Typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         :root {
-            --bg-page: #f0ebf8;
+            --bg-page: #f2eefb;
             --bg-card: #ffffff;
-            --border-card: #dadce0;
-            --text-main: #202124;
-            --text-sub: #5f6368;
-            --text-muted: #70757a;
+            --border-card: #e2dcf2;
+            --border-hover: #bda2f7;
+            --text-main: #1f1d2b;
+            --text-sub: #58556d;
+            --text-muted: #7b7891;
             --accent-purple: #673ab7;
-            --accent-purple-light: #ede7f6;
+            --accent-purple-light: #f3edfc;
             --accent-purple-dark: #512da8;
+            --accent-glow: rgba(103, 58, 183, 0.16);
             --focus-border: #673ab7;
-            --shadow-card: 0 1px 3px rgba(60, 64, 67, 0.15), 0 1px 2px rgba(60, 64, 67, 0.08);
-            --shadow-hover: 0 4px 12px rgba(60, 64, 67, 0.18);
-            --radius-card: 10px;
+            --shadow-card: 0 2px 8px rgba(32, 21, 64, 0.06), 0 1px 3px rgba(32, 21, 64, 0.04);
+            --shadow-hover: 0 8px 24px rgba(103, 58, 183, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
+            --radius-card: 14px;
+            --radius-tile: 10px;
             --font-head: 'Outfit', sans-serif;
             --font-body: 'Plus Jakarta Sans', sans-serif;
         }
 
         body.dark-theme {
-            --bg-page: #0c0a14;
-            --bg-card: #151221;
-            --border-card: #2a243d;
-            --text-main: #f1f0f7;
-            --text-sub: #b3aeca;
-            --text-muted: #827b9e;
+            --bg-page: #0a0812;
+            --bg-card: #141122;
+            --border-card: #27213d;
+            --border-hover: #7c4dff;
+            --text-main: #f5f4fb;
+            --text-sub: #b7b3ce;
+            --text-muted: #8580a1;
             --accent-purple: #8b5cf6;
-            --accent-purple-light: #241b3d;
+            --accent-purple-light: #241b3f;
             --accent-purple-dark: #7c3aed;
+            --accent-glow: rgba(139, 92, 246, 0.25);
             --focus-border: #a78bfa;
-            --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
-            --shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.6);
+            --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.45);
+            --shadow-hover: 0 10px 30px rgba(139, 92, 246, 0.22);
         }
 
         * {
@@ -80,7 +85,7 @@
         }
 
         .top-nav-inner {
-            max-width: 740px;
+            max-width: 780px;
             margin: 0 auto;
             padding: 10px 16px;
             display: flex;
@@ -96,7 +101,7 @@
             color: var(--text-main);
             font-family: var(--font-head);
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             letter-spacing: 0.05em;
         }
 
@@ -138,9 +143,65 @@
             color: var(--accent-purple);
         }
 
+        /* Dynamic Progress HUD */
+        .progress-hud {
+            position: sticky;
+            top: 50px;
+            z-index: 95;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-card);
+            padding: 8px 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-hud-inner {
+            max-width: 780px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .progress-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .progress-track {
+            flex: 1;
+            max-width: 260px;
+            height: 6px;
+            background: var(--border-card);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 12%;
+            background: linear-gradient(90deg, var(--accent-purple), #9c27b0);
+            border-radius: 999px;
+            transition: width 0.35s ease;
+        }
+
+        .progress-pct {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+            min-width: 38px;
+            text-align: right;
+        }
+
         /* Form Container */
         .form-wrapper {
-            max-width: 740px;
+            max-width: 780px;
             margin: 20px auto 140px auto;
             padding: 0 16px;
         }
@@ -152,9 +213,9 @@
             border-radius: var(--radius-card);
             box-shadow: var(--shadow-card);
             padding: 24px;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             position: relative;
-            transition: box-shadow 0.2s ease, border-color 0.2s ease;
+            transition: box-shadow 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
         }
 
         .g-card:hover {
@@ -168,7 +229,7 @@
         /* Header Card with Purple Top Stripe */
         .header-card {
             border-top: 10px solid var(--accent-purple);
-            padding-top: 22px;
+            padding-top: 24px;
         }
 
         .section-pill-tag {
@@ -186,11 +247,12 @@
 
         .form-main-title {
             font-family: var(--font-head);
-            font-size: 2rem;
-            font-weight: 800;
+            font-size: 2.1rem;
+            font-weight: 900;
             color: var(--text-main);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             line-height: 1.25;
+            letter-spacing: -0.02em;
         }
 
         .form-desc {
@@ -209,7 +271,7 @@
             gap: 4px;
         }
 
-        /* Hero Image Card (Exact Visual from Screenshot) */
+        /* Hero Image Card */
         .hero-banner-card {
             padding: 0;
             overflow: hidden;
@@ -222,10 +284,13 @@
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-card);
             font-size: 0.82rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-muted);
             letter-spacing: 0.05em;
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .hero-svg-canvas {
@@ -241,60 +306,134 @@
 
         /* Section Header Card */
         .section-header-card {
-            background: var(--accent-purple);
+            background: linear-gradient(135deg, #673ab7 0%, #512da8 100%);
             color: #ffffff !important;
             border: none;
-            padding: 18px 24px;
+            padding: 22px 24px;
+            border-radius: var(--radius-card);
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
-        .section-header-card h2 {
+        .section-header-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .section-header-content h2 {
             font-family: var(--font-head);
             font-size: 1.25rem;
             font-weight: 800;
             letter-spacing: 0.04em;
             text-transform: uppercase;
             color: #ffffff;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
         }
 
-        .section-header-card p {
+        .section-header-content p {
             color: rgba(255, 255, 255, 0.85);
             font-size: 0.88rem;
         }
 
-        /* Question Cards */
+        /* Question Header with Themed Icon Badge */
+        .q-header-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .q-icon-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--accent-purple-light);
+            color: var(--accent-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+            transition: transform 0.2s ease, background 0.2s ease;
+        }
+
+        .g-card:hover .q-icon-badge {
+            transform: scale(1.08);
+            background: var(--accent-purple);
+            color: #ffffff;
+        }
+
+        .q-title-wrap {
+            flex: 1;
+        }
+
         .q-title {
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 12px;
             line-height: 1.45;
+            font-family: var(--font-body);
         }
 
         .q-req-star {
             color: #d93025;
-            font-weight: bold;
+            font-weight: 800;
+            margin-left: 2px;
         }
 
         .q-desc {
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-top: -6px;
-            margin-bottom: 14px;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        /* Studio Insight Pro Tip Callout */
+        .studio-tip {
+            background: var(--accent-purple-light);
+            border-left: 3px solid var(--accent-purple);
+            border-radius: 0 8px 8px 0;
+            padding: 10px 14px;
+            margin: 12px 0 16px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.84rem;
+            color: var(--text-sub);
+            line-height: 1.45;
+        }
+
+        .studio-tip-icon {
+            color: var(--accent-purple);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .studio-tip strong {
+            color: var(--text-main);
         }
 
         /* Google Forms-style Underline Inputs */
         .g-input-underline {
             width: 100%;
             border: none;
-            border-bottom: 1px solid var(--border-card);
+            border-bottom: 1.5px solid var(--border-card);
             background: transparent;
             color: var(--text-main);
             font-family: var(--font-body);
-            font-size: 0.95rem;
+            font-size: 0.98rem;
             padding: 10px 0;
             outline: none;
-            transition: border-bottom-color 0.2s ease, border-bottom-width 0.2s ease;
+            transition: border-bottom-color 0.2s ease;
         }
 
         .g-input-underline:focus {
@@ -309,54 +448,79 @@
         /* Textarea Input */
         .g-textarea {
             width: 100%;
-            min-height: 80px;
-            border: 1px solid var(--border-card);
-            border-radius: 8px;
+            min-height: 85px;
+            border: 1.5px solid var(--border-card);
+            border-radius: 10px;
             background: transparent;
             color: var(--text-main);
             font-family: var(--font-body);
-            font-size: 0.95rem;
-            padding: 12px;
+            font-size: 0.96rem;
+            padding: 14px;
             outline: none;
             resize: vertical;
-            transition: border-color 0.2s ease;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .g-textarea:focus {
             border-color: var(--accent-purple);
-            box-shadow: 0 0 0 2px rgba(103, 58, 183, 0.15);
+            box-shadow: 0 0 0 3px var(--accent-glow);
         }
 
-        /* Google Forms Options List (Radio & Checkbox) */
+        /* =========================================================================
+           INTERACTIVE RELATABLE OPTION TILES (ELEVATED UX)
+           ========================================================================= */
         .g-options-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .g-check-row, .g-radio-row {
+        .tiles-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        @media (min-width: 600px) {
+            .tiles-grid-2 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .g-option-tile {
             display: flex;
             align-items: center;
             gap: 12px;
+            padding: 12px 14px;
+            border: 1.5px solid var(--border-card);
+            border-radius: var(--radius-tile);
+            background: var(--bg-card);
             cursor: pointer;
-            padding: 6px 6px;
-            border-radius: 6px;
-            transition: background 0.15s ease;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+            user-select: none;
         }
 
-        .g-check-row:hover, .g-radio-row:hover {
+        .g-option-tile:hover {
+            border-color: var(--border-hover);
             background: var(--accent-purple-light);
+            transform: translateY(-1px);
         }
 
-        /* Square Checkbox (Google Forms style) */
-        .g-check-row input[type="checkbox"] {
+        .g-option-tile:has(input:checked) {
+            border-color: var(--accent-purple);
+            background: var(--accent-purple-light);
+            box-shadow: 0 0 0 1px var(--accent-purple), 0 3px 10px var(--accent-glow);
+        }
+
+        /* Real Form Checkboxes (Square) */
+        .g-option-tile input[type="checkbox"] {
             appearance: none;
             -webkit-appearance: none;
             width: 20px;
             height: 20px;
             border: 2px solid var(--text-muted);
-            border-radius: 3px;
+            border-radius: 4px;
             background: transparent;
             cursor: pointer;
             display: inline-grid;
@@ -366,12 +530,12 @@
             margin: 0;
         }
 
-        .g-check-row input[type="checkbox"]:checked {
+        .g-option-tile input[type="checkbox"]:checked {
             background-color: var(--accent-purple);
             border-color: var(--accent-purple);
         }
 
-        .g-check-row input[type="checkbox"]:checked::before {
+        .g-option-tile input[type="checkbox"]:checked::before {
             content: "";
             width: 5px;
             height: 9px;
@@ -381,8 +545,8 @@
             margin-bottom: 2px;
         }
 
-        /* Round Radio (Google Forms style) */
-        .g-radio-row input[type="radio"] {
+        /* Real Form Radios (Round) */
+        .g-option-tile input[type="radio"] {
             appearance: none;
             -webkit-appearance: none;
             width: 20px;
@@ -398,11 +562,11 @@
             margin: 0;
         }
 
-        .g-radio-row input[type="radio"]:checked {
+        .g-option-tile input[type="radio"]:checked {
             border-color: var(--accent-purple);
         }
 
-        .g-radio-row input[type="radio"]:checked::before {
+        .g-option-tile input[type="radio"]:checked::before {
             content: "";
             width: 10px;
             height: 10px;
@@ -410,30 +574,60 @@
             background-color: var(--accent-purple);
         }
 
-        .g-option-label {
-            font-size: 0.95rem;
-            color: var(--text-main);
-            user-select: none;
-            flex: 1;
-        }
-
-        /* Other Option Row with Underline Input */
-        .g-other-row {
+        /* Tile Visual Icon / Glyph */
+        .g-tile-visual {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: var(--bg-page);
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 4px 6px;
+            justify-content: center;
+            color: var(--accent-purple);
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 0.92rem;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .g-option-tile:has(input:checked) .g-tile-visual {
+            background: var(--accent-purple);
+            color: #ffffff;
+        }
+
+        .g-tile-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .g-tile-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .g-tile-desc {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        /* "Other:" Tile with Direct Underline Input */
+        .g-other-tile {
+            cursor: default;
         }
 
         .g-other-text {
             flex: 1;
             border: none;
-            border-bottom: 1px solid var(--border-card);
+            border-bottom: 1.5px solid var(--border-card);
             background: transparent;
             color: var(--text-main);
             font-family: var(--font-body);
             font-size: 0.95rem;
-            padding: 6px 0;
+            padding: 4px 0;
             outline: none;
             transition: border-bottom-color 0.2s ease;
         }
@@ -443,10 +637,56 @@
         }
 
         .selection-counter {
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             color: var(--accent-purple);
-            margin-top: 8px;
+            margin-top: 10px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Color Preset Inspirator Pills */
+        .color-presets-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .color-preset-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid var(--border-card);
+            background: var(--bg-card);
+            font-size: 0.8rem;
             font-weight: 600;
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .color-preset-pill:hover {
+            border-color: var(--accent-purple);
+            background: var(--accent-purple-light);
+            color: var(--accent-purple);
+            transform: translateY(-1px);
+        }
+
+        .preset-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .preset-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
         }
 
         /* Contact Details 3-Column Grid */
@@ -476,7 +716,7 @@
         }
 
         .hud-inner {
-            max-width: 740px;
+            max-width: 780px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -523,7 +763,7 @@
             padding: 8px 14px;
             font-size: 0.85rem;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.2s;
         }
 
@@ -666,16 +906,15 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Screen styles for print doc header */
         .print-doc-header {
             display: none;
         }
 
-        /* Print Media Styles — Production-Grade Brief Layout */
+        /* Print Media Styles */
         @media print {
             @page {
                 size: A4 portrait;
-                margin: 12mm 12mm 12mm 12mm;
+                margin: 12mm;
             }
 
             * {
@@ -690,11 +929,10 @@
                 color: #111827 !important;
                 font-size: 9pt !important;
                 line-height: 1.4 !important;
-                margin: 0 !important;
-                padding: 0 !important;
             }
 
             .top-navbar,
+            .progress-hud,
             .floating-action-hud,
             .theme-toggle-btn,
             .modal-overlay,
@@ -704,16 +942,13 @@
             .autosave-pill,
             .hero-card-header,
             .selection-counter,
+            .color-presets-row,
+            .studio-tip,
             #themeToggleBtn {
                 display: none !important;
                 visibility: hidden !important;
                 height: 0 !important;
                 width: 0 !important;
-                margin: 0 !important;
-                padding: 0 !important;
-                overflow: hidden !important;
-                position: absolute !important;
-                top: -9999px !important;
             }
 
             .form-wrapper {
@@ -740,15 +975,12 @@
                 font-size: 13pt !important;
                 font-weight: 800 !important;
                 color: #673ab7 !important;
-                letter-spacing: 0.04em !important;
             }
 
             .print-doc-subtitle {
                 font-size: 7.5pt !important;
                 color: #4b5563 !important;
                 text-transform: uppercase !important;
-                letter-spacing: 0.06em !important;
-                margin-top: 2px !important;
             }
 
             .print-doc-meta {
@@ -764,30 +996,6 @@
                 padding: 10px 14px !important;
                 margin-bottom: 10px !important;
                 break-inside: avoid !important;
-                page-break-inside: avoid !important;
-            }
-
-            .section-pill-tag {
-                font-size: 7pt !important;
-                padding: 2px 8px !important;
-                margin-bottom: 6px !important;
-                background: #673ab7 !important;
-                color: #ffffff !important;
-            }
-
-            .form-main-title {
-                font-size: 13pt !important;
-                margin-bottom: 4px !important;
-            }
-
-            .form-desc {
-                font-size: 8pt !important;
-                margin-bottom: 4px !important;
-                color: #4b5563 !important;
-            }
-
-            .required-indicator {
-                font-size: 7pt !important;
             }
 
             .hero-banner-card {
@@ -801,90 +1009,30 @@
                 padding: 8px 12px !important;
                 margin-bottom: 6px !important;
                 break-inside: avoid !important;
-                page-break-inside: avoid !important;
             }
 
             .section-header-card {
                 background: #673ab7 !important;
                 color: #ffffff !important;
-                border: none !important;
                 border-radius: 6px !important;
                 padding: 6px 12px !important;
                 margin-top: 10px !important;
                 margin-bottom: 6px !important;
                 break-after: avoid !important;
-                page-break-after: avoid !important;
             }
 
             .section-header-card h2 {
                 font-size: 9.5pt !important;
                 color: #ffffff !important;
-                margin-bottom: 0 !important;
             }
 
             .section-header-card p {
                 display: none !important;
             }
 
-            .q-title {
-                font-size: 8.5pt !important;
-                font-weight: 700 !important;
-                margin-bottom: 4px !important;
-                color: #111827 !important;
-            }
-
-            .q-desc {
-                font-size: 7.5pt !important;
-                color: #6b7280 !important;
-                margin-top: -2px !important;
-                margin-bottom: 4px !important;
-            }
-
-            .g-input-underline {
-                border-bottom: 1px solid #6b7280 !important;
-                font-size: 8.5pt !important;
-                padding: 2px 0 !important;
-                color: #111827 !important;
-                background: transparent !important;
-            }
-
-            .g-textarea {
-                border: 1px solid #d1d5db !important;
-                border-radius: 4px !important;
-                font-size: 8.5pt !important;
+            .g-option-tile {
+                border: 1px solid #e5e7eb !important;
                 padding: 4px 6px !important;
-                color: #111827 !important;
-                height: auto !important;
-                min-height: 38px !important;
-                resize: none !important;
-                overflow: visible !important;
-            }
-
-            .g-options-list {
-                gap: 4px !important;
-            }
-
-            .g-check-row, .g-radio-row {
-                padding: 2px 0 !important;
-            }
-
-            .g-check-row input[type="checkbox"]:checked {
-                background-color: #673ab7 !important;
-                border-color: #673ab7 !important;
-            }
-
-            .g-radio-row input[type="radio"]:checked {
-                border-color: #673ab7 !important;
-            }
-
-            .g-radio-row input[type="radio"]:checked::before {
-                background-color: #673ab7 !important;
-            }
-
-            .contact-grid {
-                display: grid !important;
-                grid-template-columns: repeat(3, 1fr) !important;
-                gap: 8px !important;
             }
         }
     </style>
@@ -911,8 +1059,22 @@
         </div>
     </header>
 
+    <!-- Dynamic Progress HUD -->
+    <div class="progress-hud">
+        <div class="progress-hud-inner">
+            <div class="progress-label">
+                <i data-lucide="compass" style="width: 14px; height: 14px; color: var(--accent-purple);"></i>
+                <span id="progressSectionText">Section 1 of 8 • Basic Information</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" id="progressFillBar"></div>
+            </div>
+            <div class="progress-pct" id="progressPctText">12%</div>
+        </div>
+    </div>
+
     <div class="form-wrapper">
-        <!-- Printable Agency Header (Visible exclusively in print/PDF output) -->
+        <!-- Printable Agency Header -->
         <div class="print-doc-header">
             <div class="print-doc-header-inner">
                 <div>
@@ -928,20 +1090,23 @@
 
         <form id="brand-discovery-form" autocomplete="off" onsubmit="event.preventDefault(); submitBrief();">
             
-            <!-- HEADER CARD (Top Purple Stripe) -->
+            <!-- HEADER CARD -->
             <div class="g-card header-card">
-                <div class="section-pill-tag">Section 1 of 8</div>
+                <div class="section-pill-tag">Discovery Portal</div>
                 <h1 class="form-main-title">Branding Q & A</h1>
                 <p class="form-desc">
                     Confidential Brand Strategy & Discovery Questionnaire for <strong>Muhammed Sidhan Studio</strong>.
-                    Please provide as much detail as possible to help us build a strong, distinctive, and commercially powerful brand identity.
+                    Every answer provides critical strategic intelligence to build a distinctive, high-end, and commercially magnetic brand identity.
                 </p>
                 <div class="required-indicator">* Indicates required question</div>
             </div>
 
-            <!-- HERO IMAGE CARD (Recreation from User's Google Form) -->
+            <!-- HERO GRAPHIC CARD -->
             <div class="g-card hero-banner-card">
-                <div class="hero-card-header">Discover Your Brand</div>
+                <div class="hero-card-header">
+                    <span>Discover Your Brand</span>
+                    <span style="font-size: 0.75rem; color: var(--accent-purple); font-weight: 800;">CONFIDENTIAL BRIEF</span>
+                </div>
                 <svg class="hero-svg-canvas" viewBox="0 0 740 320" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <radialGradient id="cardGlow" cx="65%" cy="50%" r="65%">
@@ -979,10 +1144,15 @@
                 </svg>
             </div>
 
-            <!-- CLIENT CONTACT INFORMATION (Essential for agency communications) -->
+            <!-- CLIENT CONTACT INFORMATION -->
             <div class="g-card">
-                <div class="q-title">Client Contact Details <span class="q-req-star">*</span></div>
-                <div class="q-desc">How Muhammed Sidhan will reach you with your finalized creative brief and concept roadmap.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="user-check"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">Client Contact Details <span class="q-req-star">*</span></div>
+                        <div class="q-desc">How Muhammed Sidhan will reach you with your finalized strategic review and concept boards.</div>
+                    </div>
+                </div>
                 <div class="contact-grid">
                     <div>
                         <input type="text" id="client_name" name="client_name" class="g-input-underline" placeholder="Your Name *" required>
@@ -999,49 +1169,93 @@
             <!-- =========================================================================
                  SECTION 1 — BASIC INFORMATION
                  ========================================================================= -->
-            <div class="g-card section-header-card">
-                <h2>SECTION 1 — BASIC INFORMATION</h2>
-                <p>Core details about your company and current development stage.</p>
+            <div class="g-card section-header-card" data-section-num="1" data-section-name="Basic Information">
+                <div class="section-header-icon">
+                    <i data-lucide="sparkles" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div class="section-header-content">
+                    <h2>SECTION 1 — BASIC INFORMATION</h2>
+                    <p>Foundational company identity and current stage of development.</p>
+                </div>
             </div>
 
             <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">1. What is your brand name? <span class="q-req-star">*</span></div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="type"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">1. What is your brand name? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Enter the exact name as it should appear in your branding & trademarks.</div>
+                    </div>
+                </div>
                 <input type="text" id="entry_1521972625" name="entry.1521972625" class="g-input-underline" placeholder="Your answer" required>
             </div>
 
             <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">2. Do you have an existing website or social media links?</div>
-                <div class="q-desc">If yes, please share.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="globe"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">2. Do you have an existing website or social media links?</div>
+                        <div class="q-desc">If yes, please share links to your Instagram, website, or reference profiles.</div>
+                    </div>
+                </div>
                 <input type="text" id="entry_54569691" name="entry.54569691" class="g-input-underline" placeholder="Your answer">
             </div>
 
             <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">3. What product or service do you offer? <span class="q-req-star">*</span></div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="package"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">3. What product or service do you offer? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Explain your primary offering clearly so we understand the commercial core.</div>
+                    </div>
+                </div>
                 <textarea id="entry_89056443" name="entry.89056443" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">4. What stage is your brand currently in? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-radio-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="rocket"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">4. What stage is your brand currently in? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Select the development phase that best reflects your current status:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.854336900" value="A new brand" checked>
-                        <span class="g-option-label">A new brand</span>
+                        <span class="g-tile-visual"><i data-lucide="sprout"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">A new brand</span>
+                            <span class="g-tile-desc">Building a brand-new identity from ground zero</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.854336900" value="Rebranding an existing brand">
-                        <span class="g-option-label">Rebranding an existing brand</span>
+                        <span class="g-tile-visual"><i data-lucide="refresh-cw"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Rebranding an existing brand</span>
+                            <span class="g-tile-desc">Elevating, modernizing, or restructuring an active business</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.854336900" value="Startup">
-                        <span class="g-option-label">Startup</span>
+                        <span class="g-tile-visual"><i data-lucide="zap"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Startup</span>
+                            <span class="g-tile-desc">Fast-scaling venture preparing for market launch or funding</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.854336900" value="Personal brand">
-                        <span class="g-option-label">Personal brand</span>
+                        <span class="g-tile-visual"><i data-lucide="user"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Personal brand</span>
+                            <span class="g-tile-desc">Influential founder, executive, creator, or thought leader</span>
+                        </div>
                     </label>
                 </div>
             </div>
@@ -1049,462 +1263,862 @@
             <!-- =========================================================================
                  SECTION 2 — BRAND OVERVIEW
                  ========================================================================= -->
-            <div class="g-card section-header-card">
-                <h2>SECTION 2 — BRAND OVERVIEW</h2>
-                <p>Mission, vision, inspiration, and strategic objectives.</p>
+            <div class="g-card section-header-card" data-section-num="2" data-section-name="Brand Overview">
+                <div class="section-header-icon">
+                    <i data-lucide="compass" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div class="section-header-content">
+                    <h2>SECTION 2 — BRAND OVERVIEW</h2>
+                    <p>Mission, vision, inspiration, and strategic objectives.</p>
+                </div>
             </div>
 
             <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">1. What is the story behind your brand? <span class="q-req-star">*</span></div>
-                <div class="q-desc">Why did you start this business?</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="book-open"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">1. What is the story behind your brand? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Why did you start this business? What sparked the ambition?</div>
+                    </div>
+                </div>
+                <div class="studio-tip">
+                    <span class="studio-tip-icon"><i data-lucide="lightbulb"></i></span>
+                    <div class="studio-tip-text">
+                        <strong>Sidhan's Pro Tip:</strong> Great branding is grounded in authenticity. Don't worry about sounding polished; write from the heart about what drove you to build this.
+                    </div>
+                </div>
                 <textarea id="entry_66466776" name="entry.66466776" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">2. What inspired the name of your brand?</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="sparkles"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">2. What inspired the name of your brand?</div>
+                        <div class="q-desc">The meaning, cultural roots, wordplay, or symbolism behind the name.</div>
+                    </div>
+                </div>
                 <input type="text" id="entry_850314655" name="entry.850314655" class="g-input-underline" placeholder="Your answer">
             </div>
 
             <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">3. What problem does your product/service solve for your customers? <span class="q-req-star">*</span></div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="key"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">3. What problem does your product/service solve for your customers? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">What frustration, desire, or pain point do you resolve better than anyone?</div>
+                    </div>
+                </div>
                 <textarea id="entry_1720951003" name="entry.1720951003" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">4. What makes your brand different or better than your competitors? <span class="q-req-star">*</span></div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="shield-check"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">4. What makes your brand different or better than your competitors? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Your unique advantage, secret sauce, craftsmanship, or superior speed.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1219397370" name="entry.1219397370" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q5 -->
             <div class="g-card">
-                <div class="q-title">5. What are the main goals of your brand? <span class="q-req-star">*</span></div>
-                <div class="q-desc">For example: Build trust, increase sales, look professional, expand to global markets, etc.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="target"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">5. What are the main goals of your brand? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">For example: Build trust, increase sales, look professional, expand to global markets, etc.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1035738402" name="entry.1035738402" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q6 -->
             <div class="g-card">
-                <div class="q-title">6. Where do you see your brand in the next 3–5 years?</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="trending-up"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">6. Where do you see your brand in the next 3–5 years?</div>
+                        <div class="q-desc">Your vision of scale, market presence, new product lines, or flagship locations.</div>
+                    </div>
+                </div>
                 <textarea id="entry_820805609" name="entry.820805609" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
             <!-- Q7 -->
             <div class="g-card">
-                <div class="q-title">7. If your brand could speak to your audience, what core message would it share? <span class="q-req-star">*</span></div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="message-square"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">7. If your brand could speak to your audience, what core message would it share? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">The central promise or rallying cry that connects with people's minds.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1234135220" name="entry.1234135220" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- =========================================================================
                  SECTION 3 — TARGET AUDIENCE
                  ========================================================================= -->
-            <div class="g-card section-header-card">
-                <h2>SECTION 3 — TARGET AUDIENCE</h2>
-                <p>Demographics, psychographics, and geographic focus.</p>
+            <div class="g-card section-header-card" data-section-num="3" data-section-name="Target Audience">
+                <div class="section-header-icon">
+                    <i data-lucide="users" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div class="section-header-content">
+                    <h2>SECTION 3 — TARGET AUDIENCE</h2>
+                    <p>Demographics, psychographics, and geographic focus.</p>
+                </div>
             </div>
 
             <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">1. Who is your primary target audience? <span class="q-req-star">*</span></div>
-                <div class="q-desc">Who will buy your product or use your service?</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="crosshair"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">1. Who is your primary target audience? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Who will buy your product or use your service? (High-earners, young pros, families, B2B...)</div>
+                    </div>
+                </div>
                 <textarea id="entry_1773681969" name="entry.1773681969" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">2. What is the age group of your audience? <span class="q-req-star">*</span></div>
-                <div class="q-desc">e.g., 18–24, 25–35, 35–50, etc.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="calendar"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">2. What is the age group of your audience? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">e.g., 18–24, 25–35, 35–50, etc.</div>
+                    </div>
+                </div>
                 <input type="text" id="entry_1449430324" name="entry.1449430324" class="g-input-underline" placeholder="Your answer" required>
             </div>
 
             <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">3. What is the gender focus of your audience? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-radio-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="user-check"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">3. What is the gender focus of your audience? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Select the primary demographic orientation:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1432340557" value="Both" checked>
-                        <span class="g-option-label">Both</span>
+                        <span class="g-tile-visual"><i data-lucide="users"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Both</span>
+                            <span class="g-tile-desc">Balanced appeal across all genders</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1432340557" value="MALE">
-                        <span class="g-option-label">MALE</span>
+                        <span class="g-tile-visual"><i data-lucide="user"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">MALE</span>
+                            <span class="g-tile-desc">Focused predominantly on male consumers</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1432340557" value="Female">
-                        <span class="g-option-label">Female</span>
+                        <span class="g-tile-visual"><i data-lucide="user"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Female</span>
+                            <span class="g-tile-desc">Focused predominantly on female consumers</span>
+                        </div>
                     </label>
                 </div>
             </div>
 
             <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">4. What does your ideal customer do, like, or care about? <span class="q-req-star">*</span></div>
-                <div class="q-desc">Describe their lifestyle, profession, interests, or habits.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="coffee"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">4. What does your ideal customer do, like, or care about? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Describe their lifestyle, profession, interests, or habits.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1052678168" name="entry.1052678168" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q5 -->
             <div class="g-card">
-                <div class="q-title">5. What emotional feeling should your brand create for your customers? <span class="q-req-star">*</span></div>
-                <div class="q-desc">e.g., Confidence, excitement, comfort, luxury, trust, happiness.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="heart"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">5. What emotional feeling should your brand create for your customers? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">e.g., Confidence, excitement, comfort, luxury, trust, happiness.</div>
+                    </div>
+                </div>
                 <textarea id="entry_2056083537" name="entry.2056083537" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q6 -->
             <div class="g-card">
-                <div class="q-title">6. Which country/region is your primary market? <span class="q-req-star">*</span></div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="map-pin"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">6. Which country/region is your primary market? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">e.g., UAE / Dubai, Saudi Arabia, Qatar, India, UK, USA, or Global.</div>
+                    </div>
+                </div>
                 <input type="text" id="entry_1034928443" name="entry.1034928443" class="g-input-underline" placeholder="Your answer" required>
             </div>
 
             <!-- =========================================================================
                  SECTION 4 — BRAND PERSONALITY & TONE
                  ========================================================================= -->
-            <div class="g-card section-header-card">
-                <h2>SECTION 4 — BRAND PERSONALITY & TONE</h2>
-                <p>Tone of voice, archetype, and stylistic character.</p>
+            <div class="g-card section-header-card" data-section-num="4" data-section-name="Brand Personality">
+                <div class="section-header-icon">
+                    <i data-lucide="palette" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div class="section-header-content">
+                    <h2>SECTION 4 — BRAND PERSONALITY & TONE</h2>
+                    <p>Tone of voice, archetype, and stylistic character.</p>
+                </div>
             </div>
 
             <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">1. If your brand were a person, how would you describe their personality? <span class="q-req-star">*</span></div>
-                <div class="q-desc">Friendly, serious, luxurious, modern, energetic, creative, trustworthy, etc.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="smile"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">1. If your brand were a person, how would you describe their personality? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Friendly, serious, luxurious, modern, energetic, creative, trustworthy, etc.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1740452696" name="entry.1740452696" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">2. Which words best describe your brand? (Select up to 5) <span class="q-req-star">*</span></div>
-                <div class="g-options-list" id="words-checkbox-group">
-                    <label class="g-check-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="award"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">2. Which words best describe your brand? (Select up to 5) <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Click tiles to toggle the traits that define your identity:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2" id="words-checkbox-group">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Premium">
-                        <span class="g-option-label">Premium</span>
+                        <span class="g-tile-visual"><i data-lucide="star"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Premium</span>
+                            <span class="g-tile-desc">High quality, refined, elevated</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Minimal">
-                        <span class="g-option-label">Minimal</span>
+                        <span class="g-tile-visual"><i data-lucide="minus"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Minimal</span>
+                            <span class="g-tile-desc">Simple, spacious, uncluttered</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Luxury">
-                        <span class="g-option-label">Luxury</span>
+                        <span class="g-tile-visual"><i data-lucide="crown"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Luxury</span>
+                            <span class="g-tile-desc">Exclusive, bespoke, prestigious</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Modern">
-                        <span class="g-option-label">Modern</span>
+                        <span class="g-tile-visual"><i data-lucide="zap"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Modern</span>
+                            <span class="g-tile-desc">Current, sleek, contemporary</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Vintage">
-                        <span class="g-option-label">Vintage</span>
+                        <span class="g-tile-visual"><i data-lucide="clock"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Vintage</span>
+                            <span class="g-tile-desc">Heritage, timeless, nostalgic</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Bold">
-                        <span class="g-option-label">Bold</span>
+                        <span class="g-tile-visual"><i data-lucide="flame"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Bold</span>
+                            <span class="g-tile-desc">Impactful, fearless, standout</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Elegant">
-                        <span class="g-option-label">Elegant</span>
+                        <span class="g-tile-visual"><i data-lucide="gem"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Elegant</span>
+                            <span class="g-tile-desc">Graceful, tasteful, sophisticated</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Playful">
-                        <span class="g-option-label">Playful</span>
+                        <span class="g-tile-visual"><i data-lucide="smile"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Playful</span>
+                            <span class="g-tile-desc">Fun, energetic, approachable</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Professional">
-                        <span class="g-option-label">Professional</span>
+                        <span class="g-tile-visual"><i data-lucide="briefcase"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Professional</span>
+                            <span class="g-tile-desc">Credible, corporate, dependable</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Emotional">
-                        <span class="g-option-label">Emotional</span>
+                        <span class="g-tile-visual"><i data-lucide="heart"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Emotional</span>
+                            <span class="g-tile-desc">Heartfelt, poignant, moving</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Creative">
-                        <span class="g-option-label">Creative</span>
+                        <span class="g-tile-visual"><i data-lucide="wand-2"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Creative</span>
+                            <span class="g-tile-desc">Inventive, artistic, original</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Friendly">
-                        <span class="g-option-label">Friendly</span>
+                        <span class="g-tile-visual"><i data-lucide="coffee"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Friendly</span>
+                            <span class="g-tile-desc">Warm, welcoming, community-led</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Masculine">
-                        <span class="g-option-label">Masculine</span>
+                        <span class="g-tile-visual"><i data-lucide="mountain"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Masculine</span>
+                            <span class="g-tile-desc">Strong, robust, structured</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Feminine">
-                        <span class="g-option-label">Feminine</span>
+                        <span class="g-tile-visual"><i data-lucide="flower-2"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Feminine</span>
+                            <span class="g-tile-desc">Delicate, soft, poetic</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Futuristic">
-                        <span class="g-option-label">Futuristic</span>
+                        <span class="g-tile-visual"><i data-lucide="orbit"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Futuristic</span>
+                            <span class="g-tile-desc">Tech-forward, visionary, sci-fi</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.726000006" value="Clean">
-                        <span class="g-option-label">Clean</span>
+                        <span class="g-tile-visual"><i data-lucide="sparkles"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Clean</span>
+                            <span class="g-tile-desc">Crisp, orderly, seamless</span>
+                        </div>
                     </label>
                     <!-- Other Option -->
-                    <div class="g-other-row">
-                        <label class="g-check-row" style="margin-bottom: 0;">
-                            <input type="checkbox" name="entry.726000006" value="__other_option__" id="other_cb_726000006">
-                            <span class="g-option-label">Other:</span>
-                        </label>
-                        <input type="text" class="g-other-text" data-entry="entry.726000006" placeholder="Your answer">
-                    </div>
+                    <label class="g-option-tile g-other-tile" style="grid-column: 1 / -1;">
+                        <input type="checkbox" name="entry.726000006" value="__other_option__" id="other_cb_726000006">
+                        <span class="g-tile-visual"><i data-lucide="plus"></i></span>
+                        <span style="font-weight: 700; font-size: 0.95rem; margin-right: 4px;">Other:</span>
+                        <input type="text" class="g-other-text" data-entry="entry.726000006" placeholder="Add custom trait...">
+                    </label>
                 </div>
                 <div class="selection-counter" id="words-counter">Selected: 0 / 5</div>
             </div>
 
             <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">3. What tone of voice should your brand use? <span class="q-req-star">*</span></div>
-                <div class="q-desc">e.g., Professional, friendly, bold, casual, inspiring, authoritative.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="volume-2"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">3. What tone of voice should your brand use? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">e.g., Professional, friendly, bold, casual, inspiring, authoritative.</div>
+                    </div>
+                </div>
                 <input type="text" id="entry_703871801" name="entry.703871801" class="g-input-underline" placeholder="Your answer" required>
             </div>
 
             <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">4. Are there any existing brands whose vibe or design you admire?</div>
-                <div class="q-desc">Please mention the brand names and what you like about them.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="eye"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">4. Are there any existing brands whose vibe or design you admire?</div>
+                        <div class="q-desc">Please mention the brand names and what you like about them (e.g. Apple, Aesop, Nike, Porsche).</div>
+                    </div>
+                </div>
                 <textarea id="entry_1087755955" name="entry.1087755955" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
             <!-- Q5 -->
             <div class="g-card">
-                <div class="q-title">5. What type of feeling or aesthetic do you imagine for your brand? <span class="q-req-star">*</span></div>
-                <div class="q-desc">Minimalist, colorful, dark & moody, bright & clean, artistic, etc.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="layers"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">5. What type of feeling or aesthetic do you imagine for your brand? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Minimalist, colorful, dark & moody, bright & clean, artistic, etc.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1870790955" name="entry.1870790955" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- =========================================================================
                  SECTION 5 — LOGO & VISUAL IDENTITY
                  ========================================================================= -->
-            <div class="g-card section-header-card">
-                <h2>SECTION 5 — LOGO & VISUAL IDENTITY PREFERENCES</h2>
-                <p>Logotype, symbol preferences, colors, and design density.</p>
+            <div class="g-card section-header-card" data-section-num="5" data-section-name="Logo & Identity">
+                <div class="section-header-icon">
+                    <i data-lucide="pen-tool" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div class="section-header-content">
+                    <h2>SECTION 5 — LOGO & VISUAL IDENTITY PREFERENCES</h2>
+                    <p>Logotype architecture, symbols, colors, and design density.</p>
+                </div>
             </div>
 
             <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">1. Do you currently have a logo? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-radio-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="shield"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">1. Do you currently have a logo? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Are we creating from scratch or refining an existing asset?</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1494830036" value="No" checked>
-                        <span class="g-option-label">No</span>
+                        <span class="g-tile-visual"><i data-lucide="sparkles"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">No</span>
+                            <span class="g-tile-desc">Starting completely brand new</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1494830036" value="Yes">
-                        <span class="g-option-label">Yes</span>
+                        <span class="g-tile-visual"><i data-lucide="refresh-cw"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Yes</span>
+                            <span class="g-tile-desc">Existing logo seeking strategic redesign or refinement</span>
+                        </div>
                     </label>
                 </div>
             </div>
 
-            <!-- Q2 -->
+            <!-- Q2 — VISUAL LOGO TYPE SELECTOR -->
             <div class="g-card">
-                <div class="q-title">2. What type of logo do you prefer? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-radio-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="shapes"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">2. What type of logo do you prefer? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Visual architecture guidelines for your primary brand mark:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.554797467" value="Wordmark" checked>
-                        <span class="g-option-label">Wordmark</span>
+                        <span class="g-tile-visual" style="font-family: var(--font-head); font-weight: 800;">Aa</span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Wordmark</span>
+                            <span class="g-tile-desc">Stylized typographic mark of your name (e.g. SONY, Google, Zara)</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.554797467" value="Symbol/Icon">
-                        <span class="g-option-label">Symbol/Icon</span>
+                        <span class="g-tile-visual"><i data-lucide="target"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Symbol/Icon</span>
+                            <span class="g-tile-desc">Standalone iconic or pictorial glyph (e.g. Apple, Nike, Twitter)</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.554797467" value="Monogram">
-                        <span class="g-option-label">Monogram</span>
+                        <span class="g-tile-visual" style="font-family: var(--font-head); font-weight: 800;">MS</span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Monogram</span>
+                            <span class="g-tile-desc">Intertwined lettermark from initials (e.g. Louis Vuitton, Chanel, NASA)</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.554797467" value="Combination Mark">
-                        <span class="g-option-label">Combination Mark</span>
+                        <span class="g-tile-visual"><i data-lucide="layers"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Combination Mark</span>
+                            <span class="g-tile-desc">Icon paired with wordmark typography (e.g. Adidas, Mastercard)</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.554797467" value="Emblem">
-                        <span class="g-option-label">Emblem</span>
+                        <span class="g-tile-visual"><i data-lucide="shield"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Emblem</span>
+                            <span class="g-tile-desc">Badge, crest, or seal enclosing text (e.g. Porsche, Starbucks, BMW)</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.554797467" value="Unsure">
-                        <span class="g-option-label">Unsure</span>
+                        <span class="g-tile-visual"><i data-lucide="help-circle"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Unsure</span>
+                            <span class="g-tile-desc">Let Muhammed Sidhan advise the optimal identity architecture</span>
+                        </div>
                     </label>
                 </div>
             </div>
 
             <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">3. Are there specific symbols, elements, or icons you want in the logo?</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="plus-circle"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">3. Are there specific symbols, elements, or icons you want in the logo?</div>
+                        <div class="q-desc">e.g., Celestial ring, leaf, wave, shield, geometric monogram, animal silhouette.</div>
+                    </div>
+                </div>
                 <textarea id="entry_596838607" name="entry.596838607" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
             <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">4. Are there any symbols, elements, or colors you DO NOT want to use?</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="slash"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">4. Are there any symbols, elements, or colors you DO NOT want to use?</div>
+                        <div class="q-desc">e.g., No neon green, avoid cartoonish icons, avoid gradients, no serif fonts.</div>
+                    </div>
+                </div>
                 <textarea id="entry_77259235" name="entry.77259235" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
             <!-- Q5 -->
             <div class="g-card">
-                <div class="q-title">5. What colors do you prefer for your brand?</div>
-                <div class="q-desc">If you have specific color preferences, please describe them.</div>
-                <textarea id="entry_1926740340" name="entry.1926740340" class="g-textarea" placeholder="Your answer"></textarea>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="droplet"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">5. What colors do you prefer for your brand?</div>
+                        <div class="q-desc">If you have specific color preferences, please describe them or click an inspirator below:</div>
+                    </div>
+                </div>
+                <textarea id="entry_1926740340" name="entry.1926740340" class="g-textarea" placeholder="e.g. Deep obsidian black, royal violet, champagne gold, or warm earth tones..."></textarea>
+                <div class="color-presets-row">
+                    <span class="color-preset-pill" onclick="addColorPreset('Obsidian Black & Champagne Gold')">
+                        <span class="preset-dots"><span class="preset-dot" style="background:#111;"></span><span class="preset-dot" style="background:#d4af37;"></span></span>
+                        Obsidian & Gold
+                    </span>
+                    <span class="color-preset-pill" onclick="addColorPreset('Royal Violet & Electric Lavender')">
+                        <span class="preset-dots"><span class="preset-dot" style="background:#673ab7;"></span><span class="preset-dot" style="background:#d8b4fe;"></span></span>
+                        Royal Violet & Lavender
+                    </span>
+                    <span class="color-preset-pill" onclick="addColorPreset('Midnight Navy & Crisp Pure White')">
+                        <span class="preset-dots"><span class="preset-dot" style="background:#0f172a;"></span><span class="preset-dot" style="background:#f8fafc;"></span></span>
+                        Midnight Navy & White
+                    </span>
+                    <span class="color-preset-pill" onclick="addColorPreset('Emerald Forest & Warm Terracotta')">
+                        <span class="preset-dots"><span class="preset-dot" style="background:#064e3b;"></span><span class="preset-dot" style="background:#c2410c;"></span></span>
+                        Emerald & Terracotta
+                    </span>
+                    <span class="color-preset-pill" onclick="addColorPreset('Minimalist Monochrome (Greyscale & Black)')">
+                        <span class="preset-dots"><span class="preset-dot" style="background:#000;"></span><span class="preset-dot" style="background:#6b7280;"></span></span>
+                        Minimalist Monochrome
+                    </span>
+                </div>
             </div>
 
             <!-- Q6 -->
             <div class="g-card">
-                <div class="q-title">6. Do you prefer a minimal design or something more detailed? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-radio-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="sliders"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">6. Do you prefer a minimal design or something more detailed? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Visual density preference across your packaging and touchpoints:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1897757883" value="Minimal Design" checked>
-                        <span class="g-option-label">Minimal Design</span>
+                        <span class="g-tile-visual"><i data-lucide="minimize-2"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Minimal Design</span>
+                            <span class="g-tile-desc">High breathing room, spacious, reductionist elegance</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1897757883" value="Detailed Design">
-                        <span class="g-option-label">Detailed Design</span>
+                        <span class="g-tile-visual"><i data-lucide="maximize-2"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Detailed Design</span>
+                            <span class="g-tile-desc">Rich graphics, ornamental flourishes, intricate layers</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1897757883" value="Luxury Style">
-                        <span class="g-option-label">Luxury Style</span>
+                        <span class="g-tile-visual"><i data-lucide="crown"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Luxury Style</span>
+                            <span class="g-tile-desc">Opulent materials, subtle embossing, refined prestige</span>
+                        </div>
                     </label>
                     <!-- Other Option -->
-                    <div class="g-other-row">
-                        <label class="g-radio-row" style="margin-bottom: 0;">
-                            <input type="radio" name="entry.1897757883" value="__other_option__" id="other_radio_1897757883">
-                            <span class="g-option-label">Other:</span>
-                        </label>
-                        <input type="text" class="g-other-text" data-entry="entry.1897757883" placeholder="Your answer">
-                    </div>
+                    <label class="g-option-tile g-other-tile">
+                        <input type="radio" name="entry.1897757883" value="__other_option__" id="other_radio_1897757883">
+                        <span class="g-tile-visual"><i data-lucide="edit-3"></i></span>
+                        <span style="font-weight: 700; font-size: 0.95rem; margin-right: 4px;">Other:</span>
+                        <input type="text" class="g-other-text" data-entry="entry.1897757883" placeholder="Custom aesthetic preference...">
+                    </label>
                 </div>
             </div>
 
             <!-- =========================================================================
                  SECTION 6 — COMPETITORS & MARKET
                  ========================================================================= -->
-            <div class="g-card section-header-card">
-                <h2>SECTION 6 — COMPETITOR & MARKET RESEARCH</h2>
-                <p>Market landscape, positioning tier, and competitor benchmarks.</p>
+            <div class="g-card section-header-card" data-section-num="6" data-section-name="Market & Competitors">
+                <div class="section-header-icon">
+                    <i data-lucide="bar-chart-2" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div class="section-header-content">
+                    <h2>SECTION 6 — COMPETITOR & MARKET RESEARCH</h2>
+                    <p>Market landscape, positioning tier, and competitor benchmarks.</p>
+                </div>
             </div>
 
             <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">1. Who are your top 2–3 competitors? <span class="q-req-star">*</span></div>
-                <div class="q-desc">Please mention their brand names or links.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="crosshair"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">1. Who are your top 2–3 competitors? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Please mention their brand names or links so we can perform comparative visual audits.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1588766165" name="entry.1588766165" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">2. What do you like or dislike about your competitors' branding? <span class="q-req-star">*</span></div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="thumbs-up"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">2. What do you like or dislike about your competitors' branding? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">What do they execute well, and where are they falling short?</div>
+                    </div>
+                </div>
                 <textarea id="entry_1239299568" name="entry.1239299568" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">3. What makes your brand unique compared to them? <span class="q-req-star">*</span></div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="zap"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">3. What makes your brand unique compared to them? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">The key distinction that allows us to carve out a category of one.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1320178685" name="entry.1320178685" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">4. Where do you see your brand positioning in the market? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-check-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="trending-up"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">4. Where do you see your brand positioning in the market? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">The commercial tier and price/value perception of your brand:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.2047112130" value="Affordable">
-                        <span class="g-option-label">Affordable</span>
+                        <span class="g-tile-visual"><i data-lucide="shopping-bag"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Affordable</span>
+                            <span class="g-tile-desc">Accessible mass-market pricing and high-volume reach</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.2047112130" value="Mid-range">
-                        <span class="g-option-label">Mid-range</span>
+                        <span class="g-tile-visual"><i data-lucide="trending-up"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Mid-range</span>
+                            <span class="g-tile-desc">Balanced quality and competitive mainstream appeal</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.2047112130" value="Premium">
-                        <span class="g-option-label">Premium</span>
+                        <span class="g-tile-visual"><i data-lucide="star"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Premium</span>
+                            <span class="g-tile-desc">Elevated craftsmanship, boutique appeal, discerning clientele</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.2047112130" value="Luxury">
-                        <span class="g-option-label">Luxury</span>
+                        <span class="g-tile-visual"><i data-lucide="crown"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Luxury</span>
+                            <span class="g-tile-desc">High-ticket exclusivity, ultra-prestige, world-class stature</span>
+                        </div>
                     </label>
                     <!-- Other Option -->
-                    <div class="g-other-row">
-                        <label class="g-check-row" style="margin-bottom: 0;">
-                            <input type="checkbox" name="entry.2047112130" value="__other_option__" id="other_cb_2047112130">
-                            <span class="g-option-label">Other:</span>
-                        </label>
-                        <input type="text" class="g-other-text" data-entry="entry.2047112130" placeholder="Your answer">
-                    </div>
+                    <label class="g-option-tile g-other-tile" style="grid-column: 1 / -1;">
+                        <input type="checkbox" name="entry.2047112130" value="__other_option__" id="other_cb_2047112130">
+                        <span class="g-tile-visual"><i data-lucide="plus"></i></span>
+                        <span style="font-weight: 700; font-size: 0.95rem; margin-right: 4px;">Other:</span>
+                        <input type="text" class="g-other-text" data-entry="entry.2047112130" placeholder="Custom market tier...">
+                    </label>
                 </div>
             </div>
 
             <!-- =========================================================================
                  SECTION 7 — SOCIAL MEDIA & ONLINE PRESENCE
                  ========================================================================= -->
-            <div class="g-card section-header-card">
-                <h2>SECTION 7 — SOCIAL MEDIA & ONLINE PRESENCE</h2>
-                <p>Digital channels, content pillars, and visual grid consistency.</p>
+            <div class="g-card section-header-card" data-section-num="7" data-section-name="Digital Presence">
+                <div class="section-header-icon">
+                    <i data-lucide="share-2" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div class="section-header-content">
+                    <h2>SECTION 7 — SOCIAL MEDIA & ONLINE PRESENCE</h2>
+                    <p>Digital channels, content pillars, and visual grid consistency.</p>
+                </div>
             </div>
 
             <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">1. Which platforms will your brand be active on? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-check-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="smartphone"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">1. Which platforms will your brand be active on? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Select all touchpoints where your brand will interact with customers:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1311960900" value="Instagram">
-                        <span class="g-option-label">Instagram</span>
+                        <span class="g-tile-visual"><i data-lucide="instagram"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Instagram</span>
+                            <span class="g-tile-desc">Visual grid, reels, carousels & stories</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1311960900" value="LinkedIn">
-                        <span class="g-option-label">LinkedIn</span>
+                        <span class="g-tile-visual"><i data-lucide="linkedin"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">LinkedIn</span>
+                            <span class="g-tile-desc">B2B authority, leadership & corporate outreach</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1311960900" value="Facebook">
-                        <span class="g-option-label">Facebook</span>
+                        <span class="g-tile-visual"><i data-lucide="facebook"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Facebook</span>
+                            <span class="g-tile-desc">Community building, groups & performance ads</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1311960900" value="YouTube">
-                        <span class="g-option-label">YouTube</span>
+                        <span class="g-tile-visual"><i data-lucide="youtube"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">YouTube</span>
+                            <span class="g-tile-desc">Long-form video, podcasts & cinematic shorts</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1311960900" value="Website">
-                        <span class="g-option-label">Website</span>
+                        <span class="g-tile-visual"><i data-lucide="globe"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Website</span>
+                            <span class="g-tile-desc">E-commerce, conversion landing page & brand home</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1311960900" value="TikTok">
-                        <span class="g-option-label">TikTok</span>
+                        <span class="g-tile-visual"><i data-lucide="music-2"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">TikTok</span>
+                            <span class="g-tile-desc">Viral short-form video, trends & creator content</span>
+                        </div>
                     </label>
                     <!-- Other Option -->
-                    <div class="g-other-row">
-                        <label class="g-check-row" style="margin-bottom: 0;">
-                            <input type="checkbox" name="entry.1311960900" value="__other_option__" id="other_cb_1311960900">
-                            <span class="g-option-label">Other:</span>
-                        </label>
-                        <input type="text" class="g-other-text" data-entry="entry.1311960900" placeholder="Your answer">
-                    </div>
+                    <label class="g-option-tile g-other-tile" style="grid-column: 1 / -1;">
+                        <input type="checkbox" name="entry.1311960900" value="__other_option__" id="other_cb_1311960900">
+                        <span class="g-tile-visual"><i data-lucide="plus"></i></span>
+                        <span style="font-weight: 700; font-size: 0.95rem; margin-right: 4px;">Other:</span>
+                        <input type="text" class="g-other-text" data-entry="entry.1311960900" placeholder="X / Twitter, Pinterest, Threads, WhatsApp Channel...">
+                    </label>
                 </div>
             </div>
 
             <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">2. What type of content will you share the most?</div>
-                <div class="q-desc">e.g., Educational posts, reels/videos, product showcases, quotes, portfolio work.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="file-text"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">2. What type of content will you share the most?</div>
+                        <div class="q-desc">e.g., Educational posts, reels/videos, product showcases, quotes, portfolio work.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1074356999" name="entry.1074356999" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
             <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">3. What visual style do you want for your social media?</div>
-                <div class="q-desc">Clean grid, dark theme, vibrant colors, aesthetic typography, etc.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="layout"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">3. What visual style do you want for your social media?</div>
+                        <div class="q-desc">Clean grid, dark theme, vibrant colors, aesthetic typography, etc.</div>
+                    </div>
+                </div>
                 <textarea id="entry_1310025804" name="entry.1310025804" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
             <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">4. Do you need a consistent visual theme for your posts & stories? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-radio-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="check-circle-2"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">4. Do you need a consistent visual theme for your posts & stories? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Unified design templates vs flexible channel styling:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1315593454" value="Yes" checked>
-                        <span class="g-option-label">Yes</span>
+                        <span class="g-tile-visual"><i data-lucide="check"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Yes</span>
+                            <span class="g-tile-desc">100% unified visual design system across all touchpoints</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.1315593454" value="No">
-                        <span class="g-option-label">No</span>
+                        <span class="g-tile-visual"><i data-lucide="x"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">No</span>
+                            <span class="g-tile-desc">Flexible, adaptable look tailored per platform</span>
+                        </div>
                     </label>
                 </div>
             </div>
@@ -1512,89 +2126,153 @@
             <!-- =========================================================================
                  SECTION 8 — PROJECT SCOPE & EXPECTATIONS
                  ========================================================================= -->
-            <div class="g-card section-header-card">
-                <h2>SECTION 8 — PROJECT SCOPE & EXPECTATIONS</h2>
-                <p>Deliverables, services needed, and launch milestone dates.</p>
+            <div class="g-card section-header-card" data-section-num="8" data-section-name="Project Scope">
+                <div class="section-header-icon">
+                    <i data-lucide="briefcase" style="width: 26px; height: 26px;"></i>
+                </div>
+                <div class="section-header-content">
+                    <h2>SECTION 8 — PROJECT SCOPE & EXPECTATIONS</h2>
+                    <p>Deliverables, services needed, and launch milestone dates.</p>
+                </div>
             </div>
 
-            <!-- Q1 (Exact from user's screenshot) -->
+            <!-- Q1 (Exact from user's screenshot with rich visual tiles) -->
             <div class="g-card">
-                <div class="q-title">1. What services do you need? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-check-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="layers"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">1. What services do you need? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Select all creative disciplines required for your brand project:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1240339524" value="Logo Design">
-                        <span class="g-option-label">Logo Design</span>
+                        <span class="g-tile-visual"><i data-lucide="pen-tool"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Logo Design</span>
+                            <span class="g-tile-desc">Custom logo mark, typography lockups & vector source files</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1240339524" value="Brand Identity">
-                        <span class="g-option-label">Brand Identity</span>
+                        <span class="g-tile-visual"><i data-lucide="palette"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Brand Identity</span>
+                            <span class="g-tile-desc">Color palette, font pairings, stationery, textures & patterns</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1240339524" value="Brand Guidelines">
-                        <span class="g-option-label">Brand Guidelines</span>
+                        <span class="g-tile-visual"><i data-lucide="book-open"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Brand Guidelines</span>
+                            <span class="g-tile-desc">Comprehensive brand style book & usage rules manual</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1240339524" value="Packaging Design">
-                        <span class="g-option-label">Packaging Design</span>
+                        <span class="g-tile-visual"><i data-lucide="package"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Packaging Design</span>
+                            <span class="g-tile-desc">Product boxes, unboxing experience, bottle labels & pouches</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1240339524" value="Social Media Design">
-                        <span class="g-option-label">Social Media Design</span>
+                        <span class="g-tile-visual"><i data-lucide="smartphone"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Social Media Design</span>
+                            <span class="g-tile-desc">9-grid feed layouts, post templates, highlights & story kits</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1240339524" value="Website Design">
-                        <span class="g-option-label">Website Design</span>
+                        <span class="g-tile-visual"><i data-lucide="monitor"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Website Design</span>
+                            <span class="g-tile-desc">Modern UI/UX web design, mobile responsiveness & development</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1240339524" value="Motion Graphics">
-                        <span class="g-option-label">Motion Graphics</span>
+                        <span class="g-tile-visual"><i data-lucide="film"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Motion Graphics</span>
+                            <span class="g-tile-desc">Animated logo intro, kinetic typography & visual stings</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1240339524" value="Video Editing">
-                        <span class="g-option-label">Video Editing</span>
+                        <span class="g-tile-visual"><i data-lucide="video"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Video Editing</span>
+                            <span class="g-tile-desc">High-production brand films, reels cutting & color grading</span>
+                        </div>
                     </label>
-                    <label class="g-check-row">
+                    <label class="g-option-tile">
                         <input type="checkbox" name="entry.1240339524" value="Print Design">
-                        <span class="g-option-label">Print Design</span>
+                        <span class="g-tile-visual"><i data-lucide="printer"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Print Design</span>
+                            <span class="g-tile-desc">Business cards, menus, flyers, lookbooks & signage</span>
+                        </div>
                     </label>
                     <!-- Other Option -->
-                    <div class="g-other-row">
-                        <label class="g-check-row" style="margin-bottom: 0;">
-                            <input type="checkbox" name="entry.1240339524" value="__other_option__" id="other_cb_1240339524">
-                            <span class="g-option-label">Other:</span>
-                        </label>
-                        <input type="text" class="g-other-text" data-entry="entry.1240339524" placeholder="Your answer">
-                    </div>
+                    <label class="g-option-tile g-other-tile">
+                        <input type="checkbox" name="entry.1240339524" value="__other_option__" id="other_cb_1240339524">
+                        <span class="g-tile-visual"><i data-lucide="plus"></i></span>
+                        <span style="font-weight: 700; font-size: 0.95rem; margin-right: 4px;">Other:</span>
+                        <input type="text" class="g-other-text" data-entry="entry.1240339524" placeholder="Custom creative scope...">
+                    </label>
                 </div>
             </div>
 
             <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">2. What specific deliverables are you expecting? <span class="q-req-star">*</span></div>
-                <div class="q-desc">e.g., Logo files, brand book, social media templates, business cards, packaging mockups, etc.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="check-square"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">2. What specific deliverables are you expecting? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">e.g., Logo files (AI, EPS, SVG, PNG), brand book PDF, social media Figma templates, print-ready packaging.</div>
+                    </div>
+                </div>
                 <textarea id="entry_144580768" name="entry.144580768" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">3. Do you have a specific deadline for this project? <span class="q-req-star">*</span></div>
-                <div class="g-options-list">
-                    <label class="g-radio-row">
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="clock"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">3. Do you have a specific deadline for this project? <span class="q-req-star">*</span></div>
+                        <div class="q-desc">Launch timing or campaign milestone targets:</div>
+                    </div>
+                </div>
+                <div class="tiles-grid-2">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.264083599" value="No" checked>
-                        <span class="g-option-label">No</span>
+                        <span class="g-tile-visual"><i data-lucide="clock"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">No</span>
+                            <span class="g-tile-desc">Flexible timeline focused purely on craftsmanship</span>
+                        </div>
                     </label>
-                    <label class="g-radio-row">
+                    <label class="g-option-tile">
                         <input type="radio" name="entry.264083599" value="Yes">
-                        <span class="g-option-label">Yes</span>
+                        <span class="g-tile-visual"><i data-lucide="calendar"></i></span>
+                        <div class="g-tile-content">
+                            <span class="g-tile-title">Yes</span>
+                            <span class="g-tile-desc">Specific target launch date or event milestone</span>
+                        </div>
                     </label>
                     <!-- Other Option -->
-                    <div class="g-other-row">
-                        <label class="g-radio-row" style="margin-bottom: 0;">
-                            <input type="radio" name="entry.264083599" value="__other_option__" id="other_radio_264083599">
-                            <span class="g-option-label">Other:</span>
-                        </label>
-                        <input type="text" class="g-other-text" data-entry="entry.264083599" placeholder="Your answer">
-                    </div>
+                    <label class="g-option-tile g-other-tile" style="grid-column: 1 / -1;">
+                        <input type="radio" name="entry.264083599" value="__other_option__" id="other_radio_264083599">
+                        <span class="g-tile-visual"><i data-lucide="edit-3"></i></span>
+                        <span style="font-weight: 700; font-size: 0.95rem; margin-right: 4px;">Other:</span>
+                        <input type="text" class="g-other-text" data-entry="entry.264083599" placeholder="Custom timeframe or milestone notes...">
+                    </label>
                 </div>
                 <div style="margin-top: 14px;">
                     <input type="text" id="deadline_date" name="deadline_date" class="g-input-underline" placeholder="If yes, please enter your target date (e.g. Nov 15, 2026)">
@@ -1603,8 +2281,13 @@
 
             <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">4. Is there anything else you would like to share with the designer?</div>
-                <div class="q-desc">Any special requirements, ideas, or references.</div>
+                <div class="q-header-row">
+                    <span class="q-icon-badge"><i data-lucide="message-square"></i></span>
+                    <div class="q-title-wrap">
+                        <div class="q-title">4. Is there anything else you would like to share with the designer?</div>
+                        <div class="q-desc">Any special requirements, ideas, visionary references, or specific questions.</div>
+                    </div>
+                </div>
                 <textarea id="entry_507504509" name="entry.507504509" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
@@ -1692,6 +2375,7 @@
                     showToast('You can select up to 5 words.');
                 }
                 updateWordsCounter();
+                updateProgress();
                 saveDraft();
             });
         });
@@ -1704,6 +2388,20 @@
             }
         }
 
+        // Color preset appender
+        function addColorPreset(presetName) {
+            const ta = document.getElementById('entry_1926740340');
+            if (!ta) return;
+            if (!ta.value.trim()) {
+                ta.value = presetName;
+            } else if (!ta.value.includes(presetName)) {
+                ta.value += `, ${presetName}`;
+            }
+            saveDraft();
+            updateProgress();
+            showToast(`Added palette: ${presetName}`);
+        }
+
         // Automatic interaction for "Other:" inputs (like native Google Forms)
         document.querySelectorAll('.g-other-text').forEach(input => {
             input.addEventListener('focus', () => {
@@ -1712,6 +2410,7 @@
                 if (trigger && !trigger.checked) {
                     trigger.checked = true;
                     updateWordsCounter();
+                    updateProgress();
                     saveDraft();
                 }
             });
@@ -1722,6 +2421,7 @@
                     trigger.checked = true;
                     updateWordsCounter();
                 }
+                updateProgress();
                 saveDraft();
             });
         });
@@ -1733,11 +2433,72 @@
                     const otherInput = document.querySelector(`.g-other-text[data-entry="${entryId}"]`);
                     if (otherInput) otherInput.focus();
                 }
+                updateProgress();
                 saveDraft();
             });
         });
 
-        // Comprehensive Data Collector (Supports radio, multi-checkbox arrays, and Google Form Other: write-ins)
+        // Dynamic Progress Calculation
+        function updateProgress() {
+            const totalRequired = 30; // Core questions
+            let answered = 0;
+
+            const d = collectData();
+            if (d['entry.1521972625']) answered++;
+            if (d['entry.89056443']) answered++;
+            if (d['entry.854336900']) answered++;
+            if (d['entry.66466776']) answered++;
+            if (d['entry.1720951003']) answered++;
+            if (d['entry.1219397370']) answered++;
+            if (d['entry.1035738402']) answered++;
+            if (d['entry.1234135220']) answered++;
+            if (d['entry.1773681969']) answered++;
+            if (d['entry.1449430324']) answered++;
+            if (d['entry.1432340557']) answered++;
+            if (d['entry.1052678168']) answered++;
+            if (d['entry.2056083537']) answered++;
+            if (d['entry.1034928443']) answered++;
+            if (d['entry.1740452696']) answered++;
+            if (d['entry.726000006'] && d['entry.726000006'].length > 0) answered++;
+            if (d['entry.703871801']) answered++;
+            if (d['entry.1870790955']) answered++;
+            if (d['entry.1494830036']) answered++;
+            if (d['entry.554797467']) answered++;
+            if (d['entry.1897757883']) answered++;
+            if (d['entry.1588766165']) answered++;
+            if (d['entry.1239299568']) answered++;
+            if (d['entry.1320178685']) answered++;
+            if (d['entry.2047112130'] && d['entry.2047112130'].length > 0) answered++;
+            if (d['entry.1311960900'] && d['entry.1311960900'].length > 0) answered++;
+            if (d['entry.1315593454']) answered++;
+            if (d['entry.1240339524'] && d['entry.1240339524'].length > 0) answered++;
+            if (d['entry.144580768']) answered++;
+            if (d['entry.264083599']) answered++;
+
+            const pct = Math.min(100, Math.max(12, Math.round((answered / totalRequired) * 100)));
+            const fill = document.getElementById('progressFillBar');
+            const pctText = document.getElementById('progressPctText');
+            if (fill) fill.style.width = pct + '%';
+            if (pctText) pctText.textContent = pct + '%';
+        }
+
+        // Active Section Observer for Dynamic HUD Label
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section-header-card');
+            const scrollPos = window.scrollY + 120;
+            let currentSec = 'Section 1 of 8 • Basic Information';
+            sections.forEach(sec => {
+                if (sec.offsetTop <= scrollPos) {
+                    const num = sec.getAttribute('data-section-num');
+                    const name = sec.getAttribute('data-section-name');
+                    currentSec = `Section ${num} of 8 • ${name}`;
+                }
+            });
+            const secLabel = document.getElementById('progressSectionText');
+            if (secLabel) secLabel.textContent = currentSec;
+        });
+
+        // Comprehensive Data Collector
         function collectData() {
             const form = document.getElementById('brand-discovery-form');
             const data = {};
@@ -1815,6 +2576,7 @@
                     }
                 }
                 updateWordsCounter();
+                updateProgress();
             } catch (e) {}
         }
 
@@ -1823,11 +2585,11 @@
                 localStorage.removeItem(DRAFT_STORAGE_KEY);
                 document.getElementById('brand-discovery-form').reset();
                 updateWordsCounter();
+                updateProgress();
                 showToast('Draft cleared');
             }
         }
 
-        // Helper to format values for brief & WhatsApp
         function getReadableVal(data, key) {
             const val = data[key];
             const otherVal = data[`${key}.other_option_response`];
@@ -1926,7 +2688,6 @@ ADDITIONAL NOTES: ${d['entry.507504509'] || 'None'}
             
             if (wasModalOpen) modal.classList.remove('active');
 
-            // Expand textareas to fit content in PDF print
             document.querySelectorAll('textarea').forEach(ta => {
                 ta.style.height = 'auto';
                 if (ta.scrollHeight > 0) {
@@ -1956,7 +2717,7 @@ ADDITIONAL NOTES: ${d['entry.507504509'] || 'None'}
             if (modal) modal.classList.remove('active');
         }
 
-        // Submit Brief (Direct Dual Delivery: Cloudflare Serverless Function + Immediate UX)
+        // Submit Brief (Dual Delivery: Cloudflare Serverless Function + Immediate UX)
         async function submitBrief() {
             const brandName = (document.getElementById('entry_1521972625').value || '').trim();
             const clientName = (document.getElementById('client_name').value || '').trim();
@@ -2005,11 +2766,13 @@ ADDITIONAL NOTES: ${d['entry.507504509'] || 'None'}
         // Form input auto-save listener
         document.getElementById('brand-discovery-form').addEventListener('input', () => {
             saveDraft();
+            updateProgress();
         });
 
         // Initialize on load
         window.addEventListener('DOMContentLoaded', () => {
             restoreDraft();
+            updateProgress();
             if (window.lucide) lucide.createIcons();
         });
     </script>
