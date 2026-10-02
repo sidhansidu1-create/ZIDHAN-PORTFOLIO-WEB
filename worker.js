@@ -354,7 +354,18 @@ async function handleSubmitBrandingBrief(request, env, url) {
       data = await request.json();
     } else {
       const formData = await request.formData();
-      data = Object.fromEntries(formData.entries());
+      data = {};
+      for (const [key, value] of formData.entries()) {
+        if (data[key]) {
+          if (Array.isArray(data[key])) {
+            data[key].push(value);
+          } else {
+            data[key] = [data[key], value];
+          }
+        } else {
+          data[key] = value;
+        }
+      }
     }
 
     const brandName = sanitizeInput(data.brand_name || data['entry.1521972625'] || '');
@@ -365,19 +376,6 @@ async function handleSubmitBrandingBrief(request, env, url) {
     const GOOGLE_BRAND_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfT_B0rzcI7ecV9rgn77iHsJDi497kiIWLcM9w7xv-WKgarKA/formResponse';
     const params = new URLSearchParams();
 
-    // Helper to append field or list
-    function addEntry(entryId, val) {
-      if (!val) return;
-      if (Array.isArray(val)) {
-        val.forEach(item => {
-          if (item && typeof item === 'string') params.append(entryId, item.trim());
-        });
-      } else if (typeof val === 'string') {
-        const trimmed = val.trim();
-        if (trimmed) params.append(entryId, trimmed);
-      }
-    }
-
     // Client contact details
     const clientName = sanitizeInput(data.client_name || '');
     const clientEmail = sanitizeInput(data.client_email || '');
@@ -386,72 +384,101 @@ async function handleSubmitBrandingBrief(request, env, url) {
       ? `\n\n[CLIENT CONTACT]\nName: ${clientName || 'N/A'}\nEmail: ${clientEmail || 'N/A'}\nWhatsApp/Phone: ${clientPhone || 'N/A'}`
       : '';
 
-    // SECTION 1 — BASIC INFORMATION
-    addEntry('entry.1521972625', brandName);
-    addEntry('entry.54569691', sanitizeInput(data.links || data['entry.54569691'] || ''));
-    addEntry('entry.89056443', sanitizeInput(data.product_service || data['entry.89056443'] || ''));
-    addEntry('entry.854336900', sanitizeInput(data.brand_stage || data['entry.854336900'] || 'A new brand'));
+    // Helper to append field or list
+    function appendField(entryId, value) {
+      if (value === undefined || value === null) return;
+      if (Array.isArray(value)) {
+        value.forEach(item => {
+          if (item && typeof item === 'string' && item.trim()) {
+            params.append(entryId, item.trim());
+          }
+        });
+      } else if (typeof value === 'string' && value.trim()) {
+        params.append(entryId, value.trim());
+      }
+    }
 
-    // SECTION 2 — BRAND OVERVIEW
-    addEntry('entry.66466776', sanitizeInput(data.brand_story || data['entry.66466776'] || ''));
-    addEntry('entry.850314655', sanitizeInput(data.inspiration || data['entry.850314655'] || ''));
-    addEntry('entry.1720951003', sanitizeInput(data.problem_solved || data['entry.1720951003'] || ''));
-    addEntry('entry.1219397370', sanitizeInput(data.differentiation || data['entry.1219397370'] || ''));
-    addEntry('entry.1035738402', sanitizeInput(data.main_goals || data['entry.1035738402'] || ''));
-    addEntry('entry.820805609', sanitizeInput(data.future_vision || data['entry.820805609'] || ''));
-    addEntry('entry.1234135220', sanitizeInput(data.core_message || data['entry.1234135220'] || ''));
+    // Direct mapping of all Google Form entry IDs with fallback to friendly aliases & defaults
+    const fieldMap = {
+      'entry.1521972625': data['entry.1521972625'] || data.brand_name,
+      'entry.54569691': data['entry.54569691'] || data.links,
+      'entry.89056443': data['entry.89056443'] || data.product_service || '-',
+      'entry.854336900': data['entry.854336900'] || data.brand_stage || 'A new brand',
+      'entry.66466776': data['entry.66466776'] || data.brand_story || '-',
+      'entry.850314655': data['entry.850314655'] || data.inspiration,
+      'entry.1720951003': data['entry.1720951003'] || data.problem_solved || '-',
+      'entry.1219397370': data['entry.1219397370'] || data.differentiation || '-',
+      'entry.1035738402': data['entry.1035738402'] || data.main_goals || '-',
+      'entry.820805609': data['entry.820805609'] || data.future_vision,
+      'entry.1234135220': data['entry.1234135220'] || data.core_message || '-',
+      'entry.1773681969': data['entry.1773681969'] || data.target_audience || '-',
+      'entry.1449430324': data['entry.1449430324'] || data.age_group || '-',
+      'entry.1432340557': data['entry.1432340557'] || data.gender_focus || 'Both',
+      'entry.1052678168': data['entry.1052678168'] || data.buyer_profile || '-',
+      'entry.2056083537': data['entry.2056083537'] || data.brand_emotions || '-',
+      'entry.1034928443': data['entry.1034928443'] || data.target_countries || '-',
+      'entry.1740452696': data['entry.1740452696'] || data.brand_persona || '-',
+      'entry.726000006': data['entry.726000006'] || data.personality_words || 'Modern',
+      'entry.703871801': data['entry.703871801'] || data.feeling_create || data.tone_of_voice || '-',
+      'entry.1087755955': data['entry.1087755955'] || data.brand_inspiration,
+      'entry.1870790955': data['entry.1870790955'] || data.visual_style || '-',
+      'entry.1494830036': data['entry.1494830036'] || data.has_logo || 'No',
+      'entry.554797467': data['entry.554797467'] || data.logo_type || 'Wordmark',
+      'entry.596838607': data['entry.596838607'] || data.symbols_wanted,
+      'entry.77259235': data['entry.77259235'] || data.symbols_avoid,
+      'entry.1926740340': data['entry.1926740340'] || data.preferred_colors,
+      'entry.1897757883': data['entry.1897757883'] || data.design_density || 'Minimal Design',
+      'entry.1588766165': data['entry.1588766165'] || data.competitors || '-',
+      'entry.1239299568': data['entry.1239299568'] || data.competitor_likes_dislikes || '-',
+      'entry.1320178685': data['entry.1320178685'] || data.brand_uniqueness || '-',
+      'entry.2047112130': data['entry.2047112130'] || data.market_position || 'Premium',
+      'entry.1311960900': data['entry.1311960900'] || data.social_platforms || 'Instagram',
+      'entry.1074356999': data['entry.1074356999'] || data.content_types,
+      'entry.1310025804': data['entry.1310025804'] || data.social_visual_style,
+      'entry.1315593454': data['entry.1315593454'] || data.consistent_theme || 'Yes',
+      'entry.1240339524': data['entry.1240339524'] || data.services_needed || 'Brand Identity',
+      'entry.144580768': data['entry.144580768'] || data.deliverables || '-',
+      'entry.264083599': data['entry.264083599'] || data.has_deadline || 'No',
+    };
 
-    // SECTION 3 — TARGET AUDIENCE
-    addEntry('entry.1773681969', sanitizeInput(data.target_audience || data['entry.1773681969'] || ''));
-    addEntry('entry.1449430324', sanitizeInput(data.age_group || data['entry.1449430324'] || ''));
-    addEntry('entry.1432340557', sanitizeInput(data.gender_focus || data['entry.1432340557'] || 'Both'));
-    addEntry('entry.1052678168', sanitizeInput(data.buyer_profile || data['entry.1052678168'] || ''));
-    addEntry('entry.2056083537', sanitizeInput(data.brand_emotions || data['entry.2056083537'] || ''));
-    addEntry('entry.1034928443', sanitizeInput(data.target_countries || data['entry.1034928443'] || ''));
+    for (const [entryId, value] of Object.entries(fieldMap)) {
+      appendField(entryId, value);
+    }
 
-    // SECTION 4 — BRAND PERSONALITY
-    addEntry('entry.1740452696', sanitizeInput(data.brand_persona || data['entry.1740452696'] || ''));
-    const personalityWords = data.personality_words || data['entry.726000006'];
-    addEntry('entry.726000006', personalityWords);
-    addEntry('entry.703871801', sanitizeInput(data.feeling_create || data['entry.703871801'] || ''));
-    addEntry('entry.1087755955', sanitizeInput(data.brand_inspiration || data['entry.1087755955'] || ''));
-    addEntry('entry.1870790955', sanitizeInput(data.visual_style || data['entry.1870790955'] || ''));
+    // Append any "Other:" option write-ins (entry.XXXXX.other_option_response)
+    for (const [key, value] of Object.entries(data)) {
+      if (key.endsWith('.other_option_response') && typeof value === 'string' && value.trim()) {
+        params.append(key, value.trim());
+      }
+    }
 
-    // SECTION 5 — LOGO & VISUAL IDENTITY
-    addEntry('entry.1494830036', sanitizeInput(data.has_logo || data['entry.1494830036'] || 'No'));
-    addEntry('entry.554797467', sanitizeInput(data.logo_type || data['entry.554797467'] || 'Wordmark'));
-    addEntry('entry.596838607', sanitizeInput(data.symbols_wanted || data['entry.596838607'] || 'None specified'));
-    addEntry('entry.77259235', sanitizeInput(data.symbols_avoid || data['entry.77259235'] || ''));
-    addEntry('entry.1926740340', sanitizeInput(data.preferred_colors || data['entry.1926740340'] || ''));
-    addEntry('entry.1897757883', sanitizeInput(data.design_density || data['entry.1897757883'] || 'Minimal Design'));
-
-    // SECTION 6 — COMPETITORS & MARKET
-    addEntry('entry.1588766165', sanitizeInput(data.competitors || data['entry.1588766165'] || ''));
-    addEntry('entry.1239299568', sanitizeInput(data.competitor_likes_dislikes || data['entry.1239299568'] || ''));
-    addEntry('entry.1320178685', sanitizeInput(data.brand_uniqueness || data['entry.1320178685'] || ''));
-    addEntry('entry.2047112130', data.market_position || data['entry.2047112130']);
-
-    // SECTION 7 — SOCIAL MEDIA & CONTENT
-    addEntry('entry.1311960900', data.social_platforms || data['entry.1311960900']);
-    addEntry('entry.1074356999', sanitizeInput(data.content_types || data['entry.1074356999'] || ''));
-    addEntry('entry.1310025804', sanitizeInput(data.social_visual_style || data['entry.1310025804'] || ''));
-    addEntry('entry.1315593454', sanitizeInput(data.consistent_theme || data['entry.1315593454'] || 'Yes'));
-
-    // SECTION 8 — PROJECT REQUIREMENTS
-    addEntry('entry.1240339524', data.services_needed || data['entry.1240339524']);
-    addEntry('entry.144580768', sanitizeInput(data.deliverables || data['entry.144580768'] || ''));
-    addEntry('entry.264083599', sanitizeInput(data.has_deadline || data['entry.264083599'] || 'No'));
-
+    // Final notes with deadline date & client contact metadata
     const rawNotes = sanitizeInput(data.anything_else || data['entry.507504509'] || 'No additional notes.');
     const deadlineExtra = data.deadline_date ? `\nTarget Deadline: ${data.deadline_date}` : '';
     const finalNotes = `${rawNotes}${deadlineExtra}${clientMeta}`;
-    addEntry('entry.507504509', finalNotes);
+    params.append('entry.507504509', finalNotes);
 
     const googleRes = await fetch(GOOGLE_BRAND_FORM_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params.toString(),
     });
+
+    if (googleRes.ok || googleRes.status === 200 || googleRes.status === 302 || googleRes.status === 303) {
+      return jsonResponse({
+        success: true,
+        message: 'Your branding discovery brief has been successfully submitted to Muhammed Sidhan!'
+      }, 200);
+    } else {
+      return jsonResponse({
+        success: false,
+        error: 'Unable to reach Google Forms endpoint directly. Please copy or send your brief via WhatsApp.'
+      }, 502);
+    }
+  } catch (err) {
+    return jsonResponse({ success: false, error: 'Server error: ' + err.message }, 500);
+  }
+}
 
     if (googleRes.ok || googleRes.status === 200 || googleRes.status === 302 || googleRes.status === 303) {
       return jsonResponse({

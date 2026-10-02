@@ -32,9 +32,6 @@
             --accent-purple-light: #ede7f6;
             --accent-purple-dark: #512da8;
             --focus-border: #673ab7;
-            --active-chip-bg: #e8ddfc;
-            --active-chip-border: #673ab7;
-            --active-chip-text: #4a148c;
             --shadow-card: 0 1px 3px rgba(60, 64, 67, 0.15), 0 1px 2px rgba(60, 64, 67, 0.08);
             --shadow-hover: 0 4px 12px rgba(60, 64, 67, 0.18);
             --radius-card: 10px;
@@ -53,9 +50,6 @@
             --accent-purple-light: #241b3d;
             --accent-purple-dark: #7c3aed;
             --focus-border: #a78bfa;
-            --active-chip-bg: #2d1f4e;
-            --active-chip-border: #8b5cf6;
-            --active-chip-text: #ddd6fe;
             --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.4);
             --shadow-hover: 0 6px 18px rgba(0, 0, 0, 0.6);
         }
@@ -273,10 +267,8 @@
             font-size: 1rem;
             font-weight: 600;
             color: var(--text-main);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: flex-start;
-            gap: 4px;
+            margin-bottom: 12px;
+            line-height: 1.45;
         }
 
         .q-req-star {
@@ -287,7 +279,7 @@
         .q-desc {
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-top: -8px;
+            margin-top: -6px;
             margin-bottom: 14px;
         }
 
@@ -335,96 +327,122 @@
             box-shadow: 0 0 0 2px rgba(103, 58, 183, 0.15);
         }
 
-        /* Radio Options (Google Forms style) */
-        .radio-group {
+        /* Google Forms Options List (Radio & Checkbox) */
+        .g-options-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        .radio-option-row {
+        .g-check-row, .g-radio-row {
             display: flex;
             align-items: center;
             gap: 12px;
             cursor: pointer;
-            padding: 6px 4px;
+            padding: 6px 6px;
             border-radius: 6px;
-            transition: background 0.15s;
+            transition: background 0.15s ease;
+            position: relative;
         }
 
-        .radio-option-row:hover {
+        .g-check-row:hover, .g-radio-row:hover {
             background: var(--accent-purple-light);
         }
 
-        .radio-option-row input[type="radio"] {
+        /* Square Checkbox (Google Forms style) */
+        .g-check-row input[type="checkbox"] {
             appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-muted);
+            border-radius: 3px;
+            background: transparent;
+            cursor: pointer;
+            display: inline-grid;
+            place-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            margin: 0;
+        }
+
+        .g-check-row input[type="checkbox"]:checked {
+            background-color: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        .g-check-row input[type="checkbox"]:checked::before {
+            content: "";
+            width: 5px;
+            height: 9px;
+            border: solid #ffffff;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            margin-bottom: 2px;
+        }
+
+        /* Round Radio (Google Forms style) */
+        .g-radio-row input[type="radio"] {
+            appearance: none;
+            -webkit-appearance: none;
             width: 20px;
             height: 20px;
             border: 2px solid var(--text-muted);
             border-radius: 50%;
-            outline: none;
+            background: transparent;
             cursor: pointer;
-            position: relative;
-            display: grid;
+            display: inline-grid;
             place-content: center;
-            transition: border-color 0.2s;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
             margin: 0;
         }
 
-        .radio-option-row input[type="radio"]:checked {
+        .g-radio-row input[type="radio"]:checked {
             border-color: var(--accent-purple);
         }
 
-        .radio-option-row input[type="radio"]:checked::before {
-            content: '';
+        .g-radio-row input[type="radio"]:checked::before {
+            content: "";
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: var(--accent-purple);
+            background-color: var(--accent-purple);
         }
 
-        .radio-label-text {
+        .g-option-label {
             font-size: 0.95rem;
             color: var(--text-main);
             user-select: none;
+            flex: 1;
         }
 
-        /* Checkbox Chip Pill Tags */
-        .chip-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .chip-tag {
-            border: 1px solid var(--border-card);
-            background: var(--bg-card);
-            color: var(--text-sub);
-            padding: 8px 14px;
-            border-radius: 9999px;
-            font-size: 0.88rem;
-            font-weight: 500;
-            cursor: pointer;
-            user-select: none;
+        /* Other Option Row with Underline Input */
+        .g-other-row {
             display: flex;
             align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
+            gap: 10px;
+            padding: 4px 6px;
         }
 
-        .chip-tag:hover {
-            border-color: var(--accent-purple);
-            color: var(--accent-purple);
+        .g-other-text {
+            flex: 1;
+            border: none;
+            border-bottom: 1px solid var(--border-card);
+            background: transparent;
+            color: var(--text-main);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            padding: 6px 0;
+            outline: none;
+            transition: border-bottom-color 0.2s ease;
         }
 
-        .chip-tag.selected {
-            background: var(--active-chip-bg);
-            border-color: var(--active-chip-border);
-            color: var(--active-chip-text);
-            font-weight: 600;
+        .g-other-text:focus {
+            border-bottom: 2px solid var(--accent-purple);
         }
 
-        .chip-counter {
+        .selection-counter {
             font-size: 0.8rem;
             color: var(--accent-purple);
             margin-top: 8px;
@@ -676,7 +694,6 @@
                 padding: 0 !important;
             }
 
-            /* Completely hide modal overlays, navbars, and interactive HUD */
             .top-navbar,
             .floating-action-hud,
             .theme-toggle-btn,
@@ -686,7 +703,7 @@
             .toast-notice,
             .autosave-pill,
             .hero-card-header,
-            .chip-counter,
+            .selection-counter,
             #themeToggleBtn {
                 display: none !important;
                 visibility: hidden !important;
@@ -705,7 +722,6 @@
                 padding: 0 !important;
             }
 
-            /* Printable Agency Header Letterhead */
             .print-doc-header {
                 display: block !important;
                 border-bottom: 2px solid #673ab7 !important;
@@ -741,7 +757,6 @@
                 color: #6b7280 !important;
             }
 
-            /* Compact Top Header Card */
             .header-card {
                 border: 1px solid #d1d5db !important;
                 border-top: 5px solid #673ab7 !important;
@@ -775,12 +790,10 @@
                 font-size: 7pt !important;
             }
 
-            /* Hide heavy SVG banner in PDF print to eliminate blank page waste */
             .hero-banner-card {
                 display: none !important;
             }
 
-            /* Compact Question Cards */
             .g-card {
                 border: 1px solid #e5e7eb !important;
                 border-radius: 6px !important;
@@ -791,7 +804,6 @@
                 page-break-inside: avoid !important;
             }
 
-            /* Section Header Cards */
             .section-header-card {
                 background: #673ab7 !important;
                 color: #ffffff !important;
@@ -828,7 +840,6 @@
                 margin-bottom: 4px !important;
             }
 
-            /* Inputs & Textareas in Print */
             .g-input-underline {
                 border-bottom: 1px solid #6b7280 !important;
                 font-size: 8.5pt !important;
@@ -849,48 +860,27 @@
                 overflow: visible !important;
             }
 
-            /* Selected Chips in Print */
-            .chip-container {
+            .g-options-list {
                 gap: 4px !important;
             }
 
-            .chip-tag {
-                padding: 2px 8px !important;
-                font-size: 7.5pt !important;
-                border: 1px solid #d1d5db !important;
-                background: #ffffff !important;
-            }
-
-            .chip-tag.selected {
-                background: #ede7f6 !important;
-                border: 1.5px solid #673ab7 !important;
-                color: #4a148c !important;
-                font-weight: 700 !important;
-            }
-
-            .chip-tag:not(.selected) {
-                opacity: 0.55 !important;
-                border-style: dashed !important;
-            }
-
-            /* Radio Options in Print */
-            .radio-group {
-                gap: 4px !important;
-            }
-
-            .radio-option-row {
+            .g-check-row, .g-radio-row {
                 padding: 2px 0 !important;
             }
 
-            .radio-option-row input[type="radio"]:checked {
+            .g-check-row input[type="checkbox"]:checked {
+                background-color: #673ab7 !important;
                 border-color: #673ab7 !important;
             }
 
-            .radio-option-row input[type="radio"]:checked::before {
+            .g-radio-row input[type="radio"]:checked {
+                border-color: #673ab7 !important;
+            }
+
+            .g-radio-row input[type="radio"]:checked::before {
                 background-color: #673ab7 !important;
             }
 
-            /* Contact Grid */
             .contact-grid {
                 display: grid !important;
                 grid-template-columns: repeat(3, 1fr) !important;
@@ -949,12 +939,11 @@
                 <div class="required-indicator">* Indicates required question</div>
             </div>
 
-            <!-- HERO IMAGE CARD (Exact Graphic Recreation from User's Google Form Screenshot) -->
+            <!-- HERO IMAGE CARD (Recreation from User's Google Form) -->
             <div class="g-card hero-banner-card">
-                <div class="hero-card-header">Image title: Confidential Strategy Brief Portal</div>
+                <div class="hero-card-header">Discover Your Brand</div>
                 <svg class="hero-svg-canvas" viewBox="0 0 740 320" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <!-- Soft Lavender to Electric Purple Gradient -->
                         <radialGradient id="cardGlow" cx="65%" cy="50%" r="65%">
                             <stop offset="0%" stop-color="#b388ff" stop-opacity="0.85" />
                             <stop offset="45%" stop-color="#7c4dff" stop-opacity="0.45" />
@@ -966,39 +955,31 @@
                         </linearGradient>
                     </defs>
 
-                    <!-- Background Soft Ambient Glow -->
                     <rect width="740" height="320" fill="url(#cardGlow)" />
 
-                    <!-- Decorative Orbit Ring encircling YOUR BRAND -->
                     <g transform="translate(370, 160) rotate(-14)">
-                        <!-- Outer Orbit Ellipse -->
                         <ellipse cx="0" cy="18" rx="230" ry="75" fill="none" stroke="#202124" stroke-width="1.6" opacity="0.65" stroke-dasharray="8 4" />
-                        <!-- Inner Sweep Ring -->
                         <ellipse cx="0" cy="18" rx="226" ry="71" fill="none" stroke="url(#orbitGrad)" stroke-width="2.2" opacity="0.9" />
                         
-                        <!-- 4-point Sparkle Star 1 on Orbit Top Right -->
                         <g transform="translate(195, -35) scale(0.9)">
                             <path d="M 0 -14 Q 0 0 14 0 Q 0 0 0 14 Q 0 0 -14 0 Q 0 0 0 -14 Z" fill="#202124" />
                         </g>
 
-                        <!-- Orbital Star / Planet dot on Bottom Left -->
                         <circle cx="-190" cy="40" r="5" fill="#202124" />
                         <circle cx="-190" cy="40" r="9" fill="none" stroke="#673ab7" stroke-width="1.2" opacity="0.5" />
 
-                        <!-- Tiny Accent Star Top Left -->
                         <g transform="translate(-140, -45) scale(0.55)">
                             <path d="M 0 -12 Q 0 0 12 0 Q 0 0 0 12 Q 0 0 -12 0 Q 0 0 0 -12 Z" fill="#673ab7" />
                         </g>
                     </g>
 
-                    <!-- Clean Geometric Typography: DISCOVER YOUR BRAND -->
                     <text x="370" y="115" text-anchor="middle" font-family="'Outfit', 'Plus Jakarta Sans', sans-serif" font-size="52" font-weight="900" letter-spacing="2" fill="#202124">DISCOVER</text>
                     <text x="370" y="172" text-anchor="middle" font-family="'Outfit', 'Plus Jakarta Sans', sans-serif" font-size="52" font-weight="900" letter-spacing="2" fill="#202124">YOUR</text>
                     <text x="370" y="230" text-anchor="middle" font-family="'Outfit', 'Plus Jakarta Sans', sans-serif" font-size="52" font-weight="900" letter-spacing="2" fill="#202124">BRAND</text>
                 </svg>
             </div>
 
-            <!-- CLIENT CONTACT INFORMATION (Essential for attribution) -->
+            <!-- CLIENT CONTACT INFORMATION (Essential for agency communications) -->
             <div class="g-card">
                 <div class="q-title">Client Contact Details <span class="q-req-star">*</span></div>
                 <div class="q-desc">How Muhammed Sidhan will reach you with your finalized creative brief and concept roadmap.</div>
@@ -1025,35 +1006,42 @@
 
             <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">1. Company / Brand Name <span class="q-req-star">*</span></div>
-                <input type="text" id="entry_1521972625" name="brand_name" class="g-input-underline" placeholder="Short answer text" required>
+                <div class="q-title">1. What is your brand name? <span class="q-req-star">*</span></div>
+                <input type="text" id="entry_1521972625" name="entry.1521972625" class="g-input-underline" placeholder="Your answer" required>
             </div>
 
             <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">2. Website / Social Media Links</div>
-                <div class="q-desc">Existing website, Instagram, LinkedIn, or reference portfolio URLs.</div>
-                <input type="text" id="entry_54569691" name="links" class="g-input-underline" placeholder="Long-answer text">
+                <div class="q-title">2. Do you have an existing website or social media links?</div>
+                <div class="q-desc">If yes, please share.</div>
+                <input type="text" id="entry_54569691" name="entry.54569691" class="g-input-underline" placeholder="Your answer">
             </div>
 
             <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">3. What does your company / product / service do? <span class="q-req-star">*</span></div>
-                <div class="q-desc">Explain your primary offering clearly in plain terms.</div>
-                <textarea id="entry_89056443" name="product_service" class="g-textarea" placeholder="Long-answer text" required></textarea>
+                <div class="q-title">3. What product or service do you offer? <span class="q-req-star">*</span></div>
+                <textarea id="entry_89056443" name="entry.89056443" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">4. Brand Stage <span class="q-req-star">*</span></div>
-                <div class="radio-group">
-                    <label class="radio-option-row">
-                        <input type="radio" name="brand_stage" value="A new brand" checked>
-                        <span class="radio-label-text">A new brand (starting from scratch)</span>
+                <div class="q-title">4. What stage is your brand currently in? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.854336900" value="A new brand" checked>
+                        <span class="g-option-label">A new brand</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="brand_stage" value="An existing brand undergoing a rebrand">
-                        <span class="radio-label-text">An existing brand undergoing a rebrand</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.854336900" value="Rebranding an existing brand">
+                        <span class="g-option-label">Rebranding an existing brand</span>
+                    </label>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.854336900" value="Startup">
+                        <span class="g-option-label">Startup</span>
+                    </label>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.854336900" value="Personal brand">
+                        <span class="g-option-label">Personal brand</span>
                     </label>
                 </div>
             </div>
@@ -1066,47 +1054,48 @@
                 <p>Mission, vision, inspiration, and strategic objectives.</p>
             </div>
 
+            <!-- Q1 -->
+            <div class="g-card">
+                <div class="q-title">1. What is the story behind your brand? <span class="q-req-star">*</span></div>
+                <div class="q-desc">Why did you start this business?</div>
+                <textarea id="entry_66466776" name="entry.66466776" class="g-textarea" placeholder="Your answer" required></textarea>
+            </div>
+
+            <!-- Q2 -->
+            <div class="g-card">
+                <div class="q-title">2. What inspired the name of your brand?</div>
+                <input type="text" id="entry_850314655" name="entry.850314655" class="g-input-underline" placeholder="Your answer">
+            </div>
+
+            <!-- Q3 -->
+            <div class="g-card">
+                <div class="q-title">3. What problem does your product/service solve for your customers? <span class="q-req-star">*</span></div>
+                <textarea id="entry_1720951003" name="entry.1720951003" class="g-textarea" placeholder="Your answer" required></textarea>
+            </div>
+
+            <!-- Q4 -->
+            <div class="g-card">
+                <div class="q-title">4. What makes your brand different or better than your competitors? <span class="q-req-star">*</span></div>
+                <textarea id="entry_1219397370" name="entry.1219397370" class="g-textarea" placeholder="Your answer" required></textarea>
+            </div>
+
             <!-- Q5 -->
             <div class="g-card">
-                <div class="q-title">5. What is the story / background behind your brand?</div>
-                <div class="q-desc">How did it begin? What is the origin story?</div>
-                <textarea id="entry_66466776" name="brand_story" class="g-textarea" placeholder="Long-answer text"></textarea>
+                <div class="q-title">5. What are the main goals of your brand? <span class="q-req-star">*</span></div>
+                <div class="q-desc">For example: Build trust, increase sales, look professional, expand to global markets, etc.</div>
+                <textarea id="entry_1035738402" name="entry.1035738402" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- Q6 -->
             <div class="g-card">
-                <div class="q-title">6. What inspired you to start this business?</div>
-                <textarea id="entry_850314655" name="inspiration" class="g-textarea" placeholder="Long-answer text"></textarea>
+                <div class="q-title">6. Where do you see your brand in the next 3–5 years?</div>
+                <textarea id="entry_820805609" name="entry.820805609" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
             <!-- Q7 -->
             <div class="g-card">
-                <div class="q-title">7. What main problem does your brand solve for customers?</div>
-                <textarea id="entry_1720951003" name="problem_solved" class="g-textarea" placeholder="Long-answer text"></textarea>
-            </div>
-
-            <!-- Q8 -->
-            <div class="g-card">
-                <div class="q-title">8. What makes your brand different from competitors? (Your unique strength)</div>
-                <textarea id="entry_1219397370" name="differentiation" class="g-textarea" placeholder="Long-answer text"></textarea>
-            </div>
-
-            <!-- Q9 -->
-            <div class="g-card">
-                <div class="q-title">9. What are your main goals for this brand? (Top 3 goals)</div>
-                <textarea id="entry_1035738402" name="main_goals" class="g-textarea" placeholder="Long-answer text"></textarea>
-            </div>
-
-            <!-- Q10 -->
-            <div class="g-card">
-                <div class="q-title">10. Where do you see your brand in the next 3 to 5 years?</div>
-                <textarea id="entry_820805609" name="future_vision" class="g-textarea" placeholder="Long-answer text"></textarea>
-            </div>
-
-            <!-- Q11 -->
-            <div class="g-card">
-                <div class="q-title">11. If you could describe your brand in one sentence or a core message, what would it be?</div>
-                <input type="text" id="entry_1234135220" name="core_message" class="g-input-underline" placeholder="Short answer text">
+                <div class="q-title">7. If your brand could speak to your audience, what core message would it share? <span class="q-req-star">*</span></div>
+                <textarea id="entry_1234135220" name="entry.1234135220" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- =========================================================================
@@ -1117,53 +1106,57 @@
                 <p>Demographics, psychographics, and geographic focus.</p>
             </div>
 
-            <!-- Q12 -->
+            <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">12. Who is your primary target audience?</div>
-                <textarea id="entry_1773681969" name="target_audience" class="g-textarea" placeholder="Long-answer text"></textarea>
+                <div class="q-title">1. Who is your primary target audience? <span class="q-req-star">*</span></div>
+                <div class="q-desc">Who will buy your product or use your service?</div>
+                <textarea id="entry_1773681969" name="entry.1773681969" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
-            <!-- Q13 -->
+            <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">13. What is the ideal age group of your audience?</div>
-                <input type="text" id="entry_1449430324" name="age_group" class="g-input-underline" placeholder="e.g. 18-24, 25-34, All ages">
+                <div class="q-title">2. What is the age group of your audience? <span class="q-req-star">*</span></div>
+                <div class="q-desc">e.g., 18–24, 25–35, 35–50, etc.</div>
+                <input type="text" id="entry_1449430324" name="entry.1449430324" class="g-input-underline" placeholder="Your answer" required>
             </div>
 
-            <!-- Q14 -->
+            <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">14. What is the gender focus of your audience?</div>
-                <div class="radio-group">
-                    <label class="radio-option-row">
-                        <input type="radio" name="gender_focus" value="Both" checked>
-                        <span class="radio-label-text">Both / All Genders</span>
+                <div class="q-title">3. What is the gender focus of your audience? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1432340557" value="Both" checked>
+                        <span class="g-option-label">Both</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="gender_focus" value="Male">
-                        <span class="radio-label-text">Predominantly Male</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1432340557" value="MALE">
+                        <span class="g-option-label">MALE</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="gender_focus" value="Female">
-                        <span class="radio-label-text">Predominantly Female</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1432340557" value="Female">
+                        <span class="g-option-label">Female</span>
                     </label>
                 </div>
             </div>
 
-            <!-- Q15 -->
+            <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">15. Describe your ideal customer (lifestyle, interests, purchasing habits)</div>
-                <textarea id="entry_1052678168" name="buyer_profile" class="g-textarea" placeholder="Long-answer text"></textarea>
+                <div class="q-title">4. What does your ideal customer do, like, or care about? <span class="q-req-star">*</span></div>
+                <div class="q-desc">Describe their lifestyle, profession, interests, or habits.</div>
+                <textarea id="entry_1052678168" name="entry.1052678168" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
-            <!-- Q16 -->
+            <!-- Q5 -->
             <div class="g-card">
-                <div class="q-title">16. What emotions should people feel when they think of your brand?</div>
-                <input type="text" id="entry_2056083537" name="brand_emotions" class="g-input-underline" placeholder="e.g. Confident, inspired, calm, excited, secure">
+                <div class="q-title">5. What emotional feeling should your brand create for your customers? <span class="q-req-star">*</span></div>
+                <div class="q-desc">e.g., Confidence, excitement, comfort, luxury, trust, happiness.</div>
+                <textarea id="entry_2056083537" name="entry.2056083537" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
-            <!-- Q17 -->
+            <!-- Q6 -->
             <div class="g-card">
-                <div class="q-title">17. Which countries or regions are you targeting?</div>
-                <input type="text" id="entry_1034928443" name="target_countries" class="g-input-underline" placeholder="e.g. UAE, Saudi Arabia, India, USA, Global">
+                <div class="q-title">6. Which country/region is your primary market? <span class="q-req-star">*</span></div>
+                <input type="text" id="entry_1034928443" name="entry.1034928443" class="g-input-underline" placeholder="Your answer" required>
             </div>
 
             <!-- =========================================================================
@@ -1174,139 +1167,211 @@
                 <p>Tone of voice, archetype, and stylistic character.</p>
             </div>
 
-            <!-- Q18 -->
+            <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">18. If your brand was a person, how would you describe their personality?</div>
-                <textarea id="entry_1740452696" name="brand_persona" class="g-textarea" placeholder="e.g. A visionary strategist in a sharp suit, or a friendly barista with warm vibes..."></textarea>
+                <div class="q-title">1. If your brand were a person, how would you describe their personality? <span class="q-req-star">*</span></div>
+                <div class="q-desc">Friendly, serious, luxurious, modern, energetic, creative, trustworthy, etc.</div>
+                <textarea id="entry_1740452696" name="entry.1740452696" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
-            <!-- Q19 -->
+            <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">19. Choose 3 to 5 words that best describe your brand</div>
-                <div class="q-desc">Click words to toggle your brand traits:</div>
-                <div class="chip-container" id="personality-chips">
-                    <span class="chip-tag" data-val="Luxury">Luxury</span>
-                    <span class="chip-tag" data-val="Minimalist">Minimalist</span>
-                    <span class="chip-tag" data-val="Bold">Bold</span>
-                    <span class="chip-tag" data-val="Playful">Playful</span>
-                    <span class="chip-tag" data-val="Professional">Professional</span>
-                    <span class="chip-tag" data-val="Modern">Modern</span>
-                    <span class="chip-tag" data-val="Creative">Creative</span>
-                    <span class="chip-tag" data-val="Eco-friendly">Eco-friendly</span>
-                    <span class="chip-tag" data-val="Energetic">Energetic</span>
-                    <span class="chip-tag" data-val="Trustworthy">Trustworthy</span>
-                    <span class="chip-tag" data-val="Futuristic">Futuristic</span>
-                    <span class="chip-tag" data-val="Elegant">Elegant</span>
-                    <span class="chip-tag" data-val="Premium">Premium</span>
-                    <span class="chip-tag" data-val="Edgy">Edgy</span>
-                    <span class="chip-tag" data-val="Friendly">Friendly</span>
+                <div class="q-title">2. Which words best describe your brand? (Select up to 5) <span class="q-req-star">*</span></div>
+                <div class="g-options-list" id="words-checkbox-group">
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Premium">
+                        <span class="g-option-label">Premium</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Minimal">
+                        <span class="g-option-label">Minimal</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Luxury">
+                        <span class="g-option-label">Luxury</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Modern">
+                        <span class="g-option-label">Modern</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Vintage">
+                        <span class="g-option-label">Vintage</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Bold">
+                        <span class="g-option-label">Bold</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Elegant">
+                        <span class="g-option-label">Elegant</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Playful">
+                        <span class="g-option-label">Playful</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Professional">
+                        <span class="g-option-label">Professional</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Emotional">
+                        <span class="g-option-label">Emotional</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Creative">
+                        <span class="g-option-label">Creative</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Friendly">
+                        <span class="g-option-label">Friendly</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Masculine">
+                        <span class="g-option-label">Masculine</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Feminine">
+                        <span class="g-option-label">Feminine</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Futuristic">
+                        <span class="g-option-label">Futuristic</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.726000006" value="Clean">
+                        <span class="g-option-label">Clean</span>
+                    </label>
+                    <!-- Other Option -->
+                    <div class="g-other-row">
+                        <label class="g-check-row" style="margin-bottom: 0;">
+                            <input type="checkbox" name="entry.726000006" value="__other_option__" id="other_cb_726000006">
+                            <span class="g-option-label">Other:</span>
+                        </label>
+                        <input type="text" class="g-other-text" data-entry="entry.726000006" placeholder="Your answer">
+                    </div>
                 </div>
-                <div class="chip-counter" id="personality-counter">Selected: 0 / 5</div>
-                <input type="hidden" id="entry_726000006" name="personality_words">
+                <div class="selection-counter" id="words-counter">Selected: 0 / 5</div>
             </div>
 
-            <!-- Q20 -->
+            <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">20. What kind of feeling / atmosphere do you want your brand to create?</div>
-                <input type="text" id="entry_703871801" name="feeling_create" class="g-input-underline" placeholder="Short answer text">
+                <div class="q-title">3. What tone of voice should your brand use? <span class="q-req-star">*</span></div>
+                <div class="q-desc">e.g., Professional, friendly, bold, casual, inspiring, authoritative.</div>
+                <input type="text" id="entry_703871801" name="entry.703871801" class="g-input-underline" placeholder="Your answer" required>
             </div>
 
-            <!-- Q21 -->
+            <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">21. Brands you admire or take inspiration from (and why)</div>
-                <textarea id="entry_1087755955" name="brand_inspiration" class="g-textarea" placeholder="e.g. Apple (minimalism), Nike (energy), Aesop (packaging)..."></textarea>
+                <div class="q-title">4. Are there any existing brands whose vibe or design you admire?</div>
+                <div class="q-desc">Please mention the brand names and what you like about them.</div>
+                <textarea id="entry_1087755955" name="entry.1087755955" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
-            <!-- Q22 -->
+            <!-- Q5 -->
             <div class="g-card">
-                <div class="q-title">22. What visual style do you prefer?</div>
-                <input type="text" id="entry_1870790955" name="visual_style" class="g-input-underline" placeholder="e.g. Clean typography, neon futuristic, vintage retro, organic luxury">
+                <div class="q-title">5. What type of feeling or aesthetic do you imagine for your brand? <span class="q-req-star">*</span></div>
+                <div class="q-desc">Minimalist, colorful, dark & moody, bright & clean, artistic, etc.</div>
+                <textarea id="entry_1870790955" name="entry.1870790955" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
             <!-- =========================================================================
                  SECTION 5 — LOGO & VISUAL IDENTITY
                  ========================================================================= -->
             <div class="g-card section-header-card">
-                <h2>SECTION 5 — LOGO & VISUAL IDENTITY</h2>
+                <h2>SECTION 5 — LOGO & VISUAL IDENTITY PREFERENCES</h2>
                 <p>Logotype, symbol preferences, colors, and design density.</p>
             </div>
 
-            <!-- Q23 -->
+            <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">23. Do you currently have an existing logo?</div>
-                <div class="radio-group">
-                    <label class="radio-option-row">
-                        <input type="radio" name="has_logo" value="No" checked>
-                        <span class="radio-label-text">No — Starting brand new</span>
+                <div class="q-title">1. Do you currently have a logo? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1494830036" value="No" checked>
+                        <span class="g-option-label">No</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="has_logo" value="Yes">
-                        <span class="radio-label-text">Yes — Looking to redesign or refine</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1494830036" value="Yes">
+                        <span class="g-option-label">Yes</span>
                     </label>
                 </div>
             </div>
 
-            <!-- Q24 -->
+            <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">24. What type of logo do you prefer?</div>
-                <div class="radio-group">
-                    <label class="radio-option-row">
-                        <input type="radio" name="logo_type" value="Wordmark" checked>
-                        <span class="radio-label-text">Wordmark (Styled brand name text like Google or Sony)</span>
+                <div class="q-title">2. What type of logo do you prefer? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.554797467" value="Wordmark" checked>
+                        <span class="g-option-label">Wordmark</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="logo_type" value="Lettermark">
-                        <span class="radio-label-text">Lettermark / Monogram (Initials like LV or NASA)</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.554797467" value="Symbol/Icon">
+                        <span class="g-option-label">Symbol/Icon</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="logo_type" value="Icon + Wordmark">
-                        <span class="radio-label-text">Icon / Symbol + Wordmark (Combination like Nike or Adidas)</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.554797467" value="Monogram">
+                        <span class="g-option-label">Monogram</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="logo_type" value="Emblem / Badge">
-                        <span class="radio-label-text">Emblem / Badge (Seal like Starbucks or Porsche)</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.554797467" value="Combination Mark">
+                        <span class="g-option-label">Combination Mark</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="logo_type" value="Abstract Mark">
-                        <span class="radio-label-text">Abstract Geometric Shape (like Pepsi or Airbnb)</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.554797467" value="Emblem">
+                        <span class="g-option-label">Emblem</span>
+                    </label>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.554797467" value="Unsure">
+                        <span class="g-option-label">Unsure</span>
                     </label>
                 </div>
             </div>
 
-            <!-- Q25 -->
+            <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">25. Are there any specific symbols or shapes you would like in the logo?</div>
-                <input type="text" id="entry_596838607" name="symbols_wanted" class="g-input-underline" placeholder="e.g. Celestial ring, leaf, wave, shield, geometric monogram">
+                <div class="q-title">3. Are there specific symbols, elements, or icons you want in the logo?</div>
+                <textarea id="entry_596838607" name="entry.596838607" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
-            <!-- Q26 -->
+            <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">26. Are there any symbols, elements, or colors you want to AVOID?</div>
-                <input type="text" id="entry_77259235" name="symbols_avoid" class="g-input-underline" placeholder="e.g. No gradients, avoid neon green, avoid cartoonish icons">
+                <div class="q-title">4. Are there any symbols, elements, or colors you DO NOT want to use?</div>
+                <textarea id="entry_77259235" name="entry.77259235" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
-            <!-- Q27 -->
+            <!-- Q5 -->
             <div class="g-card">
-                <div class="q-title">27. Do you have any preferred brand colors?</div>
-                <input type="text" id="entry_1926740340" name="preferred_colors" class="g-input-underline" placeholder="e.g. Deep obsidian black with electric cyan and violet, or warm terracotta">
+                <div class="q-title">5. What colors do you prefer for your brand?</div>
+                <div class="q-desc">If you have specific color preferences, please describe them.</div>
+                <textarea id="entry_1926740340" name="entry.1926740340" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
-            <!-- Q28 -->
+            <!-- Q6 -->
             <div class="g-card">
-                <div class="q-title">28. How would you describe your preferred design density?</div>
-                <div class="radio-group">
-                    <label class="radio-option-row">
-                        <input type="radio" name="design_density" value="Minimal Design" checked>
-                        <span class="radio-label-text">Minimal Design (spacious, simple, high breathing room)</span>
+                <div class="q-title">6. Do you prefer a minimal design or something more detailed? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1897757883" value="Minimal Design" checked>
+                        <span class="g-option-label">Minimal Design</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="design_density" value="Balanced Design">
-                        <span class="radio-label-text">Balanced Design (standard branding density)</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1897757883" value="Detailed Design">
+                        <span class="g-option-label">Detailed Design</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="design_density" value="Detailed / Rich Design">
-                        <span class="radio-label-text">Detailed / Rich Design (intricate graphics and ornate elements)</span>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1897757883" value="Luxury Style">
+                        <span class="g-option-label">Luxury Style</span>
                     </label>
+                    <!-- Other Option -->
+                    <div class="g-other-row">
+                        <label class="g-radio-row" style="margin-bottom: 0;">
+                            <input type="radio" name="entry.1897757883" value="__other_option__" id="other_radio_1897757883">
+                            <span class="g-option-label">Other:</span>
+                        </label>
+                        <input type="text" class="g-other-text" data-entry="entry.1897757883" placeholder="Your answer">
+                    </div>
                 </div>
             </div>
 
@@ -1314,138 +1379,233 @@
                  SECTION 6 — COMPETITORS & MARKET
                  ========================================================================= -->
             <div class="g-card section-header-card">
-                <h2>SECTION 6 — COMPETITORS & MARKET</h2>
+                <h2>SECTION 6 — COMPETITOR & MARKET RESEARCH</h2>
                 <p>Market landscape, positioning tier, and competitor benchmarks.</p>
             </div>
 
-            <!-- Q29 -->
+            <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">29. Who are your top 2 to 3 main competitors?</div>
-                <textarea id="entry_1588766165" name="competitors" class="g-textarea" placeholder="List competitor names or Instagram handles"></textarea>
+                <div class="q-title">1. Who are your top 2–3 competitors? <span class="q-req-star">*</span></div>
+                <div class="q-desc">Please mention their brand names or links.</div>
+                <textarea id="entry_1588766165" name="entry.1588766165" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
-            <!-- Q30 -->
+            <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">30. What do you like and dislike about your competitors' branding?</div>
-                <textarea id="entry_1239299568" name="competitor_likes_dislikes" class="g-textarea" placeholder="Long-answer text"></textarea>
+                <div class="q-title">2. What do you like or dislike about your competitors' branding? <span class="q-req-star">*</span></div>
+                <textarea id="entry_1239299568" name="entry.1239299568" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
-            <!-- Q31 -->
+            <!-- Q3 -->
             <div class="g-card">
-                <div class="q-title">31. What makes your brand uniquely superior or fresh?</div>
-                <textarea id="entry_1320178685" name="brand_uniqueness" class="g-textarea" placeholder="Long-answer text"></textarea>
+                <div class="q-title">3. What makes your brand unique compared to them? <span class="q-req-star">*</span></div>
+                <textarea id="entry_1320178685" name="entry.1320178685" class="g-textarea" placeholder="Your answer" required></textarea>
             </div>
 
-            <!-- Q32 -->
+            <!-- Q4 -->
             <div class="g-card">
-                <div class="q-title">32. Market Position Tier</div>
-                <div class="chip-container" id="market-chips">
-                    <span class="chip-tag" data-val="Affordable / Mass Market">Affordable / Mass Market</span>
-                    <span class="chip-tag" data-val="Mid-Tier / Accessible Quality">Mid-Tier / Accessible</span>
-                    <span class="chip-tag" data-val="Premium / Boutique">Premium / Boutique</span>
-                    <span class="chip-tag" data-val="High-End Luxury">High-End Luxury</span>
+                <div class="q-title">4. Where do you see your brand positioning in the market? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.2047112130" value="Affordable">
+                        <span class="g-option-label">Affordable</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.2047112130" value="Mid-range">
+                        <span class="g-option-label">Mid-range</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.2047112130" value="Premium">
+                        <span class="g-option-label">Premium</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.2047112130" value="Luxury">
+                        <span class="g-option-label">Luxury</span>
+                    </label>
+                    <!-- Other Option -->
+                    <div class="g-other-row">
+                        <label class="g-check-row" style="margin-bottom: 0;">
+                            <input type="checkbox" name="entry.2047112130" value="__other_option__" id="other_cb_2047112130">
+                            <span class="g-option-label">Other:</span>
+                        </label>
+                        <input type="text" class="g-other-text" data-entry="entry.2047112130" placeholder="Your answer">
+                    </div>
                 </div>
-                <input type="hidden" id="entry_2047112130" name="market_position">
             </div>
 
             <!-- =========================================================================
-                 SECTION 7 — SOCIAL MEDIA & CONTENT
+                 SECTION 7 — SOCIAL MEDIA & ONLINE PRESENCE
                  ========================================================================= -->
             <div class="g-card section-header-card">
-                <h2>SECTION 7 — SOCIAL MEDIA & CONTENT</h2>
+                <h2>SECTION 7 — SOCIAL MEDIA & ONLINE PRESENCE</h2>
                 <p>Digital channels, content pillars, and visual grid consistency.</p>
             </div>
 
-            <!-- Q33 -->
+            <!-- Q1 -->
             <div class="g-card">
-                <div class="q-title">33. Which social platforms will you focus on most?</div>
-                <div class="chip-container" id="platform-chips">
-                    <span class="chip-tag" data-val="Instagram">Instagram</span>
-                    <span class="chip-tag" data-val="LinkedIn">LinkedIn</span>
-                    <span class="chip-tag" data-val="TikTok">TikTok</span>
-                    <span class="chip-tag" data-val="X / Twitter">X / Twitter</span>
-                    <span class="chip-tag" data-val="YouTube">YouTube</span>
-                    <span class="chip-tag" data-val="Website / SEO">Website</span>
-                </div>
-                <input type="hidden" id="entry_1311960900" name="social_platforms">
-            </div>
-
-            <!-- Q34 -->
-            <div class="g-card">
-                <div class="q-title">34. What type of content will you produce most?</div>
-                <input type="text" id="entry_1074356999" name="content_types" class="g-input-underline" placeholder="e.g. 9-Grid visual campaigns, reels/motion, educational carousels">
-            </div>
-
-            <!-- Q35 -->
-            <div class="g-card">
-                <div class="q-title">35. What visual style do you want for your social media?</div>
-                <input type="text" id="entry_1310025804" name="social_visual_style" class="g-input-underline" placeholder="e.g. High-fashion editorial, dark cyberpunk, clean corporate, colorful pop">
-            </div>
-
-            <!-- Q36 -->
-            <div class="g-card">
-                <div class="q-title">36. Do you want a consistent visual theme across all platforms?</div>
-                <div class="radio-group">
-                    <label class="radio-option-row">
-                        <input type="radio" name="consistent_theme" value="Yes" checked>
-                        <span class="radio-label-text">Yes — 100% unified visual identity across touchpoints</span>
+                <div class="q-title">1. Which platforms will your brand be active on? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1311960900" value="Instagram">
+                        <span class="g-option-label">Instagram</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="consistent_theme" value="Partially">
-                        <span class="radio-label-text">Partially — Flexible for different channel cultures</span>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1311960900" value="LinkedIn">
+                        <span class="g-option-label">LinkedIn</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1311960900" value="Facebook">
+                        <span class="g-option-label">Facebook</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1311960900" value="YouTube">
+                        <span class="g-option-label">YouTube</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1311960900" value="Website">
+                        <span class="g-option-label">Website</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1311960900" value="TikTok">
+                        <span class="g-option-label">TikTok</span>
+                    </label>
+                    <!-- Other Option -->
+                    <div class="g-other-row">
+                        <label class="g-check-row" style="margin-bottom: 0;">
+                            <input type="checkbox" name="entry.1311960900" value="__other_option__" id="other_cb_1311960900">
+                            <span class="g-option-label">Other:</span>
+                        </label>
+                        <input type="text" class="g-other-text" data-entry="entry.1311960900" placeholder="Your answer">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="g-card">
+                <div class="q-title">2. What type of content will you share the most?</div>
+                <div class="q-desc">e.g., Educational posts, reels/videos, product showcases, quotes, portfolio work.</div>
+                <textarea id="entry_1074356999" name="entry.1074356999" class="g-textarea" placeholder="Your answer"></textarea>
+            </div>
+
+            <!-- Q3 -->
+            <div class="g-card">
+                <div class="q-title">3. What visual style do you want for your social media?</div>
+                <div class="q-desc">Clean grid, dark theme, vibrant colors, aesthetic typography, etc.</div>
+                <textarea id="entry_1310025804" name="entry.1310025804" class="g-textarea" placeholder="Your answer"></textarea>
+            </div>
+
+            <!-- Q4 -->
+            <div class="g-card">
+                <div class="q-title">4. Do you need a consistent visual theme for your posts & stories? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1315593454" value="Yes" checked>
+                        <span class="g-option-label">Yes</span>
+                    </label>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.1315593454" value="No">
+                        <span class="g-option-label">No</span>
                     </label>
                 </div>
             </div>
 
             <!-- =========================================================================
-                 SECTION 8 — PROJECT REQUIREMENTS
+                 SECTION 8 — PROJECT SCOPE & EXPECTATIONS
                  ========================================================================= -->
             <div class="g-card section-header-card">
-                <h2>SECTION 8 — PROJECT REQUIREMENTS & TIMELINE</h2>
+                <h2>SECTION 8 — PROJECT SCOPE & EXPECTATIONS</h2>
                 <p>Deliverables, services needed, and launch milestone dates.</p>
             </div>
 
-            <!-- Q37 -->
+            <!-- Q1 (Exact from user's screenshot) -->
             <div class="g-card">
-                <div class="q-title">37. Which services do you need from Muhammed Sidhan?</div>
-                <div class="chip-container" id="services-chips">
-                    <span class="chip-tag" data-val="Full Brand Identity">Full Brand Identity</span>
-                    <span class="chip-tag" data-val="Logo Architecture">Logo Architecture</span>
-                    <span class="chip-tag" data-val="9-Grid Instagram System">9-Grid Instagram System</span>
-                    <span class="chip-tag" data-val="Packaging & Labels">Packaging & Labels</span>
-                    <span class="chip-tag" data-val="Brand Guidelines Book">Brand Guidelines Book</span>
-                    <span class="chip-tag" data-val="Website UI / UX">Website UI / UX</span>
-                    <span class="chip-tag" data-val="Motion & Animation">Motion & Animation</span>
-                </div>
-                <input type="hidden" id="entry_1240339524" name="services_needed">
-            </div>
-
-            <!-- Q38 -->
-            <div class="g-card">
-                <div class="q-title">38. Any specific deliverables you expect at completion?</div>
-                <textarea id="entry_144580768" name="deliverables" class="g-textarea" placeholder="e.g. Vector source files, social media templates in Figma, print-ready packaging files"></textarea>
-            </div>
-
-            <!-- Q39 -->
-            <div class="g-card">
-                <div class="q-title">39. Do you have a specific launch deadline?</div>
-                <div class="radio-group" style="margin-bottom: 12px;">
-                    <label class="radio-option-row">
-                        <input type="radio" name="has_deadline" value="No" checked>
-                        <span class="radio-label-text">No — Flexible timeline</span>
+                <div class="q-title">1. What services do you need? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1240339524" value="Logo Design">
+                        <span class="g-option-label">Logo Design</span>
                     </label>
-                    <label class="radio-option-row">
-                        <input type="radio" name="has_deadline" value="Yes">
-                        <span class="radio-label-text">Yes — Specific target date</span>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1240339524" value="Brand Identity">
+                        <span class="g-option-label">Brand Identity</span>
                     </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1240339524" value="Brand Guidelines">
+                        <span class="g-option-label">Brand Guidelines</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1240339524" value="Packaging Design">
+                        <span class="g-option-label">Packaging Design</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1240339524" value="Social Media Design">
+                        <span class="g-option-label">Social Media Design</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1240339524" value="Website Design">
+                        <span class="g-option-label">Website Design</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1240339524" value="Motion Graphics">
+                        <span class="g-option-label">Motion Graphics</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1240339524" value="Video Editing">
+                        <span class="g-option-label">Video Editing</span>
+                    </label>
+                    <label class="g-check-row">
+                        <input type="checkbox" name="entry.1240339524" value="Print Design">
+                        <span class="g-option-label">Print Design</span>
+                    </label>
+                    <!-- Other Option -->
+                    <div class="g-other-row">
+                        <label class="g-check-row" style="margin-bottom: 0;">
+                            <input type="checkbox" name="entry.1240339524" value="__other_option__" id="other_cb_1240339524">
+                            <span class="g-option-label">Other:</span>
+                        </label>
+                        <input type="text" class="g-other-text" data-entry="entry.1240339524" placeholder="Your answer">
+                    </div>
                 </div>
-                <input type="text" id="deadline_date" name="deadline_date" class="g-input-underline" placeholder="If yes, please enter your target date (e.g. Nov 15, 2026)">
             </div>
 
-            <!-- Q40 -->
+            <!-- Q2 -->
             <div class="g-card">
-                <div class="q-title">40. Anything else you want to share with Muhammed Sidhan?</div>
-                <textarea id="entry_507504509" name="anything_else" class="g-textarea" placeholder="Any special notes, visionary references, or specific thoughts..."></textarea>
+                <div class="q-title">2. What specific deliverables are you expecting? <span class="q-req-star">*</span></div>
+                <div class="q-desc">e.g., Logo files, brand book, social media templates, business cards, packaging mockups, etc.</div>
+                <textarea id="entry_144580768" name="entry.144580768" class="g-textarea" placeholder="Your answer" required></textarea>
+            </div>
+
+            <!-- Q3 -->
+            <div class="g-card">
+                <div class="q-title">3. Do you have a specific deadline for this project? <span class="q-req-star">*</span></div>
+                <div class="g-options-list">
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.264083599" value="No" checked>
+                        <span class="g-option-label">No</span>
+                    </label>
+                    <label class="g-radio-row">
+                        <input type="radio" name="entry.264083599" value="Yes">
+                        <span class="g-option-label">Yes</span>
+                    </label>
+                    <!-- Other Option -->
+                    <div class="g-other-row">
+                        <label class="g-radio-row" style="margin-bottom: 0;">
+                            <input type="radio" name="entry.264083599" value="__other_option__" id="other_radio_264083599">
+                            <span class="g-option-label">Other:</span>
+                        </label>
+                        <input type="text" class="g-other-text" data-entry="entry.264083599" placeholder="Your answer">
+                    </div>
+                </div>
+                <div style="margin-top: 14px;">
+                    <input type="text" id="deadline_date" name="deadline_date" class="g-input-underline" placeholder="If yes, please enter your target date (e.g. Nov 15, 2026)">
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="g-card">
+                <div class="q-title">4. Is there anything else you would like to share with the designer?</div>
+                <div class="q-desc">Any special requirements, ideas, or references.</div>
+                <textarea id="entry_507504509" name="entry.507504509" class="g-textarea" placeholder="Your answer"></textarea>
             </div>
 
         </form>
@@ -1504,8 +1664,7 @@
 
     <!-- SCRIPT -->
     <script>
-        const DRAFT_STORAGE_KEY = 'zidhan_brand_discovery_draft';
-        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfT_B0rzcI7ecV9rgn77iHsJDi497kiIWLcM9w7xv-WKgarKA/formResponse';
+        const DRAFT_STORAGE_KEY = 'zidhan_brand_discovery_draft_v2';
 
         // Initialize Lucide Icons
         if (window.lucide) lucide.createIcons();
@@ -1523,49 +1682,97 @@
             localStorage.setItem('zidhan_brand_theme', isDark ? 'dark' : 'light');
         });
 
-        // Chip selection helpers
-        function setupChipGroup(containerId, inputId, maxCount = 99, counterId = null) {
-            const container = document.getElementById(containerId);
-            const hiddenInput = document.getElementById(inputId);
-            if (!container || !hiddenInput) return;
-
-            container.addEventListener('click', (e) => {
-                const chip = e.target.closest('.chip-tag');
-                if (!chip) return;
-
-                const selected = container.querySelectorAll('.chip-tag.selected');
-                if (!chip.classList.contains('selected') && selected.length >= maxCount) {
-                    showToast(`You can select up to ${maxCount} items.`);
-                    return;
+        // Limit selection of Section 4 Q2 (Personality words) to maximum 5 items
+        const wordCheckboxes = document.querySelectorAll('input[name="entry.726000006"]');
+        wordCheckboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const checked = document.querySelectorAll('input[name="entry.726000006"]:checked');
+                if (checked.length > 5) {
+                    cb.checked = false;
+                    showToast('You can select up to 5 words.');
                 }
-
-                chip.classList.toggle('selected');
-                const currentSelected = Array.from(container.querySelectorAll('.chip-tag.selected')).map(c => c.getAttribute('data-val'));
-                hiddenInput.value = currentSelected.join(', ');
-
-                if (counterId) {
-                    const counter = document.getElementById(counterId);
-                    if (counter) counter.textContent = `Selected: ${currentSelected.length} / ${maxCount}`;
-                }
-
+                updateWordsCounter();
                 saveDraft();
             });
+        });
+
+        function updateWordsCounter() {
+            const counter = document.getElementById('words-counter');
+            if (counter) {
+                const cur = document.querySelectorAll('input[name="entry.726000006"]:checked').length;
+                counter.textContent = `Selected: ${cur} / 5`;
+            }
         }
 
-        setupChipGroup('personality-chips', 'entry_726000006', 5, 'personality-counter');
-        setupChipGroup('market-chips', 'entry_2047112130');
-        setupChipGroup('platform-chips', 'entry_1311960900');
-        setupChipGroup('services-chips', 'entry_1240339524');
+        // Automatic interaction for "Other:" inputs (like native Google Forms)
+        document.querySelectorAll('.g-other-text').forEach(input => {
+            input.addEventListener('focus', () => {
+                const entryId = input.getAttribute('data-entry');
+                const trigger = document.querySelector(`input[name="${entryId}"][value="__other_option__"]`);
+                if (trigger && !trigger.checked) {
+                    trigger.checked = true;
+                    updateWordsCounter();
+                    saveDraft();
+                }
+            });
+            input.addEventListener('input', () => {
+                const entryId = input.getAttribute('data-entry');
+                const trigger = document.querySelector(`input[name="${entryId}"][value="__other_option__"]`);
+                if (trigger && !trigger.checked) {
+                    trigger.checked = true;
+                    updateWordsCounter();
+                }
+                saveDraft();
+            });
+        });
 
-        // Form Data Collection
+        document.querySelectorAll('input[value="__other_option__"]').forEach(trigger => {
+            trigger.addEventListener('change', () => {
+                if (trigger.checked) {
+                    const entryId = trigger.name;
+                    const otherInput = document.querySelector(`.g-other-text[data-entry="${entryId}"]`);
+                    if (otherInput) otherInput.focus();
+                }
+                saveDraft();
+            });
+        });
+
+        // Comprehensive Data Collector (Supports radio, multi-checkbox arrays, and Google Form Other: write-ins)
         function collectData() {
             const form = document.getElementById('brand-discovery-form');
-            const formData = new FormData(form);
-            const obj = {};
-            for (const [key, value] of formData.entries()) {
-                obj[key] = value;
-            }
-            return obj;
+            const data = {};
+
+            // 1. Text inputs, email, tel, textareas
+            form.querySelectorAll('input[type="text"], input[type="email"], input[type="tel"], textarea').forEach(input => {
+                if (input.name && !input.classList.contains('g-other-text')) {
+                    data[input.name] = input.value.trim();
+                }
+            });
+
+            // 2. Radio inputs
+            form.querySelectorAll('input[type="radio"]:checked').forEach(radio => {
+                if (radio.name) data[radio.name] = radio.value;
+            });
+
+            // 3. Checkbox inputs (accumulated into arrays)
+            form.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+                if (!cb.name) return;
+                if (!data[cb.name]) {
+                    data[cb.name] = [];
+                }
+                data[cb.name].push(cb.value);
+            });
+
+            // 4. "Other:" write-ins (entry.XXXXX.other_option_response)
+            form.querySelectorAll('.g-other-text').forEach(otherInput => {
+                const entryId = otherInput.getAttribute('data-entry');
+                const trigger = form.querySelector(`input[name="${entryId}"][value="__other_option__"]`);
+                if (trigger && trigger.checked && otherInput.value.trim()) {
+                    data[`${entryId}.other_option_response`] = otherInput.value.trim();
+                }
+            });
+
+            return data;
         }
 
         // Auto-save to LocalStorage
@@ -1583,35 +1790,31 @@
             try {
                 const data = JSON.parse(saved);
                 for (const [key, val] of Object.entries(data)) {
-                    const el = document.querySelector(`[name="${key}"]`);
-                    if (el) {
-                        if (el.type === 'radio') {
-                            const radio = document.querySelector(`[name="${key}"][value="${val}"]`);
-                            if (radio) radio.checked = true;
+                    if (key.endsWith('.other_option_response')) {
+                        const entryId = key.replace('.other_option_response', '');
+                        const otherInput = document.querySelector(`.g-other-text[data-entry="${entryId}"]`);
+                        if (otherInput) otherInput.value = val;
+                        continue;
+                    }
+
+                    if (Array.isArray(val)) {
+                        val.forEach(v => {
+                            const cb = document.querySelector(`input[type="checkbox"][name="${key}"][value="${CSS.escape(v)}"]`);
+                            if (cb) cb.checked = true;
+                        });
+                    } else {
+                        const radio = document.querySelector(`input[type="radio"][name="${key}"][value="${CSS.escape(val)}"]`);
+                        if (radio) {
+                            radio.checked = true;
                         } else {
-                            el.value = val;
+                            const el = document.querySelector(`[name="${key}"]`);
+                            if (el && el.type !== 'radio' && el.type !== 'checkbox') {
+                                el.value = val;
+                            }
                         }
                     }
                 }
-
-                // Restore selected chips
-                ['personality-chips', 'market-chips', 'platform-chips', 'services-chips'].forEach(containerId => {
-                    const container = document.getElementById(containerId);
-                    if (!container) return;
-                    const hiddenInput = container.parentElement.querySelector('input[type="hidden"]');
-                    if (hiddenInput && hiddenInput.value) {
-                        const vals = hiddenInput.value.split(',').map(s => s.trim());
-                        container.querySelectorAll('.chip-tag').forEach(chip => {
-                            if (vals.includes(chip.getAttribute('data-val'))) {
-                                chip.classList.add('selected');
-                            }
-                        });
-                    }
-                });
-
-                const countEl = document.getElementById('personality-counter');
-                const selectedP = document.querySelectorAll('#personality-chips .chip-tag.selected').length;
-                if (countEl) countEl.textContent = `Selected: ${selectedP} / 5`;
+                updateWordsCounter();
             } catch (e) {}
         }
 
@@ -1619,9 +1822,24 @@
             if (confirm('Are you sure you want to clear your saved brief and start fresh?')) {
                 localStorage.removeItem(DRAFT_STORAGE_KEY);
                 document.getElementById('brand-discovery-form').reset();
-                document.querySelectorAll('.chip-tag.selected').forEach(c => c.classList.remove('selected'));
+                updateWordsCounter();
                 showToast('Draft cleared');
             }
+        }
+
+        // Helper to format values for brief & WhatsApp
+        function getReadableVal(data, key) {
+            const val = data[key];
+            const otherVal = data[`${key}.other_option_response`];
+            if (Array.isArray(val)) {
+                const items = val.filter(x => x !== '__other_option__');
+                if (otherVal) items.push(`Other: ${otherVal}`);
+                return items.join(', ') || 'N/A';
+            }
+            if (val === '__other_option__') {
+                return otherVal ? `Other: ${otherVal}` : 'Other';
+            }
+            return val || 'N/A';
         }
 
         // Executive brief formatted for WhatsApp and Clipboard
@@ -1631,71 +1849,72 @@
 MUHAMMED SIDHAN — BRAND DISCOVERY BRIEF
 ==========================================
 
-BRAND NAME: ${d.brand_name || 'N/A'}
-BRAND STAGE: ${d.brand_stage || 'A new brand'}
+BRAND NAME: ${d['entry.1521972625'] || 'N/A'}
+STAGE: ${getReadableVal(d, 'entry.854336900')}
 CLIENT CONTACT: ${d.client_name || 'N/A'} (${d.client_email || 'N/A'} / ${d.client_phone || 'N/A'})
-LINKS: ${d.links || 'N/A'}
+LINKS: ${d['entry.54569691'] || 'N/A'}
 
 --- CORE OFFERING & PURPOSE ---
-PRODUCT/SERVICE: ${d.product_service || 'N/A'}
-BRAND STORY: ${d.brand_story || 'N/A'}
-INSPIRATION: ${d.inspiration || 'N/A'}
-PROBLEM SOLVED: ${d.problem_solved || 'N/A'}
-DIFFERENTIATOR: ${d.differentiation || 'N/A'}
-TOP GOALS: ${d.main_goals || 'N/A'}
-3-5 YEAR VISION: ${d.future_vision || 'N/A'}
-CORE MESSAGE: ${d.core_message || 'N/A'}
+PRODUCT/SERVICE: ${d['entry.89056443'] || 'N/A'}
+BRAND STORY: ${d['entry.66466776'] || 'N/A'}
+INSPIRATION: ${d['entry.850314655'] || 'N/A'}
+PROBLEM SOLVED: ${d['entry.1720951003'] || 'N/A'}
+DIFFERENTIATOR: ${d['entry.1219397370'] || 'N/A'}
+TOP GOALS: ${d['entry.1035738402'] || 'N/A'}
+3-5 YEAR VISION: ${d['entry.820805609'] || 'N/A'}
+CORE MESSAGE: ${d['entry.1234135220'] || 'N/A'}
 
 --- AUDIENCE & PSYCHOLOGY ---
-TARGET AUDIENCE: ${d.target_audience || 'N/A'}
-AGE GROUP: ${d.age_group || 'N/A'} | GENDER: ${d.gender_focus || 'Both'}
-BUYER PROFILE: ${d.buyer_profile || 'N/A'}
-DESIRED EMOTIONS: ${d.brand_emotions || 'N/A'}
-TARGET COUNTRIES: ${d.target_countries || 'N/A'}
+TARGET AUDIENCE: ${d['entry.1773681969'] || 'N/A'}
+AGE GROUP: ${d['entry.1449430324'] || 'N/A'} | GENDER: ${getReadableVal(d, 'entry.1432340557')}
+BUYER PROFILE: ${d['entry.1052678168'] || 'N/A'}
+DESIRED EMOTIONS: ${d['entry.2056083537'] || 'N/A'}
+PRIMARY REGION: ${d['entry.1034928443'] || 'N/A'}
 
 --- BRAND PERSONALITY & STYLE ---
-PERSONA: ${d.brand_persona || 'N/A'}
-TRAITS: ${d.personality_words || 'N/A'}
-ATMOSPHERE: ${d.feeling_create || 'N/A'}
-INSPIRATION BRANDS: ${d.brand_inspiration || 'N/A'}
-VISUAL STYLE: ${d.visual_style || 'N/A'}
+PERSONA: ${d['entry.1740452696'] || 'N/A'}
+TRAITS: ${getReadableVal(d, 'entry.726000006')}
+TONE OF VOICE: ${d['entry.703871801'] || 'N/A'}
+INSPIRATION BRANDS: ${d['entry.1087755955'] || 'N/A'}
+VISUAL STYLE: ${d['entry.1870790955'] || 'N/A'}
 
 --- LOGO & VISUAL IDENTITY ---
-EXISTING LOGO: ${d.has_logo || 'No'}
-LOGO TYPE PREFERRED: ${d.logo_type || 'Wordmark'}
-ELEMENTS TO INCLUDE: ${d.symbols_wanted || 'None'}
-ELEMENTS TO AVOID: ${d.symbols_avoid || 'None'}
-COLORS: ${d.preferred_colors || 'Open'}
-DESIGN DENSITY: ${d.design_density || 'Minimal'}
+EXISTING LOGO: ${getReadableVal(d, 'entry.1494830036')}
+LOGO TYPE PREFERRED: ${getReadableVal(d, 'entry.554797467')}
+ELEMENTS TO INCLUDE: ${d['entry.596838607'] || 'None'}
+ELEMENTS TO AVOID: ${d['entry.77259235'] || 'None'}
+COLORS: ${d['entry.1926740340'] || 'Open'}
+DESIGN DENSITY: ${getReadableVal(d, 'entry.1897757883')}
 
 --- MARKET & COMPETITORS ---
-COMPETITORS: ${d.competitors || 'N/A'}
-COMPETITOR FEEDBACK: ${d.competitor_likes_dislikes || 'N/A'}
-USP: ${d.brand_uniqueness || 'N/A'}
-TIER: ${d.market_position || 'N/A'}
+COMPETITORS: ${d['entry.1588766165'] || 'N/A'}
+COMPETITOR FEEDBACK: ${d['entry.1239299568'] || 'N/A'}
+USP: ${d['entry.1320178685'] || 'N/A'}
+MARKET POSITION: ${getReadableVal(d, 'entry.2047112130')}
 
 --- DIGITAL PRESENCE ---
-PLATFORMS: ${d.social_platforms || 'N/A'}
-CONTENT FORMATS: ${d.content_types || 'N/A'}
-VISUAL THEME: ${d.social_visual_style || 'N/A'}
-CONSISTENCY: ${d.consistent_theme || 'Yes'}
+PLATFORMS: ${getReadableVal(d, 'entry.1311960900')}
+CONTENT FORMATS: ${d['entry.1074356999'] || 'N/A'}
+VISUAL STYLE: ${d['entry.1310025804'] || 'N/A'}
+THEME CONSISTENCY: ${getReadableVal(d, 'entry.1315593454')}
 
---- SERVICES & TIMELINE ---
-SERVICES NEEDED: ${d.services_needed || 'Full Brand Identity'}
-DELIVERABLES: ${d.deliverables || 'N/A'}
-DEADLINE: ${d.has_deadline === 'Yes' ? (d.deadline_date || 'Yes') : 'Flexible'}
-NOTES: ${d.anything_else || 'None'}
+--- SERVICES & SCOPE ---
+SERVICES NEEDED: ${getReadableVal(d, 'entry.1240339524')}
+DELIVERABLES: ${d['entry.144580768'] || 'N/A'}
+DEADLINE: ${getReadableVal(d, 'entry.264083599')} ${d.deadline_date ? `(${d.deadline_date})` : ''}
+ADDITIONAL NOTES: ${d['entry.507504509'] || 'None'}
 ==========================================`;
         }
 
         // WhatsApp Direct Dispatcher
         function sendViaWhatsApp() {
             const d = collectData();
-            const brand = d.brand_name || 'New Brand';
+            const brand = d['entry.1521972625'] || 'New Brand';
             const client = d.client_name || 'Client';
-            const services = d.services_needed || 'Branding Identity';
+            const services = getReadableVal(d, 'entry.1240339524');
+            const logoType = getReadableVal(d, 'entry.554797467');
             
-            const summaryMsg = `Hello Muhammed Sidhan! 👋%0A%0AI have just completed the Brand Discovery Questionnaire on your studio portal:%0A%0A*Brand Name:* ${encodeURIComponent(brand)}%0A*Contact:* ${encodeURIComponent(client)}%0A*Stage:* ${encodeURIComponent(d.brand_stage || 'A new brand')}%0A*Offering:* ${encodeURIComponent((d.product_service || '').substring(0, 120))}%0A*Services Needed:* ${encodeURIComponent(services)}%0A*Preferred Logo:* ${encodeURIComponent(d.logo_type || 'Wordmark')}%0A%0ALooking forward to our creative strategy review! 🚀`;
+            const summaryMsg = `Hello Muhammed Sidhan! 👋%0A%0AI have just completed the Brand Discovery Questionnaire on your studio portal:%0A%0A*Brand Name:* ${encodeURIComponent(brand)}%0A*Contact:* ${encodeURIComponent(client)}%0A*Stage:* ${encodeURIComponent(getReadableVal(d, 'entry.854336900'))}%0A*Offering:* ${encodeURIComponent((d['entry.89056443'] || '').substring(0, 120))}%0A*Services Needed:* ${encodeURIComponent(services)}%0A*Preferred Logo:* ${encodeURIComponent(logoType)}%0A%0ALooking forward to our creative strategy review! 🚀`;
             
             const whatsappUrl = `https://wa.me/qr/VIPRJVCQP5TGP1?text=${summaryMsg}`;
             window.open(whatsappUrl, '_blank');
@@ -1705,12 +1924,9 @@ NOTES: ${d.anything_else || 'None'}
             const modal = document.getElementById('successModal');
             const wasModalOpen = modal && modal.classList.contains('active');
             
-            // 1. Temporarily dismiss confirmation modal so it never contaminates the printed PDF
-            if (wasModalOpen) {
-                modal.classList.remove('active');
-            }
+            if (wasModalOpen) modal.classList.remove('active');
 
-            // 2. Expand textareas to fit filled content so nothing is truncated in PDF export
+            // Expand textareas to fit content in PDF print
             document.querySelectorAll('textarea').forEach(ta => {
                 ta.style.height = 'auto';
                 if (ta.scrollHeight > 0) {
@@ -1718,15 +1934,10 @@ NOTES: ${d.anything_else || 'None'}
                 }
             });
 
-            // 3. Trigger print dialog after clean reflow
             setTimeout(() => {
                 window.print();
-
-                // 4. Smoothly restore modal acknowledgment once user finishes or cancels print
                 if (wasModalOpen) {
-                    setTimeout(() => {
-                        modal.classList.add('active');
-                    }, 400);
+                    setTimeout(() => modal.classList.add('active'), 400);
                 }
             }, 150);
         }
@@ -1745,14 +1956,14 @@ NOTES: ${d.anything_else || 'None'}
             if (modal) modal.classList.remove('active');
         }
 
-        // Submit Brief (Dual Delivery: Google Forms proxy + Local acknowledgment)
+        // Submit Brief (Direct Dual Delivery: Cloudflare Serverless Function + Immediate UX)
         async function submitBrief() {
-            const brandName = document.getElementById('entry_1521972625').value.trim();
-            const clientName = document.getElementById('client_name').value.trim();
-            const clientEmail = document.getElementById('client_email').value.trim();
+            const brandName = (document.getElementById('entry_1521972625').value || '').trim();
+            const clientName = (document.getElementById('client_name').value || '').trim();
+            const clientEmail = (document.getElementById('client_email').value || '').trim();
 
             if (!brandName) {
-                alert('Please enter your Company / Brand Name in Section 1.');
+                alert('Please enter your Brand Name in Section 1 (Question 1).');
                 document.getElementById('entry_1521972625').focus();
                 return;
             }
@@ -1763,21 +1974,31 @@ NOTES: ${d.anything_else || 'None'}
             }
 
             const data = collectData();
+            const submitBtn = document.querySelector('.btn-submit');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Submitting...';
+            }
 
             try {
-                // Post to Cloudflare proxy endpoint
-                fetch('/api/submit-branding-brief', {
+                const response = await fetch('/api/submit-branding-brief', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
-                }).catch(() => {});
-            } catch (e) {}
-
-            // Open confirmation modal
-            const modal = document.getElementById('successModal');
-            if (modal) {
-                modal.classList.add('active');
+                });
+                const result = await response.json();
+                console.log('Submission result:', result);
+            } catch (err) {
+                console.warn('Network notice:', err);
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Brief';
+                }
             }
+
+            const modal = document.getElementById('successModal');
+            if (modal) modal.classList.add('active');
             showToast('Brief successfully recorded!');
         }
 
