@@ -67,6 +67,21 @@ export default {
       return handleSubmitBrandingBrief(request, env, url);
     }
 
+    // Route: /brand-discovery
+    if (url.pathname === '/brand-discovery') {
+      const pageRes = await env.ASSETS.fetch(new Request(new URL('/brand-discovery.html', request.url), request));
+      const res = new Response(pageRes.body, pageRes);
+      for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
+        res.headers.set(key, value);
+      }
+      res.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+      return res;
+    }
+
+    if (url.pathname === '/brand' || url.pathname === '/brand/' || url.pathname === '/brand-discovery/' || url.pathname === '/brand-qa' || url.pathname === '/discovery') {
+      return Response.redirect(`${url.origin}/brand-discovery`, 301);
+    }
+
     // Canonical redirects for secret routes
     if (url.pathname === '/secret/hafu') {
       return Response.redirect(`${url.origin}/secret/hafu/`, 301);
@@ -81,13 +96,23 @@ export default {
       return Response.redirect(`${url.origin}/secret/brand/`, 301);
     }
 
-    if (url.pathname === '/brand-qa' || url.pathname === '/discovery') {
-      return Response.redirect(`${url.origin}/brand-discovery`, 301);
-    }
-
     // Static Asset Delivery with Security Headers
     try {
-      const response = await env.ASSETS.fetch(request);
+      let response = await env.ASSETS.fetch(request);
+
+      // Clean URL fallback for assets without extensions
+      if (response.status === 404 && !url.pathname.includes('.')) {
+        const cleanPath = url.pathname.replace(/\/$/, '') + '.html';
+        const cleanRes = await env.ASSETS.fetch(new Request(new URL(cleanPath, request.url), request));
+        if (cleanRes.status < 400) {
+          response = cleanRes;
+        }
+      }
+
+      if (response.status === 304 || response.status === 204) {
+        return response;
+      }
+
       const newHeaders = new Headers(response.headers);
       for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
         if (!newHeaders.has(key)) {
@@ -103,7 +128,7 @@ export default {
         headers: newHeaders,
       });
     } catch (err) {
-      return new Response('Asset not found or error loading asset.', { status: 500 });
+      return env.ASSETS.fetch(request);
     }
   },
 };
