@@ -479,21 +479,3 @@ async function handleSubmitBrandingBrief(request, env, url) {
     return jsonResponse({ success: false, error: 'Server error: ' + err.message }, 500);
   }
 }
-
-    if (googleRes.ok || googleRes.status === 200 || googleRes.status === 302 || googleRes.status === 303) {
-      return jsonResponse({
-        success: true,
-        message: 'Your branding discovery brief has been successfully submitted to Muhammed Sidhan!'
-      }, 200);
-    } else {
-      // Even if Google returns 502/status, we still inform client gracefully
-      return jsonResponse({
-        success: false,
-        error: 'Unable to reach Google Forms endpoint directly. Please copy or send your brief via WhatsApp.'
-      }, 502);
-    }
-  } catch (err) {
-    return jsonResponse({ success: false, error: 'Server error: ' + err.message }, 500);
-  }
-}
-
