@@ -81,20 +81,8 @@ export default {
       return Response.redirect(`${url.origin}/secret/brand/`, 301);
     }
 
-    // Clean URLs for brand discovery questionnaire
-    if (url.pathname === '/brand' || url.pathname === '/brand-discovery' || url.pathname === '/brand-qa' || url.pathname === '/discovery') {
-      const brandReq = new Request(new URL('/brand-discovery.html', request.url), request);
-      const assetRes = await env.ASSETS.fetch(brandReq);
-      const newHeaders = new Headers(assetRes.headers);
-      for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
-        if (!newHeaders.has(key)) newHeaders.set(key, value);
-      }
-      newHeaders.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
-      return new Response(assetRes.body, {
-        status: assetRes.status,
-        statusText: assetRes.statusText,
-        headers: newHeaders,
-      });
+    if (url.pathname === '/brand-qa' || url.pathname === '/discovery') {
+      return Response.redirect(`${url.origin}/brand-discovery`, 301);
     }
 
     // Static Asset Delivery with Security Headers
@@ -106,7 +94,7 @@ export default {
           newHeaders.set(key, value);
         }
       }
-      if (url.pathname.startsWith('/secret')) {
+      if (url.pathname.startsWith('/secret') || url.pathname.includes('brand')) {
         newHeaders.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
       }
       return new Response(response.body, {
