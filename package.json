@@ -1,0 +1,9 @@
+{
+  "name": "zidhan-portfolio",
+  "version": "1.0.0",
+  "description": "Muhammed Sidhan Portfolio Website",
+  "private": true,
+  "scripts": {
+    "build": "node build.js"
+  }
+}
