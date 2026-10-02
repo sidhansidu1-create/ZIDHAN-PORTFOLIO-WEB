@@ -4788,6 +4788,30 @@ footer {
     border-radius: 9999px !important;
 }
 
+.secret-brand-result {
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.22) 0%, rgba(10, 8, 24, 0.88) 100%) !important;
+    border: 1px solid rgba(123, 97, 255, 0.5) !important;
+    box-shadow: 0 0 25px rgba(123, 97, 255, 0.28) !important;
+}
+
+.secret-brand-result:hover,
+.secret-brand-result:focus {
+    background: linear-gradient(135deg, rgba(123, 97, 255, 0.35) 0%, rgba(10, 8, 24, 0.98) 100%) !important;
+    border-color: #a78bfa !important;
+    box-shadow: 0 0 35px rgba(167, 139, 250, 0.5) !important;
+}
+
+.secret-brand-pill {
+    background: rgba(123, 97, 255, 0.28) !important;
+    color: #c4b5fd !important;
+    border: 1px solid rgba(167, 139, 250, 0.5) !important;
+    font-size: 0.68rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em !important;
+    padding: 0.2rem 0.6rem !important;
+    border-radius: 9999px !important;
+}
+
 /* Heart-Shaped Zoom & Glowing Crimson Transition Overlay */
 .heart-portal-overlay {
     position: fixed;

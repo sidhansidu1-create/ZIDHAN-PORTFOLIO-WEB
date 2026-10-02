@@ -1,0 +1,14 @@
+.git
+.github
+node_modules
+functions
+build.js
+worker.js
+wrangler.jsonc
+package.json
+package-lock.json
+ARCHITECTURE.md
+AGENTS.md
+GEMINI.md
+README.md
+SEO

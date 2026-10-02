@@ -161,7 +161,11 @@ document.addEventListener("DOMContentLoaded", () => {
         { title: "AI Video Creation", category: "Skill", desc: "Generative AI video with Veo, Kling, Magnific & Antigravity", link: "#skills" },
         { title: "Motion Graphics", category: "Service", desc: "Animated brand elements", link: "#services" },
         { title: "Print Design", category: "Service", desc: "Brochures, catalogues, and posters", link: "#services" },
-        { title: "Web Development", category: "Service", desc: "Modern, responsive websites", link: "#services" }
+        { title: "Web Development", category: "Service", desc: "Modern, responsive websites", link: "#services" },
+        
+        // Client Portals
+        { title: "Discover Your Brand (Branding Q & A)", category: "Client Portal", desc: "Confidential branding discovery questionnaire for clients (Discover / Disover / Isocer Your Brand, Q&A Brief)", link: "brand-discovery.html" },
+        { title: "Brand Discovery Questionnaire", category: "Client Portal", desc: "Interactive questionnaire for new brand identity projects and client creative strategy", link: "brand-discovery.html" }
     ];
 
     const toggleSearch = (state) => {
@@ -252,6 +256,40 @@ document.addEventListener("DOMContentLoaded", () => {
             };
         }
 
+        // Brand Discovery Client Portal (matches: "discover your brand", "disover your brand", "isocer your brand", "brand discovery", etc.)
+        if (
+            cleaned === 'discoveryourbrand' || 
+            cleaned === 'disoveryourbrand' || 
+            cleaned === 'isoceryourbrand' || 
+            cleaned === 'discoverbrand' || 
+            cleaned === 'disoverbrand' || 
+            cleaned === 'isocerbrand' || 
+            cleaned === 'branddiscovery' || 
+            cleaned === 'branddiscover' || 
+            cleaned === 'branddisover' || 
+            cleaned === 'brandingqa' || 
+            cleaned === 'brandqa' || 
+            cleaned === 'brandquestions' || 
+            cleaned === 'brandquestionnaire' ||
+            cleaned === 'brandingquestionnaire' ||
+            cleaned === 'discover' ||
+            cleaned === 'disover' ||
+            cleaned === 'isocer' ||
+            cleaned.includes('discoveryourbrand') ||
+            cleaned.includes('disoveryourbrand') ||
+            cleaned.includes('isoceryourbrand') ||
+            cleaned.includes('branddiscovery')
+        ) {
+            return {
+                type: 'brand',
+                title: 'Discover Your Brand — Client Discovery Portal',
+                category: 'CLIENT QUESTIONNAIRE',
+                desc: 'Click here or press Enter to launch your interactive Brand Strategy & Identity questionnaire...',
+                msg: 'Opening Discover Your Brand portal... 🚀',
+                url: 'brand-discovery.html'
+            };
+        }
+
         return null;
     }
 
@@ -290,6 +328,32 @@ document.addEventListener("DOMContentLoaded", () => {
         const destMsg = targetMsg || 'Unlocking secret for Hafu... ❤️';
 
         if (searchInput) searchInput.blur();
+
+        // Direct clean navigation for Client Brand Discovery Portal
+        if (destUrl.includes('brand-discovery') || (destMsg && destMsg.includes('Brand Discovery'))) {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    const ctx = new AudioContext();
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(520, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1040, ctx.currentTime + 0.25);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.35);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.35);
+                }
+            } catch (e) {}
+            setTimeout(() => {
+                window.location.href = destUrl;
+            }, 150);
+            return;
+        }
+
         playRomanticArpeggio();
 
         let portalOverlay = document.getElementById('heart-portal-overlay');
@@ -378,11 +442,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let secretCardHtml = '';
         if (secretInfo) {
+            const isBrand = secretInfo.type === 'brand';
+            const icon = isBrand ? '✨' : '❤️';
+            const cardClass = isBrand ? 'secret-search-result secret-brand-result' : 'secret-search-result';
+            const pillClass = isBrand ? 'secret-brand-pill' : 'secret-confidential-pill';
             secretCardHtml = `
-                <div class="search-result-item secret-search-result" id="secretLoveTriggerCard" role="button" tabindex="0">
+                <div class="search-result-item ${cardClass}" id="secretLoveTriggerCard" role="button" tabindex="0">
                     <div class="search-result-header">
-                        <span class="search-result-title"><span class="secret-pulse-heart">❤️</span> ${secretInfo.title}</span>
-                        <span class="search-result-category secret-confidential-pill">${secretInfo.category}</span>
+                        <span class="search-result-title"><span class="secret-pulse-heart">${icon}</span> ${secretInfo.title}</span>
+                        <span class="search-result-category ${pillClass}">${secretInfo.category}</span>
                     </div>
                     <p class="search-result-desc">${secretInfo.desc}</p>
                 </div>

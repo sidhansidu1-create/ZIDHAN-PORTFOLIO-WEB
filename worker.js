@@ -92,8 +92,8 @@ export default {
     if (url.pathname === '/secret') {
       return Response.redirect(`${url.origin}/secret/hafu/`, 301);
     }
-    if (url.pathname === '/secret/brand') {
-      return Response.redirect(`${url.origin}/secret/brand/`, 301);
+    if (url.pathname === '/secret/brand' || url.pathname === '/secret/brand/' || url.pathname === '/secret/brand/index.html') {
+      return Response.redirect(`${url.origin}/brand-discovery`, 301);
     }
 
     // Static Asset Delivery with Security Headers
