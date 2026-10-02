@@ -648,19 +648,253 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Print Media Styles */
+        /* Screen styles for print doc header */
+        .print-doc-header {
+            display: none;
+        }
+
+        /* Print Media Styles — Production-Grade Brief Layout */
         @media print {
-            .top-navbar, .floating-action-hud, .theme-toggle-btn {
+            @page {
+                size: A4 portrait;
+                margin: 12mm 12mm 12mm 12mm;
+            }
+
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+
+            html, body {
+                background: #ffffff !important;
+                color: #111827 !important;
+                font-size: 9pt !important;
+                line-height: 1.4 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Completely hide modal overlays, navbars, and interactive HUD */
+            .top-navbar,
+            .floating-action-hud,
+            .theme-toggle-btn,
+            .modal-overlay,
+            .modal-card,
+            .modal-actions,
+            .toast-notice,
+            .autosave-pill,
+            .hero-card-header,
+            .chip-counter,
+            #themeToggleBtn {
+                display: none !important;
+                visibility: hidden !important;
+                height: 0 !important;
+                width: 0 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+                position: absolute !important;
+                top: -9999px !important;
+            }
+
+            .form-wrapper {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            /* Printable Agency Header Letterhead */
+            .print-doc-header {
+                display: block !important;
+                border-bottom: 2px solid #673ab7 !important;
+                padding-bottom: 8px !important;
+                margin-bottom: 12px !important;
+            }
+
+            .print-doc-header-inner {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: flex-end !important;
+            }
+
+            .print-doc-title {
+                font-family: var(--font-head);
+                font-size: 13pt !important;
+                font-weight: 800 !important;
+                color: #673ab7 !important;
+                letter-spacing: 0.04em !important;
+            }
+
+            .print-doc-subtitle {
+                font-size: 7.5pt !important;
+                color: #4b5563 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.06em !important;
+                margin-top: 2px !important;
+            }
+
+            .print-doc-meta {
+                text-align: right !important;
+                font-size: 7.5pt !important;
+                color: #6b7280 !important;
+            }
+
+            /* Compact Top Header Card */
+            .header-card {
+                border: 1px solid #d1d5db !important;
+                border-top: 5px solid #673ab7 !important;
+                border-radius: 6px !important;
+                padding: 10px 14px !important;
+                margin-bottom: 10px !important;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            .section-pill-tag {
+                font-size: 7pt !important;
+                padding: 2px 8px !important;
+                margin-bottom: 6px !important;
+                background: #673ab7 !important;
+                color: #ffffff !important;
+            }
+
+            .form-main-title {
+                font-size: 13pt !important;
+                margin-bottom: 4px !important;
+            }
+
+            .form-desc {
+                font-size: 8pt !important;
+                margin-bottom: 4px !important;
+                color: #4b5563 !important;
+            }
+
+            .required-indicator {
+                font-size: 7pt !important;
+            }
+
+            /* Hide heavy SVG banner in PDF print to eliminate blank page waste */
+            .hero-banner-card {
                 display: none !important;
             }
-            body {
-                background: #ffffff !important;
-                color: #000000 !important;
-            }
+
+            /* Compact Question Cards */
             .g-card {
-                box-shadow: none !important;
-                border: 1px solid #ddd !important;
-                page-break-inside: avoid;
+                border: 1px solid #e5e7eb !important;
+                border-radius: 6px !important;
+                background: #ffffff !important;
+                padding: 8px 12px !important;
+                margin-bottom: 6px !important;
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+
+            /* Section Header Cards */
+            .section-header-card {
+                background: #673ab7 !important;
+                color: #ffffff !important;
+                border: none !important;
+                border-radius: 6px !important;
+                padding: 6px 12px !important;
+                margin-top: 10px !important;
+                margin-bottom: 6px !important;
+                break-after: avoid !important;
+                page-break-after: avoid !important;
+            }
+
+            .section-header-card h2 {
+                font-size: 9.5pt !important;
+                color: #ffffff !important;
+                margin-bottom: 0 !important;
+            }
+
+            .section-header-card p {
+                display: none !important;
+            }
+
+            .q-title {
+                font-size: 8.5pt !important;
+                font-weight: 700 !important;
+                margin-bottom: 4px !important;
+                color: #111827 !important;
+            }
+
+            .q-desc {
+                font-size: 7.5pt !important;
+                color: #6b7280 !important;
+                margin-top: -2px !important;
+                margin-bottom: 4px !important;
+            }
+
+            /* Inputs & Textareas in Print */
+            .g-input-underline {
+                border-bottom: 1px solid #6b7280 !important;
+                font-size: 8.5pt !important;
+                padding: 2px 0 !important;
+                color: #111827 !important;
+                background: transparent !important;
+            }
+
+            .g-textarea {
+                border: 1px solid #d1d5db !important;
+                border-radius: 4px !important;
+                font-size: 8.5pt !important;
+                padding: 4px 6px !important;
+                color: #111827 !important;
+                height: auto !important;
+                min-height: 38px !important;
+                resize: none !important;
+                overflow: visible !important;
+            }
+
+            /* Selected Chips in Print */
+            .chip-container {
+                gap: 4px !important;
+            }
+
+            .chip-tag {
+                padding: 2px 8px !important;
+                font-size: 7.5pt !important;
+                border: 1px solid #d1d5db !important;
+                background: #ffffff !important;
+            }
+
+            .chip-tag.selected {
+                background: #ede7f6 !important;
+                border: 1.5px solid #673ab7 !important;
+                color: #4a148c !important;
+                font-weight: 700 !important;
+            }
+
+            .chip-tag:not(.selected) {
+                opacity: 0.55 !important;
+                border-style: dashed !important;
+            }
+
+            /* Radio Options in Print */
+            .radio-group {
+                gap: 4px !important;
+            }
+
+            .radio-option-row {
+                padding: 2px 0 !important;
+            }
+
+            .radio-option-row input[type="radio"]:checked {
+                border-color: #673ab7 !important;
+            }
+
+            .radio-option-row input[type="radio"]:checked::before {
+                background-color: #673ab7 !important;
+            }
+
+            /* Contact Grid */
+            .contact-grid {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 8px !important;
             }
         }
     </style>
@@ -688,6 +922,20 @@
     </header>
 
     <div class="form-wrapper">
+        <!-- Printable Agency Header (Visible exclusively in print/PDF output) -->
+        <div class="print-doc-header">
+            <div class="print-doc-header-inner">
+                <div>
+                    <div class="print-doc-title">MUHAMMED SIDHAN CREATIVE STUDIO</div>
+                    <div class="print-doc-subtitle">Executive Brand Strategy & Discovery Brief</div>
+                </div>
+                <div class="print-doc-meta">
+                    <div>Confidential Client Dossier</div>
+                    <div>zidhan.com • Strategy & Identity</div>
+                </div>
+            </div>
+        </div>
+
         <form id="brand-discovery-form" autocomplete="off" onsubmit="event.preventDefault(); submitBrief();">
             
             <!-- HEADER CARD (Top Purple Stripe) -->
@@ -1454,7 +1702,33 @@ NOTES: ${d.anything_else || 'None'}
         }
 
         function printBrief() {
-            window.print();
+            const modal = document.getElementById('successModal');
+            const wasModalOpen = modal && modal.classList.contains('active');
+            
+            // 1. Temporarily dismiss confirmation modal so it never contaminates the printed PDF
+            if (wasModalOpen) {
+                modal.classList.remove('active');
+            }
+
+            // 2. Expand textareas to fit filled content so nothing is truncated in PDF export
+            document.querySelectorAll('textarea').forEach(ta => {
+                ta.style.height = 'auto';
+                if (ta.scrollHeight > 0) {
+                    ta.style.height = Math.max(ta.scrollHeight, 40) + 'px';
+                }
+            });
+
+            // 3. Trigger print dialog after clean reflow
+            setTimeout(() => {
+                window.print();
+
+                // 4. Smoothly restore modal acknowledgment once user finishes or cancels print
+                if (wasModalOpen) {
+                    setTimeout(() => {
+                        modal.classList.add('active');
+                    }, 400);
+                }
+            }, 150);
         }
 
         function showToast(msg) {
