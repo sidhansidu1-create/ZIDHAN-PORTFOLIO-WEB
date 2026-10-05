@@ -1747,11 +1747,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const dots = dotsContainer.querySelectorAll(`.${dotClass}`);
         if (dots.length === 0) return;
 
+        const getStep = () => {
+            const card = track.querySelector('.brand-card, .work-card');
+            const gap = parseFloat(getComputedStyle(track).gap) || 20;
+            return card ? card.offsetWidth + gap : track.offsetWidth;
+        };
+
         track.addEventListener('scroll', () => {
             const scrollLeft = track.scrollLeft;
-            const card = track.querySelector('.brand-card, .work-card');
-            const cardWidth = card ? card.offsetWidth + 16 : 300;
-            const activeIndex = Math.min(dots.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
+            const step = getStep();
+            const activeIndex = Math.min(dots.length - 1, Math.max(0, Math.round(scrollLeft / step)));
             dots.forEach((dot, idx) => {
                 if (idx === activeIndex) {
                     dot.classList.add('active');
@@ -1763,9 +1768,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         dots.forEach((dot, idx) => {
             dot.addEventListener('click', () => {
-                const card = track.querySelector('.brand-card, .work-card');
-                const cardWidth = card ? card.offsetWidth + 16 : 300;
-                track.scrollTo({ left: idx * cardWidth, behavior: 'smooth' });
+                const step = getStep();
+                track.scrollTo({ left: idx * step, behavior: 'smooth' });
             });
         });
     };
@@ -1784,14 +1788,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const getVisibleCards = () => Array.from(grid.querySelectorAll('.work-card:not(.hidden)'));
 
+        const getStep = () => {
+            const visible = getVisibleCards();
+            const gap = parseFloat(getComputedStyle(grid).gap) || 20;
+            return visible[0] ? visible[0].offsetWidth + gap : grid.offsetWidth;
+        };
+
         const updateCounter = () => {
             const visible = getVisibleCards();
             if (totalEl) totalEl.textContent = visible.length;
             if (visible.length === 0) return;
 
             const scrollLeft = grid.scrollLeft;
-            const cardWidth = visible[0].offsetWidth + 16;
-            const activeIdx = Math.min(visible.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
+            const step = getStep();
+            const activeIdx = Math.min(visible.length - 1, Math.max(0, Math.round(scrollLeft / step)));
             if (currentEl) currentEl.textContent = activeIdx + 1;
         };
 
@@ -1799,17 +1809,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
-                const visible = getVisibleCards();
-                const cardWidth = visible[0] ? visible[0].offsetWidth + 16 : 280;
-                grid.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+                const step = getStep();
+                grid.scrollBy({ left: -step, behavior: 'smooth' });
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
-                const visible = getVisibleCards();
-                const cardWidth = visible[0] ? visible[0].offsetWidth + 16 : 280;
-                grid.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                const step = getStep();
+                grid.scrollBy({ left: step, behavior: 'smooth' });
             });
         }
 
@@ -1831,11 +1839,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const cards = Array.from(track.querySelectorAll('.skill-card'));
         if (totalEl) totalEl.textContent = cards.length;
 
+        const getStep = () => {
+            const gap = parseFloat(getComputedStyle(track).gap) || 20;
+            return cards[0] ? cards[0].offsetWidth + gap : track.offsetWidth;
+        };
+
         const updateCounter = () => {
             if (cards.length === 0) return;
             const scrollLeft = track.scrollLeft;
-            const cardWidth = cards[0].offsetWidth + 16;
-            const activeIdx = Math.min(cards.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
+            const step = getStep();
+            const activeIdx = Math.min(cards.length - 1, Math.max(0, Math.round(scrollLeft / step)));
             if (currentEl) currentEl.textContent = activeIdx + 1;
         };
 
@@ -1843,15 +1856,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
-                const cardWidth = cards[0] ? cards[0].offsetWidth + 16 : 280;
-                track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+                const step = getStep();
+                track.scrollBy({ left: -step, behavior: 'smooth' });
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
-                const cardWidth = cards[0] ? cards[0].offsetWidth + 16 : 280;
-                track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+                const step = getStep();
+                track.scrollBy({ left: step, behavior: 'smooth' });
             });
         }
 
