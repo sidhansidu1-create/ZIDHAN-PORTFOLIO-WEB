@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Principles — Interactive 3D Brand Book | Muhammed Sidhan (ZIDHANZID)</title>
+    <meta name="description" content="Explore the interactive 3D digital brand book of Design Principles by Muhammed Sidhan (ZIDHANZID). Flip through pages with realistic paper physics, typography, and visual rules.">
+    <meta name="author" content="Muhammed Sidhan">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://zidhan.com/design-principles.html">
+
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#040711">
+    <meta name="color-scheme" content="dark">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="book">
+    <meta property="og:url" content="https://zidhan.com/design-principles.html">
+    <meta property="og:title" content="Design Principles — Interactive 3D Flipbook | Muhammed Sidhan">
+    <meta property="og:description" content="Explore the interactive digital flipbook for Design Principles by Muhammed Sidhan (ZIDHANZID). Featuring realistic 3D paper turns, visual architecture, and brand standards.">
+    <meta property="og:site_name" content="ZIDHANZID">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Flipbook Stylesheet -->
+    <link rel="stylesheet" href="flipbook.css?v=2.3">
+
+    <!-- PDF.js Engine & StPageFlip Library (Local with CDN fallback) -->
+    <script src="utils/vendor/pdf.min.js"></script>
+    <script src="utils/vendor/page-flip.browser.js?v=2.3"></script>
+</head>
+<body>
+
+    <!-- Ambient Cyber Glows -->
+    <div class="fb-ambient-bg" aria-hidden="true">
+        <div class="fb-ambient-glow-1"></div>
+        <div class="fb-ambient-glow-2"></div>
+    </div>
+
+    <!-- Main Flipbook Application -->
+    <div class="fb-app">
+
+        <!-- Top Header Navigation -->
+        <header class="fb-header">
+            <div class="fb-brand-section">
+                <a href="index.html" class="fb-back-btn" title="Return to Main Portfolio">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <span>PORTFOLIO</span>
+                </a>
+
+                <div class="fb-brand-title">
+                    <div class="fb-title-main">
+                        <span>DESIGN PRINCIPLES</span>
+                        <span class="fb-title-badge">FLIPBOOK</span>
+                    </div>
+                    <div class="fb-title-sub">Muhammed Sidhan (ZIDHANZID) Visual Architecture</div>
+                </div>
+            </div>
+
+            <!-- Action Tools -->
+            <div class="fb-actions">
+                <!-- Sound Toggle -->
+                <button type="button" class="fb-btn-icon" id="sound-toggle-btn" data-tooltip="Mute / Unmute Sound" aria-label="Toggle Page Turn Sound">
+                    <svg id="sound-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                    </svg>
+                    <svg id="sound-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <line x1="23" y1="9" x2="17" y2="15"></line>
+                        <line x1="17" y1="9" x2="23" y2="15"></line>
+                    </svg>
+                </button>
+
+                <!-- Download PDF Button -->
+                <a href="pdf/DESIGN%20PRINCIPLES.pdf" download="DESIGN PRINCIPLES - Muhammed Sidhan.pdf" class="fb-btn-icon" data-tooltip="Download Original PDF" aria-label="Download PDF">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </a>
+
+                <!-- Share Link Button -->
+                <button type="button" class="fb-btn-icon" id="share-btn" data-tooltip="Copy Share Link" aria-label="Share Link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="18" cy="5" r="3"></circle>
+                        <circle cx="6" cy="12" r="3"></circle>
+                        <circle cx="18" cy="19" r="3"></circle>
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                    </svg>
+                </button>
+
+                <!-- Fullscreen Toggle -->
+                <button type="button" class="fb-btn-icon" id="fullscreen-btn" data-tooltip="Toggle Fullscreen" aria-label="Toggle Fullscreen">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Middle Flipbook Stage -->
+        <main class="fb-stage">
+            <!-- Left Chevron Arrow -->
+            <button type="button" class="fb-nav-arrow fb-nav-arrow-prev" id="prev-arrow" aria-label="Previous Page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+
+            <!-- Book Viewport -->
+            <div class="fb-viewport" id="flipbook-viewport">
+                <div id="flipbook-book">
+                    <!-- Dynamic pages injected by flipbook.js -->
+                </div>
+            </div>
+
+            <!-- Right Chevron Arrow -->
+            <button type="button" class="fb-nav-arrow fb-nav-arrow-next" id="next-arrow" aria-label="Next Page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </main>
+
+        <!-- Bottom Controller Dock -->
+        <footer class="fb-footer">
+            <div class="fb-dock">
+                <!-- Jump to first page -->
+                <button type="button" class="fb-dock-btn" id="dock-first" title="First Page" aria-label="First Page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                        <polygon points="22 19 13 12 22 5 22 19"></polygon>
+                    </svg>
+                </button>
+
+                <!-- Previous Page -->
+                <button type="button" class="fb-dock-btn" id="dock-prev" title="Previous Page" aria-label="Previous Page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+
+                <!-- Page Tracker & Input -->
+                <div class="fb-page-indicator">
+                    <span>Page</span>
+                    <input type="number" id="page-input" class="fb-page-input" value="1" min="1" max="16" aria-label="Page number">
+                    <span>of <span id="total-pages-label">16</span></span>
+                </div>
+
+                <!-- Page Scrub Slider -->
+                <div class="fb-slider-wrap">
+                    <input type="range" id="page-slider" class="fb-slider" min="1" max="16" value="1" aria-label="Page scrubber slider">
+                </div>
+
+                <!-- Next Page -->
+                <button type="button" class="fb-dock-btn" id="dock-next" title="Next Page" aria-label="Next Page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+
+                <!-- Jump to last page -->
+                <button type="button" class="fb-dock-btn" id="dock-last" title="Last Page" aria-label="Last Page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 19 22 12 13 5 13 19"></polygon>
+                        <polygon points="2 19 11 12 2 5 2 19"></polygon>
+                    </svg>
+                </button>
+
+                <div class="fb-dock-divider"></div>
+
+                <!-- Keyboard Hint -->
+                <div class="fb-keyboard-hint">
+                    <span class="fb-kbd">◄</span>
+                    <span class="fb-kbd">►</span>
+                    <span>Flip</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Elegant Cyberpunk Loading Screen -->
+    <div class="fb-loader-overlay" id="loader-overlay">
+        <div class="fb-loader-card">
+            <div class="fb-spinner">
+                <div class="fb-spinner-circle"></div>
+            </div>
+            <div class="fb-loader-title">DESIGN PRINCIPLES</div>
+            <div class="fb-loader-status" id="loader-status">Initializing 3D Flipbook Engine...</div>
+            <div class="fb-progress-bar-wrap">
+                <div class="fb-progress-bar-fill" id="progress-bar-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Element -->
+    <div class="fb-toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- Flipbook Controller Script -->
+    <script src="flipbook.js?v=2.3"></script>
+
+</body>
+</html>

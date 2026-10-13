@@ -26,8 +26,8 @@
       "image": {
         "@type": "ImageObject",
         "@id": "https://zidhan.com/#person-image",
-        "url": "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1789033531/1758737572106_1_xsoshc.png",
-        "contentUrl": "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1789033531/1758737572106_1_xsoshc.png",
+        "url": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_800,c_limit/v1789033531/1758737572106_1_xsoshc.png",
+        "contentUrl": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_800,c_limit/v1789033531/1758737572106_1_xsoshc.png",
         "caption": "Muhammed Sidhan (ZIDHANZID) - Brand Identity Designer & Visual Storyteller",
         "representativeOfPage": true
       },
@@ -58,8 +58,8 @@
       "@id": "https://zidhan.com/#business",
       "name": "ZIDHANZID Creative Studio",
       "url": "https://zidhan.com/",
-      "logo": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_600/v1778087347/c_cu1zhm.jpg",
-      "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png",
+      "logo": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1200,c_limit/v1778087347/c_cu1zhm.jpg",
+      "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1200,c_limit/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png",
       "description": "Professional brand design studio offering complete visual identity architecture, packaging design, and strategic 9-grid Instagram profile transformations for global brands.",
       "founder": {
         "@id": "https://zidhan.com/#person"
@@ -187,7 +187,7 @@
             "name": "Kibblix Pet Nutrition Brand & Packaging System",
             "description": "End-to-end brand visual identity, custom mascot styling, and premium pouch packaging for Kibblix Pet Nutrition.",
             "creator": { "@id": "https://zidhan.com/#person" },
-            "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png"
+            "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1200,c_limit/v1787426161/KIBBLIX_BRANDING_COVER_uqvkyc.png"
           }
         },
         {
@@ -198,7 +198,7 @@
             "name": "FRAGRO Perfume Lab 9-Grid Instagram Strategy",
             "description": "9-grid luxury Instagram campaign and digital brochure visual direction for FRAGRO Perfume Lab.",
             "creator": { "@id": "https://zidhan.com/#person" },
-            "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778681835/FRAGRO_1_oblsh9.png"
+            "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1080,c_limit/v1778681835/FRAGRO_1_oblsh9.png"
           }
         },
         {
@@ -209,7 +209,7 @@
             "name": "Bake Land Bakery Visual Identity",
             "description": "Modern artisanal bakery branding, social grid architecture, and product menu design.",
             "creator": { "@id": "https://zidhan.com/#person" },
-            "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto/v1778699861/BAKE_LAND_1_4x-100_g2fw45.jpg"
+            "image": "https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1080,c_limit/v1778699861/BAKE_LAND_1_4x-100_g2fw45.jpg"
           }
         }
       ]

@@ -46,4 +46,12 @@
     </image:image>
   </url>
 
+  <!-- Dedicated Design Principles 3D Flipbook Page -->
+  <url>
+    <loc>https://zidhan.com/design-principles.html</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
 </urlset>

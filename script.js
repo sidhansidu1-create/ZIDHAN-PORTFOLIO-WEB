@@ -23,6 +23,55 @@ if (typeof window !== 'undefined') {
 
 const { animate, inView, stagger } = typeof Motion !== 'undefined' ? Motion : { animate: () => {}, inView: () => {}, stagger: () => {} };
 
+/**
+ * Global Cloudinary Image Optimization Helper
+ * Injects /f_auto,q_auto,w_${width},c_limit/ into Cloudinary image URLs.
+ */
+function optimizeCloudinaryUrl(url, width = 1400) {
+    if (!url || typeof url !== 'string') return url;
+    if (!url.includes('res.cloudinary.com')) return url;
+    if (/\.(mp3|wav|ogg|aac|flac|m4a)(\?.*)?$/i.test(url) || url.includes('/video/upload/')) {
+        return url;
+    }
+    const uploadMarker = '/upload/';
+    const uploadIndex = url.indexOf(uploadMarker);
+    if (uploadIndex === -1) return url;
+
+    const prefix = url.substring(0, uploadIndex + uploadMarker.length);
+    const remainder = url.substring(uploadIndex + uploadMarker.length);
+    const targetTransform = `f_auto,q_auto,w_${width},c_limit`;
+
+    const versionMatch = remainder.match(/(?:^|\/)(v\d+\/.*)$/);
+    if (versionMatch) {
+        const versionAndAfter = versionMatch[1];
+        const transformSegment = remainder.substring(0, remainder.length - versionAndAfter.length).replace(/\/$/, '');
+        if (transformSegment) {
+            if (transformSegment.includes('f_auto')) {
+                if (transformSegment === targetTransform) return url;
+                return `${prefix}${targetTransform}/${versionAndAfter}`;
+            } else {
+                return `${prefix}${targetTransform}/${transformSegment}/${versionAndAfter}`;
+            }
+        } else {
+            return `${prefix}${targetTransform}/${versionAndAfter}`;
+        }
+    } else {
+        const slashIdx = remainder.indexOf('/');
+        if (slashIdx !== -1) {
+            const firstSegment = remainder.substring(0, slashIdx);
+            const afterFirstSegment = remainder.substring(slashIdx + 1);
+            if (firstSegment.includes('f_auto')) {
+                if (firstSegment === targetTransform) return url;
+                return `${prefix}${targetTransform}/${afterFirstSegment}`;
+            }
+        }
+        return `${prefix}${targetTransform}/${remainder}`;
+    }
+}
+if (typeof window !== 'undefined') {
+    window.optimizeCloudinaryUrl = optimizeCloudinaryUrl;
+}
+
 console.log("Muhammed Sidhan Portfolio Script Initialized");
 
 document.addEventListener("DOMContentLoaded", () => {
