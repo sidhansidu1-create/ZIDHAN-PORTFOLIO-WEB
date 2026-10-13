@@ -40,6 +40,23 @@
   const fullscreenBtn = document.getElementById('fullscreen-btn');
   const shareBtn = document.getElementById('share-btn');
   const toast = document.getElementById('toast');
+  const swipeHint = document.getElementById('swipe-hint');
+
+  // Zoom / Inspection Lightbox Elements
+  const zoomBtn = document.getElementById('zoom-btn');
+  const zoomModal = document.getElementById('zoom-modal');
+  const zoomBackdrop = document.getElementById('zoom-backdrop');
+  const zoomCloseBtn = document.getElementById('zoom-close-btn');
+  const zoomCanvas = document.getElementById('zoom-canvas');
+  const zoomPrevBtn = document.getElementById('zoom-prev-btn');
+  const zoomNextBtn = document.getElementById('zoom-next-btn');
+  const zoomTitle = document.getElementById('zoom-title');
+  const zoomPageBadge = document.getElementById('zoom-page-badge');
+  const zoomImgWrap = document.getElementById('zoom-img-wrap');
+  let currentZoomPage = 0;
+  let zoomScale = 1;
+  let zoomPanX = 0;
+  let zoomPanY = 0;
 
   // Set Local PDF.js Worker (Same-Origin to avoid CORS / SecurityError)
   if (window.pdfjsLib) {
@@ -241,28 +258,45 @@
       // Aspect ratio (1350 / 1080 = 1.25)
       const aspectRatio = viewport.height / viewport.width;
 
-      // Calculate balanced, comfortable book dimensions (sweet spot: medium size)
+      // Calculate balanced, comfortable book dimensions (optimized for desktop & mobile)
       function getBookDimensions() {
-        const isMobile = window.innerWidth < 768;
+        const wW = window.innerWidth;
+        const wH = window.innerHeight;
+        const isPortrait = wH > wW || wW < 768;
         const stageEl = document.querySelector('.fb-stage');
-        const sH = stageEl && stageEl.clientHeight > 100 ? stageEl.clientHeight : (window.innerHeight - 108);
-        const sW = stageEl && stageEl.clientWidth > 100 ? stageEl.clientWidth : window.innerWidth;
+        const sH = stageEl && stageEl.clientHeight > 100 ? stageEl.clientHeight : (wH - (wW < 768 ? 106 : 108));
+        const sW = stageEl && stageEl.clientWidth > 100 ? stageEl.clientWidth : wW;
 
-        // Leave a clean 24px margin (12px top, 12px bottom) and space for side arrows
-        const maxH = Math.max(300, sH - 24);
-        const maxW = Math.max(300, sW - (isMobile ? 24 : 130));
+        if (isPortrait) {
+          // Portrait mode: Single-page view maximized to smartphone / tablet display
+          const availW = Math.max(260, sW - 24);
+          const availH = Math.max(300, sH - 24);
 
-        // Sweet spot: 530px on desktop (not too small, easy to read, with clean margins)
-        let pageH = Math.min(isMobile ? 440 : 530, maxH);
-        let pageW = Math.round(pageH / aspectRatio);
+          let pageW = availW;
+          let pageH = Math.round(pageW * aspectRatio);
 
-        const spreadMultiplier = isMobile ? 1 : 2;
-        if (pageW * spreadMultiplier > maxW) {
-          pageW = Math.floor(maxW / spreadMultiplier);
-          pageH = Math.round(pageW * aspectRatio);
+          if (pageH > availH) {
+            pageH = availH;
+            pageW = Math.round(pageH / aspectRatio);
+          }
+
+          return { width: pageW, height: pageH };
+        } else {
+          // Landscape mode: Two-page spread (Desktop / Laptop / Rotated phone)
+          const availW = Math.max(300, sW - (wH < 500 ? 30 : 130));
+          const availH = Math.max(260, sH - 24);
+
+          // Desktop sweet-spot: 530px
+          let pageH = Math.min(530, availH);
+          let pageW = Math.round(pageH / aspectRatio);
+
+          if (pageW * 2 > availW) {
+            pageW = Math.floor(availW / 2);
+            pageH = Math.round(pageW * aspectRatio);
+          }
+
+          return { width: pageW, height: pageH };
         }
-
-        return { width: pageW, height: pageH };
       }
 
       const bookDims = getBookDimensions();
@@ -320,7 +354,8 @@
         usePortrait: true,
         startPage: 0,
         mobileScrollSupport: false,
-        flippingTime: 750
+        swipeDistance: 25,
+        flippingTime: 700
       });
 
       pageFlip.loadFromHTML(pageElements);
@@ -346,55 +381,91 @@
       // Initial update
       updateUI(0);
 
-      // Smooth adaptation on window resize / fullscreen toggle
+      // Mobile Swipe Cue Hint Onboarding
+      if (swipeHint) {
+        if (window.innerWidth <= 768 && !sessionStorage.getItem('zidhan_flipbook_hint_seen')) {
+          swipeHint.style.display = 'inline-flex';
+          const dismissHint = () => {
+            swipeHint.classList.add('fade-out');
+            setTimeout(() => { swipeHint.style.display = 'none'; }, 600);
+            sessionStorage.setItem('zidhan_flipbook_hint_seen', 'true');
+          };
+          setTimeout(dismissHint, 3800);
+          bookContainer.addEventListener('touchstart', dismissHint, { once: true, passive: true });
+        } else {
+          swipeHint.style.display = 'none';
+        }
+      }
+
+      // Mobile Double-Tap to Inspect / Zoom
+      let lastTapTime = 0;
+      bookContainer.addEventListener('touchend', (e) => {
+        const now = Date.now();
+        if (now - lastTapTime < 320) {
+          e.preventDefault();
+          openZoomModal(currentPageIndex);
+        }
+        lastTapTime = now;
+      }, { passive: false });
+
+      // Smooth adaptation on window resize / orientationchange / fullscreen toggle
       let resizeTimer = null;
       let prevW = window.innerWidth;
       let prevH = window.innerHeight;
 
+      const handleAdaptation = () => {
+        if (!pageFlip || !pdfDoc) return;
+        const currentP = pageFlip.getCurrentPageIndex() || 0;
+        const newDims = getBookDimensions();
+
+        try {
+          pageFlip.destroy();
+          pageFlip = new St.PageFlip(bookContainer, {
+            width: newDims.width,
+            height: newDims.height,
+            size: 'fixed',
+            drawShadow: true,
+            maxShadowOpacity: 0.55,
+            showCover: true,
+            usePortrait: true,
+            startPage: currentP,
+            mobileScrollSupport: false,
+            swipeDistance: 25,
+            flippingTime: 700
+          });
+          const pEls = bookContainer.querySelectorAll('.fb-page');
+          pageFlip.loadFromHTML(pEls);
+          pageFlip.on('changeState', (e) => {
+            if (e.data === 'user_fold' || e.data === 'fold_corner') {
+              playPeelSound();
+            }
+          });
+          pageFlip.on('flip', (e) => {
+            const newPage = e.data;
+            const pageJump = Math.abs(newPage - lastRecordedPage);
+            playTurnSound(pageJump > 2);
+            lastRecordedPage = newPage;
+            updateUI(newPage);
+          });
+          updateUI(currentP);
+        } catch (err) {
+          console.error('Resize adaptation failed:', err);
+        }
+      };
+
       window.addEventListener('resize', () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
-          if (!pageFlip || !pdfDoc) return;
-          if (Math.abs(window.innerWidth - prevW) > 30 || Math.abs(window.innerHeight - prevH) > 30) {
+          if (Math.abs(window.innerWidth - prevW) > 20 || Math.abs(window.innerHeight - prevH) > 20) {
             prevW = window.innerWidth;
             prevH = window.innerHeight;
-            const currentP = pageFlip.getCurrentPageIndex() || 0;
-            const newDims = getBookDimensions();
-
-            try {
-              pageFlip.destroy();
-              pageFlip = new St.PageFlip(bookContainer, {
-                width: newDims.width,
-                height: newDims.height,
-                size: 'fixed',
-                drawShadow: true,
-                maxShadowOpacity: 0.55,
-                showCover: true,
-                usePortrait: true,
-                startPage: currentP,
-                mobileScrollSupport: false,
-                flippingTime: 750
-              });
-              const pEls = bookContainer.querySelectorAll('.fb-page');
-              pageFlip.loadFromHTML(pEls);
-              pageFlip.on('changeState', (e) => {
-                if (e.data === 'user_fold' || e.data === 'fold_corner') {
-                  playPeelSound();
-                }
-              });
-              pageFlip.on('flip', (e) => {
-                const newPage = e.data;
-                const pageJump = Math.abs(newPage - lastRecordedPage);
-                playTurnSound(pageJump > 2);
-                lastRecordedPage = newPage;
-                updateUI(newPage);
-              });
-              updateUI(currentP);
-            } catch (err) {
-              console.error('Resize adaptation failed:', err);
-            }
+            handleAdaptation();
           }
-        }, 300);
+        }, 250);
+      });
+
+      window.addEventListener('orientationchange', () => {
+        setTimeout(handleAdaptation, 250);
       });
 
       // Hide Loader with elegant fade
@@ -545,28 +616,215 @@
       });
     }
 
-    // Fullscreen toggle
-    if (fullscreenBtn) {
-      fullscreenBtn.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-          document.documentElement.requestFullscreen().catch(() => {});
-        } else {
-          document.exitFullscreen().catch(() => {});
+    // HD Zoom / Inspection Lightbox Controller
+    async function renderZoomPage(pageIndex) {
+      if (!pdfDoc || !zoomCanvas) return;
+      currentZoomPage = pageIndex;
+      const pageNum = pageIndex + 1;
+
+      if (zoomTitle) zoomTitle.textContent = `Design Principles — Page ${pageNum}`;
+      if (zoomPageBadge) zoomPageBadge.textContent = `${pageNum} / ${totalPages}`;
+      if (zoomPrevBtn) zoomPrevBtn.disabled = pageIndex === 0;
+      if (zoomNextBtn) zoomNextBtn.disabled = pageIndex >= totalPages - 1;
+
+      zoomScale = 1;
+      zoomPanX = 0;
+      zoomPanY = 0;
+      applyZoomTransform();
+
+      try {
+        const page = await pdfDoc.getPage(pageNum);
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2.5);
+        const viewport = page.getViewport({ scale: 1.0 });
+
+        const targetWidth = Math.min(1200, window.innerWidth * 1.5);
+        const scale = (targetWidth / viewport.width) * pixelRatio;
+        const scaledViewport = page.getViewport({ scale: scale });
+
+        zoomCanvas.width = scaledViewport.width;
+        zoomCanvas.height = scaledViewport.height;
+
+        const ctx = zoomCanvas.getContext('2d', { alpha: false });
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+
+        await page.render({
+          canvasContext: ctx,
+          viewport: scaledViewport
+        }).promise;
+      } catch (e) {
+        console.error('Failed to render zoom page:', e);
+      }
+    }
+
+    function applyZoomTransform() {
+      if (!zoomImgWrap) return;
+      zoomImgWrap.style.transform = `translate(${zoomPanX}px, ${zoomPanY}px) scale(${zoomScale})`;
+    }
+
+    function openZoomModal(pageIndex) {
+      if (!zoomModal) return;
+      currentZoomPage = pageIndex !== undefined ? pageIndex : currentPageIndex;
+      zoomModal.hidden = false;
+      zoomModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      renderZoomPage(currentZoomPage);
+    }
+
+    function closeZoomModal() {
+      if (!zoomModal) return;
+      zoomModal.classList.remove('active');
+      setTimeout(() => {
+        zoomModal.hidden = true;
+        document.body.style.overflow = '';
+        if (pageFlip && pageFlip.getCurrentPageIndex() !== currentZoomPage) {
+          pageFlip.flip(currentZoomPage);
+        }
+      }, 250);
+    }
+
+    // Zoom Gestures (Pinch to zoom, pan, mousewheel)
+    function setupZoomGestures() {
+      const zoomBody = document.getElementById('zoom-body');
+      if (!zoomBody) return;
+
+      let isDragging = false;
+      let startX = 0, startY = 0;
+      let initialDist = 0;
+      let initialScale = 1;
+
+      zoomBody.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -0.15 : 0.15;
+        zoomScale = Math.min(3.5, Math.max(0.8, zoomScale + delta));
+        if (zoomScale <= 1) {
+          zoomPanX = 0;
+          zoomPanY = 0;
+        }
+        applyZoomTransform();
+      }, { passive: false });
+
+      zoomBody.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          isDragging = true;
+          startX = e.touches[0].clientX - zoomPanX;
+          startY = e.touches[0].clientY - zoomPanY;
+        } else if (e.touches.length === 2) {
+          isDragging = false;
+          initialDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          initialScale = zoomScale;
+        }
+      }, { passive: true });
+
+      zoomBody.addEventListener('touchmove', (e) => {
+        if (isDragging && e.touches.length === 1 && zoomScale > 1) {
+          zoomPanX = e.touches[0].clientX - startX;
+          zoomPanY = e.touches[0].clientY - startY;
+          applyZoomTransform();
+        } else if (e.touches.length === 2) {
+          const dist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          if (initialDist > 0) {
+            zoomScale = Math.min(3.5, Math.max(0.8, initialScale * (dist / initialDist)));
+            applyZoomTransform();
+          }
+        }
+      }, { passive: true });
+
+      zoomBody.addEventListener('touchend', () => {
+        isDragging = false;
+        if (zoomScale <= 1) {
+          zoomScale = 1;
+          zoomPanX = 0;
+          zoomPanY = 0;
+          applyZoomTransform();
         }
       });
 
-      document.addEventListener('fullscreenchange', () => {
-        fullscreenBtn.setAttribute(
-          'data-tooltip',
-          document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen'
-        );
+      let lastZoomTap = 0;
+      zoomBody.addEventListener('touchend', () => {
+        const now = Date.now();
+        if (now - lastZoomTap < 300) {
+          if (zoomScale > 1.2) {
+            zoomScale = 1;
+            zoomPanX = 0;
+            zoomPanY = 0;
+          } else {
+            zoomScale = 2.0;
+          }
+          applyZoomTransform();
+        }
+        lastZoomTap = now;
       });
     }
 
-    // Share button
+    setupZoomGestures();
+
+    // Wire Zoom Buttons
+    if (zoomBtn) {
+      zoomBtn.addEventListener('click', () => openZoomModal(currentPageIndex));
+    }
+    if (zoomCloseBtn) {
+      zoomCloseBtn.addEventListener('click', closeZoomModal);
+    }
+    if (zoomBackdrop) {
+      zoomBackdrop.addEventListener('click', closeZoomModal);
+    }
+    if (zoomPrevBtn) {
+      zoomPrevBtn.addEventListener('click', () => {
+        if (currentZoomPage > 0) {
+          renderZoomPage(currentZoomPage - 1);
+          playTurnSound(false);
+        }
+      });
+    }
+    if (zoomNextBtn) {
+      zoomNextBtn.addEventListener('click', () => {
+        if (currentZoomPage < totalPages - 1) {
+          renderZoomPage(currentZoomPage + 1);
+          playTurnSound(false);
+        }
+      });
+    }
+
+    // Fullscreen toggle (Guarded for iOS Safari / Mobile browsers)
+    if (fullscreenBtn) {
+      const isFullscreenSupported = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+      if (!isFullscreenSupported) {
+        fullscreenBtn.style.display = 'none';
+      } else {
+        fullscreenBtn.addEventListener('click', () => {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          } else {
+            document.exitFullscreen().catch(() => {});
+          }
+        });
+
+        document.addEventListener('fullscreenchange', () => {
+          fullscreenBtn.setAttribute(
+            'data-tooltip',
+            document.fullscreenElement ? 'Exit Fullscreen' : 'Fullscreen'
+          );
+        });
+      }
+    }
+
+    // Share button (Native Web Share on Mobile with Clipboard fallback)
     if (shareBtn) {
       shareBtn.addEventListener('click', () => {
-        if (navigator.clipboard) {
+        if (navigator.share && window.innerWidth < 768) {
+          navigator.share({
+            title: 'Design Principles — Muhammed Sidhan',
+            text: 'Explore the interactive 3D digital brand book of Design Principles by Muhammed Sidhan (ZIDHANZID).',
+            url: window.location.href
+          }).catch(() => {});
+        } else if (navigator.clipboard) {
           navigator.clipboard.writeText(window.location.href).then(() => {
             showToast('Link copied to clipboard!');
           });
@@ -576,11 +834,22 @@
       });
     }
 
-    // Resume AudioContext on first user interaction
+    // Resume & Unlock Audio on first user interaction (iOS Safari + Chrome)
     const unlockAudio = () => {
       if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();
       }
+      [audioSm, audioMd, audioLg].forEach((a) => {
+        try {
+          const p = a.play();
+          if (p !== undefined) {
+            p.then(() => {
+              a.pause();
+              a.currentTime = 0;
+            }).catch(() => {});
+          }
+        } catch (e) {}
+      });
       window.removeEventListener('click', unlockAudio);
       window.removeEventListener('touchstart', unlockAudio);
     };

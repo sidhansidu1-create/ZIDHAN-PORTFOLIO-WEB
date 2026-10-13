@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Design Principles — Interactive 3D Brand Book | Muhammed Sidhan (ZIDHANZID)</title>
     <meta name="description" content="Explore the interactive 3D digital brand book of Design Principles by Muhammed Sidhan (ZIDHANZID). Flip through pages with realistic paper physics, typography, and visual rules.">
     <meta name="author" content="Muhammed Sidhan">
@@ -88,8 +88,18 @@
                     </svg>
                 </button>
 
+                <!-- Zoom / Inspect Page (HD Detail Viewer) -->
+                <button type="button" class="fb-btn-icon" id="zoom-btn" data-tooltip="Inspect Page (HD Zoom)" aria-label="Inspect Page Zoom">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                </button>
+
                 <!-- Download PDF Button -->
-                <a href="pdf/DESIGN%20PRINCIPLES.pdf" download="DESIGN PRINCIPLES - Muhammed Sidhan.pdf" class="fb-btn-icon" data-tooltip="Download Original PDF" aria-label="Download PDF">
+                <a href="pdf/DESIGN%20PRINCIPLES.pdf" download="DESIGN PRINCIPLES - Muhammed Sidhan.pdf" class="fb-btn-icon" id="download-btn" data-tooltip="Download Original PDF" aria-label="Download PDF">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
@@ -98,7 +108,7 @@
                 </a>
 
                 <!-- Share Link Button -->
-                <button type="button" class="fb-btn-icon" id="share-btn" data-tooltip="Copy Share Link" aria-label="Share Link">
+                <button type="button" class="fb-btn-icon" id="share-btn" data-tooltip="Share / Copy Link" aria-label="Share Link">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="18" cy="5" r="3"></circle>
                         <circle cx="6" cy="12" r="3"></circle>
@@ -139,6 +149,24 @@
                     <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
             </button>
+
+            <!-- Mobile Interactive Swipe Cue -->
+            <div class="fb-swipe-hint" id="swipe-hint" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span>Swipe or tap edge to flip</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </div>
+
+            <!-- Right Chevron Arrow -->
+            <button type="button" class="fb-nav-arrow fb-nav-arrow-next" id="next-arrow" aria-label="Next Page">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
         </main>
 
         <!-- Bottom Controller Dock -->
@@ -162,7 +190,7 @@
                 <!-- Page Tracker & Input -->
                 <div class="fb-page-indicator">
                     <span>Page</span>
-                    <input type="number" id="page-input" class="fb-page-input" value="1" min="1" max="16" aria-label="Page number">
+                    <input type="number" id="page-input" class="fb-page-input" value="1" min="1" max="16" inputmode="numeric" pattern="[0-9]*" aria-label="Page number">
                     <span>of <span id="total-pages-label">16</span></span>
                 </div>
 
@@ -215,6 +243,45 @@
 
     <!-- Toast Notification Element -->
     <div class="fb-toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- HD Page Inspection / Zoom Lightbox Modal (Optimized for Mobile) -->
+    <div class="fb-zoom-modal" id="zoom-modal" role="dialog" aria-modal="true" aria-label="HD Page Inspector" hidden>
+        <div class="fb-zoom-backdrop" id="zoom-backdrop"></div>
+        <div class="fb-zoom-container">
+            <div class="fb-zoom-header">
+                <div class="fb-zoom-title" id="zoom-title">Page 1 of 16</div>
+                <div class="fb-zoom-actions">
+                    <span class="fb-zoom-tip">Pinch or scroll to zoom • Drag to pan</span>
+                    <button type="button" class="fb-zoom-close" id="zoom-close-btn" aria-label="Close Zoom View">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="fb-zoom-body" id="zoom-body">
+                <div class="fb-zoom-img-wrap" id="zoom-img-wrap">
+                    <canvas id="zoom-canvas" class="fb-zoom-canvas"></canvas>
+                </div>
+            </div>
+            <div class="fb-zoom-footer">
+                <button type="button" class="fb-zoom-nav-btn" id="zoom-prev-btn" aria-label="Previous Page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    <span>Prev</span>
+                </button>
+                <span class="fb-zoom-page-indicator" id="zoom-page-badge">1 / 16</span>
+                <button type="button" class="fb-zoom-nav-btn" id="zoom-next-btn" aria-label="Next Page">
+                    <span>Next</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Flipbook Controller Script -->
     <script src="flipbook.js?v=2.3"></script>
