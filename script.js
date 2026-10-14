@@ -558,43 +558,226 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // Helper functions for safe animations
-    const safeAnimate = (selector, keyframes, options) => {
-        if (document.querySelector(selector) && typeof animate !== 'undefined') {
-            animate(selector, keyframes, options);
+    // 2. High-Performance Scroll Reveal & Motion Engine
+    (function initScrollAnimations() {
+        // A. Mark HTML as js-ready so scroll reveal classes activate safely
+        document.documentElement.classList.add('js-ready');
+
+        // B. Top Glowing Neon Scroll Progress Bar
+        let progressBar = document.getElementById('scroll-progress-bar');
+        if (!progressBar) {
+            progressBar = document.createElement('div');
+            progressBar.id = 'scroll-progress-bar';
+            progressBar.className = 'scroll-progress-bar';
+            document.body.prepend(progressBar);
         }
-    };
 
-    const safeInView = (selector, callback) => {
-        if (document.querySelector(selector) && typeof inView !== 'undefined') {
-            inView(selector, callback);
-        }
-    };
-
-    // 2. Hero Animations
-    safeAnimate(".hero-subtitle", { opacity: [0, 1], y: [20, 0] }, { duration: 0.8 });
-    safeAnimate(".hero-title", { opacity: [0, 1], y: [40, 0] }, { duration: 1, delay: 0.2 });
-    safeAnimate(".hero-description", { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, delay: 0.4 });
-    safeAnimate(".hero-ctas", { opacity: [0, 1], y: [20, 0] }, { duration: 0.8, delay: 0.6 });
-
-    // 3. In-View Scroll Animations
-    safeInView(".fade-up", ({ target }) => {
-        if (typeof animate !== 'undefined') {
-            animate(target, { opacity: [0, 1], y: [40, 0] }, { 
-                duration: 0.8, 
-                delay: stagger(0.1),
-                easing: [0.16, 1, 0.3, 1]
+        // C. Floating Back to Top Button
+        let floatingBtn = document.getElementById('floatingBackToTop');
+        if (!floatingBtn) {
+            floatingBtn = document.createElement('button');
+            floatingBtn.id = 'floatingBackToTop';
+            floatingBtn.className = 'floating-back-to-top';
+            floatingBtn.setAttribute('type', 'button');
+            floatingBtn.setAttribute('aria-label', 'Scroll back to top');
+            floatingBtn.innerHTML = `
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="12" y1="19" x2="12" y2="5"></line>
+                    <polyline points="5 12 12 5 19 12"></polyline>
+                </svg>
+            `;
+            floatingBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+            document.body.appendChild(floatingBtn);
         }
-    });
 
-    safeInView(".skill-progress", ({ target }) => {
-        const width = target.style.width;
-        target.style.width = "0";
-        if (typeof animate !== 'undefined') {
-            animate(target, { width: [0, width] }, { duration: 1.5, easing: "ease-out" });
+        // D. High-Performance IntersectionObserver Engine for Elements & Grids
+        const revealSelector = [
+            '.fade-up',
+            '.reveal-on-scroll',
+            '.reveal-scale',
+            '.reveal-left',
+            '.reveal-right',
+            '.brand-card',
+            '.strategy-card',
+            '.service-item',
+            '.process-step',
+            '.stat-item',
+            '.skill-card',
+            '.insta-item',
+            '.poster-card'
+        ].join(', ');
+
+        const revealElements = Array.from(document.querySelectorAll(revealSelector));
+
+        // Group container children to apply smooth staggered cascades
+        const staggerContainers = [
+            { selector: '.brand-cards-container', children: '.brand-card', baseDelay: 0.1, step: 0.14 },
+            { selector: '.upcoming-works-container', children: '.work-card', baseDelay: 0.08, step: 0.12 },
+            { selector: '.instagram-grid', children: '.insta-item', baseDelay: 0.05, step: 0.06 },
+            { selector: '.strategy-grid', children: '.strategy-card', baseDelay: 0.06, step: 0.09 },
+            { selector: '.services-list', children: '.service-item', baseDelay: 0.08, step: 0.1 },
+            { selector: '.process-steps', children: '.process-step', baseDelay: 0.08, step: 0.12 },
+            { selector: '.skills-new-grid', children: '.skill-card', baseDelay: 0.05, step: 0.07 },
+            { selector: '.about-stats', children: '.stat-item', baseDelay: 0.08, step: 0.12 }
+        ];
+
+        staggerContainers.forEach(({ selector, children, baseDelay, step }) => {
+            const container = document.querySelector(selector);
+            if (!container) return;
+            const items = container.querySelectorAll(children);
+            items.forEach((item, index) => {
+                const delay = (baseDelay + index * step).toFixed(2);
+                item.style.transitionDelay = `${delay}s`;
+            });
+        });
+
+        // Check if element is already in the initial viewport
+        const checkInitialInView = (el) => {
+            const rect = el.getBoundingClientRect();
+            return (rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.95 && rect.bottom >= 0);
+        };
+
+        if ('IntersectionObserver' in window) {
+            const revealObserver = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        target.classList.add('is-revealed');
+                        
+                        // After transition completes, clean up transform to allow unrestricted :hover effects
+                        const computedDelay = parseFloat(window.getComputedStyle(target).transitionDelay) || 0;
+                        const computedDuration = parseFloat(window.getComputedStyle(target).transitionDuration) || 0.85;
+                        const totalTime = (computedDelay + computedDuration) * 1000 + 50;
+
+                        setTimeout(() => {
+                            target.classList.add('animation-done');
+                        }, totalTime);
+
+                        obs.unobserve(target);
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.08,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            revealElements.forEach(el => {
+                if (checkInitialInView(el)) {
+                    el.classList.add('is-revealed');
+                    setTimeout(() => el.classList.add('animation-done'), 900);
+                } else {
+                    revealObserver.observe(el);
+                }
+            });
+
+            // E. Process Step Focal Highlight on Scroll
+            const processSteps = document.querySelectorAll('.process-step');
+            if (processSteps.length) {
+                const stepObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('step-focus');
+                        } else {
+                            entry.target.classList.remove('step-focus');
+                        }
+                    });
+                }, {
+                    root: null,
+                    threshold: 0.45,
+                    rootMargin: '-10% 0px -25% 0px'
+                });
+
+                processSteps.forEach(step => stepObserver.observe(step));
+            }
+        } else {
+            // Fallback for older browsers
+            revealElements.forEach(el => el.classList.add('is-revealed', 'animation-done'));
         }
-    });
+
+        // F. Smooth Scroll Progress, Parallax & Active Nav Spy Loop
+        const navLinksList = document.querySelectorAll('.nav-item');
+        const spySections = document.querySelectorAll('section[id], header[id]');
+        const heroContent = document.querySelector('.hero-content');
+        const blob1 = document.querySelector('.blob-1');
+        const blob2 = document.querySelector('.blob-2');
+        const blob3 = document.querySelector('.blob-3');
+
+        let isTicking = false;
+
+        const onScrollTick = () => {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+            // 1. Progress Bar Scale
+            if (progressBar && docHeight > 0) {
+                const scrollProgress = Math.min(Math.max(scrollY / docHeight, 0), 1);
+                progressBar.style.transform = `scaleX(${scrollProgress})`;
+            }
+
+            // 2. Floating Back to Top Button
+            if (floatingBtn) {
+                if (scrollY > 400) {
+                    floatingBtn.classList.add('is-visible');
+                } else {
+                    floatingBtn.classList.remove('is-visible');
+                }
+            }
+
+            // 3. Hero Content Subtle Scroll Parallax Depth Fade
+            if (heroContent && scrollY <= 650) {
+                const ratio = scrollY / 650;
+                heroContent.style.opacity = Math.max(0, 1 - ratio * 1.15).toFixed(3);
+                heroContent.style.transform = `translateY(${(scrollY * 0.22).toFixed(1)}px)`;
+            } else if (heroContent && scrollY > 650 && heroContent.style.opacity !== '0') {
+                heroContent.style.opacity = '0';
+            }
+
+            // 4. Background Glow Blobs Parallax
+            if (blob1) blob1.style.transform = `translate3d(0, ${(scrollY * 0.12).toFixed(1)}px, 0)`;
+            if (blob2) blob2.style.transform = `translate3d(0, ${(-scrollY * 0.08).toFixed(1)}px, 0)`;
+            if (blob3) blob3.style.transform = `translate3d(0, ${(scrollY * 0.05).toFixed(1)}px, 0)`;
+
+            // 5. Active Nav Spy
+            if (spySections.length && navLinksList.length) {
+                let currentId = '';
+                const scrollMarker = scrollY + 200;
+
+                spySections.forEach(section => {
+                    const top = section.offsetTop;
+                    const height = section.offsetHeight;
+                    if (scrollMarker >= top && scrollMarker < top + height) {
+                        currentId = section.getAttribute('id');
+                    }
+                });
+
+                if (currentId) {
+                    navLinksList.forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (href === `#${currentId}`) {
+                            link.classList.add('active');
+                        } else if (href && href.startsWith('#')) {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+            }
+
+            isTicking = false;
+        };
+
+        window.addEventListener('scroll', () => {
+            if (!isTicking) {
+                window.requestAnimationFrame(onScrollTick);
+                isTicking = true;
+            }
+        }, { passive: true });
+
+        // Initial tick on load
+        onScrollTick();
+    })();
 
     // 3.5 About Stats Live Count-Up Animation
     (function initStatsCountUp() {

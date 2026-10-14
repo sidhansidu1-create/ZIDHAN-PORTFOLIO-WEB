@@ -637,8 +637,270 @@ h1:hover, h2:hover, h3:hover {
     box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1);
 }
 
+/* ========================================================
+   HIGH-PERFORMANCE SCROLL REVEAL & MOTION ENGINE
+   ======================================================== */
+
+/* Top Neon Scroll Progress Bar */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    z-index: 10001;
+    transform-origin: left center;
+    transform: scaleX(0);
+    background: linear-gradient(90deg, #00f2fe 0%, #7b61ff 50%, #00e5a0 100%);
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.8), 0 0 18px rgba(123, 97, 255, 0.4);
+    pointer-events: none;
+    will-change: transform;
+    transition: transform 0.08s linear;
+}
+
+/* Floating Back to Top Button */
+.floating-back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(13, 20, 24, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    color: var(--accent-cyan);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.85);
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                color 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.floating-back-to-top.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.floating-back-to-top:hover {
+    border-color: #00f2fe;
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.45), 0 10px 30px rgba(0, 0, 0, 0.7);
+    transform: translateY(-4px) scale(1.06);
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .floating-back-to-top {
+        bottom: 1.25rem;
+        right: 1.25rem;
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* Progressive Enhancement: Base State (Visible by default if JS not loaded) */
 .fade-up {
-    opacity: 1; /* Default to visible for accessibility and reliability */
+    opacity: 1;
+}
+
+/* Scroll Reveal Classes (Enabled when html has .js-ready) */
+html.js-ready .fade-up,
+html.js-ready .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+}
+
+html.js-ready .fade-up.is-revealed,
+html.js-ready .reveal-on-scroll.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
+/* Scale Variant (for showcase cards, Kibblix frame, upcoming items) */
+html.js-ready .reveal-scale {
+    opacity: 0;
+    transform: translateY(28px) scale(0.95);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+html.js-ready .reveal-scale.is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Horizontal Slide Variants */
+html.js-ready .reveal-left {
+    opacity: 0;
+    transform: translateX(-35px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+html.js-ready .reveal-left.is-revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+html.js-ready .reveal-right {
+    opacity: 0;
+    transform: translateX(35px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+}
+
+html.js-ready .reveal-right.is-revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Allow natural :hover after reveal animation completes */
+html.js-ready .fade-up.is-revealed.animation-done,
+html.js-ready .reveal-on-scroll.is-revealed.animation-done,
+html.js-ready .reveal-scale.is-revealed.animation-done,
+html.js-ready .reveal-left.is-revealed.animation-done,
+html.js-ready .reveal-right.is-revealed.animation-done {
+    transform: none;
+}
+
+/* Hover overrides for cards even during or after reveal */
+html.js-ready .brand-card.is-revealed:hover,
+html.js-ready .work-card.is-revealed:hover,
+html.js-ready .service-item.is-revealed:hover,
+html.js-ready .poster-card.is-revealed:hover,
+html.js-ready .strategy-card.is-revealed:hover,
+html.js-ready .skill-card.is-revealed:hover {
+    transform: translateY(-6px);
+}
+
+/* Stagger Utilities */
+.stagger-1, .reveal-stagger > *:nth-child(1) { transition-delay: 0.05s; }
+.stagger-2, .reveal-stagger > *:nth-child(2) { transition-delay: 0.12s; }
+.stagger-3, .reveal-stagger > *:nth-child(3) { transition-delay: 0.19s; }
+.stagger-4, .reveal-stagger > *:nth-child(4) { transition-delay: 0.26s; }
+.stagger-5, .reveal-stagger > *:nth-child(5) { transition-delay: 0.33s; }
+.stagger-6, .reveal-stagger > *:nth-child(6) { transition-delay: 0.40s; }
+.stagger-7, .reveal-stagger > *:nth-child(7) { transition-delay: 0.47s; }
+.stagger-8, .reveal-stagger > *:nth-child(8) { transition-delay: 0.54s; }
+.stagger-9, .reveal-stagger > *:nth-child(9) { transition-delay: 0.61s; }
+
+/* Subtle Neon Glow Pulse on Card Entrance */
+@keyframes scrollGlowPulse {
+    0% {
+        box-shadow: 0 0 0 rgba(0, 242, 254, 0);
+    }
+    45% {
+        box-shadow: 0 0 25px rgba(0, 242, 254, 0.3), 0 0 12px rgba(123, 97, 255, 0.2);
+    }
+    100% {
+        box-shadow: 0 0 18px rgba(0, 229, 160, 0.07), 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+}
+
+html.js-ready .brand-card.is-revealed {
+    animation: scrollGlowPulse 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Process Step Scroll Focal Glow */
+.process-step {
+    transition: transform 0.4s var(--transition-main), border-color 0.4s var(--transition-main);
+}
+.process-step .step-num {
+    transition: opacity 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
+}
+.process-step.is-revealed .step-num {
+    opacity: 0.7;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+}
+.process-step.step-focus .step-num {
+    opacity: 1;
+    color: #00f2fe;
+    text-shadow: 0 0 25px rgba(0, 242, 254, 0.8), 0 0 40px rgba(123, 97, 255, 0.5);
+}
+
+/* Hero Entrance Sequence */
+@keyframes heroEntranceUp {
+    0% {
+        opacity: 0;
+        transform: translateY(32px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes heroEntranceDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-content .hero-tag {
+    animation: heroEntranceDown 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.hero-content .hero-title {
+    animation: heroEntranceUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+}
+
+.hero-content .hero-subtitle-new {
+    animation: heroEntranceUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+}
+
+.hero-content .hero-description-new {
+    animation: heroEntranceUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+}
+
+.hero-content .hero-ctas {
+    animation: heroEntranceUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+}
+
+/* Accessibility: Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    html.js-ready .fade-up,
+    html.js-ready .reveal-on-scroll,
+    html.js-ready .reveal-scale,
+    html.js-ready .reveal-left,
+    html.js-ready .reveal-right,
+    .hero-content .hero-tag,
+    .hero-content .hero-title,
+    .hero-content .hero-subtitle-new,
+    .hero-content .hero-description-new,
+    .hero-content .hero-ctas,
+    .brand-card,
+    .scroll-progress-bar {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
+    }
 }
 
 .hidden {
