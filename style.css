@@ -1,4 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
+@font-face {
+    font-family: 'Font Awesome 6 Free';
+    font-display: swap;
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-solid-900.woff2") format("woff2");
+}
+
+@font-face {
+    font-family: 'Font Awesome 6 Brands';
+    font-display: swap;
+    src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/webfonts/fa-brands-400.woff2") format("woff2");
+}
 
 :root {
     color-scheme: dark;
@@ -167,7 +177,7 @@ a, button, .work-card, .filter-btn, .modal-close, .nav-links a, .logo, .search-t
     100% { transform: translate(0, 0) rotate(0deg); }
 }
 
-/* Background Grain Effect */
+/* Background Grain Effect - Local Noise Free */
 body::before {
     content: "";
     position: fixed;
@@ -175,8 +185,9 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('https://grainy-gradients.vercel.app/noise.svg');
-    opacity: 0.03;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+    background-size: 24px 24px;
+    opacity: 0.25;
     pointer-events: none;
     z-index: 100;
 }
@@ -955,7 +966,7 @@ html.js-ready .brand-card.is-revealed {
     align-items: center;
     text-align: left;
     padding: 0 clamp(2rem, 8vw, 8rem);
-    background: #030712 url('images/cosmic-bg.png') no-repeat right center;
+    background: #030712 url('images/cosmic-bg.webp') no-repeat right center;
     background-size: cover;
     position: relative;
     overflow: hidden;
@@ -2314,6 +2325,8 @@ html.js-ready .brand-card.is-revealed {
     height: 32px;
     z-index: 2;
     pointer-events: none;
+    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.7));
+    will-change: transform, opacity;
     animation: testimonialSparkle 3s infinite ease-in-out alternate;
 }
 
@@ -2323,8 +2336,8 @@ html.js-ready .brand-card.is-revealed {
 }
 
 @keyframes testimonialSparkle {
-    0% { transform: scale(0.9) rotate(0deg); opacity: 0.85; }
-    100% { transform: scale(1.15) rotate(15deg); opacity: 1; filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.7)); }
+    0% { transform: scale(0.9) rotate(0deg); opacity: 0.75; }
+    100% { transform: scale(1.15) rotate(15deg); opacity: 1; }
 }
 
 .squiggle-doodle {
@@ -2446,6 +2459,7 @@ html.js-ready .brand-card.is-revealed {
 }
 
 .testimonial-dot {
+    position: relative;
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -2454,6 +2468,17 @@ html.js-ready .brand-card.is-revealed {
     cursor: pointer;
     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     padding: 0;
+}
+
+/* Accessible 48px touch target hit area */
+.testimonial-dot::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 48px;
+    height: 48px;
+    transform: translate(-50%, -50%);
 }
 
 .testimonial-dot:hover {
@@ -2769,6 +2794,7 @@ footer {
     border-radius: 50%;
     background: #00e5a0;
     box-shadow: 0 0 8px #00e5a0;
+    will-change: transform, opacity;
     animation: footerPulseDot 2s infinite ease-in-out;
 }
 
@@ -2776,12 +2802,10 @@ footer {
     0%, 100% {
         transform: scale(1);
         opacity: 1;
-        box-shadow: 0 0 8px #00e5a0;
     }
     50% {
         transform: scale(1.35);
         opacity: 0.7;
-        box-shadow: 0 0 16px #00e5a0;
     }
 }
 
@@ -5278,4 +5302,131 @@ footer {
 .heart-portal-overlay.zooming .heart-portal-msg {
     opacity: 0;
     transition: opacity 0.2s ease;
+}
+
+/* ==========================================================================
+   HOMEPAGE AI PROMPT CTA SECTION (MIGRATED FOR RENDER-BLOCKING ELIMINATION)
+   ========================================================================== */
+.home-prompt-library-cta {
+    padding: clamp(5rem, 9vw, 8rem) 1.5rem;
+    background: #08080a;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.home-prompt-library-cta::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(0, 242, 254, 0.05) 0%, rgba(123, 97, 255, 0.03) 50%, transparent 70%);
+    pointer-events: none;
+}
+
+.home-prompt-cta-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.home-prompt-cta-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #00f2fe;
+    margin-bottom: 1.25rem;
+    display: block;
+}
+
+.home-prompt-cta-headline {
+    font-size: clamp(2.4rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+}
+
+.home-prompt-cta-headline span {
+    background: linear-gradient(135deg, #00f2fe 0%, #7b61ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.home-prompt-cta-text {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.6;
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin: 0 auto 2.5rem;
+}
+
+.home-prompt-cta-btn-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.btn-home-explore-prompts {
+    background: #ffffff;
+    color: #050505;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 1.2rem 3.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: none;
+}
+
+.btn-home-explore-prompts:hover {
+    background: linear-gradient(135deg, #00f2fe 0%, #7b61ff 100%);
+    color: #050505;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 242, 254, 0.35);
+}
+
+.home-prompt-cta-small-text {
+    font-size: 0.82rem;
+    color: #71717a;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* ==========================================================================
+   MOBILE PERFORMANCE OPTIMIZATIONS (ELIMINATES MOBILE HANG & JANK)
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* Disable uncomposited CPU @property keyframes on mobile */
+    .navbar,
+    .navbar::before {
+        animation: none !important;
+    }
+
+    /* Disable continuous background floating elements on mobile */
+    .floating-elements {
+        display: none !important;
+    }
+
+    /* Disable heavy full-screen blend overlays on mobile */
+    body::before {
+        display: none !important;
+    }
 }

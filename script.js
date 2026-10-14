@@ -686,12 +686,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Check if element is already in the initial viewport (above fold)
-        const checkInitialInView = (el) => {
-            const rect = el.getBoundingClientRect();
-            return (rect.top < (window.innerHeight || document.documentElement.clientHeight) * 0.65 && rect.bottom > 0);
-        };
-
         if ('IntersectionObserver' in window) {
             const revealObserver = new IntersectionObserver((entries, obs) => {
                 entries.forEach(entry => {
@@ -700,30 +694,21 @@ document.addEventListener("DOMContentLoaded", () => {
                         target.classList.add('is-revealed');
                         
                         // After transition completes, clean up transform to allow unrestricted :hover effects
-                        const computedDelay = parseFloat(window.getComputedStyle(target).transitionDelay) || 0;
-                        const computedDuration = parseFloat(window.getComputedStyle(target).transitionDuration) || 0.75;
-                        const totalTime = (computedDelay + computedDuration) * 1000 + 100;
-
                         setTimeout(() => {
                             target.classList.add('animation-done');
-                        }, totalTime);
+                        }, 900);
 
                         obs.unobserve(target);
                     }
                 });
             }, {
                 root: null,
-                threshold: 0.1,
-                rootMargin: '0px 0px -40px 0px'
+                threshold: 0.08,
+                rootMargin: '0px 0px -20px 0px'
             });
 
             revealElements.forEach(el => {
-                if (checkInitialInView(el)) {
-                    el.classList.add('is-revealed');
-                    setTimeout(() => el.classList.add('animation-done'), 900);
-                } else {
-                    revealObserver.observe(el);
-                }
+                revealObserver.observe(el);
             });
 
             // E. Process Step Focal Highlight on Scroll
@@ -779,42 +764,47 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
 
-            // 3. Hero Content Subtle Scroll Parallax Depth Fade
-            if (heroContent && scrollY <= 650) {
-                const ratio = scrollY / 650;
-                heroContent.style.opacity = Math.max(0, 1 - ratio * 1.15).toFixed(3);
-                heroContent.style.transform = `translateY(${(scrollY * 0.22).toFixed(1)}px)`;
-            } else if (heroContent && scrollY > 650 && heroContent.style.opacity !== '0') {
-                heroContent.style.opacity = '0';
-            }
+            // 3. Hero Content & Background Parallax (Desktop Only)
+            const isDesktop = window.innerWidth > 768;
+            if (isDesktop) {
+                if (heroContent && scrollY <= 650) {
+                    const ratio = scrollY / 650;
+                    heroContent.style.opacity = Math.max(0, 1 - ratio * 1.15).toFixed(3);
+                    heroContent.style.transform = `translateY(${(scrollY * 0.22).toFixed(1)}px)`;
+                } else if (heroContent && scrollY > 650 && heroContent.style.opacity !== '0') {
+                    heroContent.style.opacity = '0';
+                }
 
-            // 4. Background Glow Blobs Parallax
-            if (blob1) blob1.style.transform = `translate3d(0, ${(scrollY * 0.12).toFixed(1)}px, 0)`;
-            if (blob2) blob2.style.transform = `translate3d(0, ${(-scrollY * 0.08).toFixed(1)}px, 0)`;
-            if (blob3) blob3.style.transform = `translate3d(0, ${(scrollY * 0.05).toFixed(1)}px, 0)`;
+                // 4. Background Glow Blobs Parallax
+                if (blob1) blob1.style.transform = `translate3d(0, ${(scrollY * 0.12).toFixed(1)}px, 0)`;
+                if (blob2) blob2.style.transform = `translate3d(0, ${(-scrollY * 0.08).toFixed(1)}px, 0)`;
+                if (blob3) blob3.style.transform = `translate3d(0, ${(scrollY * 0.05).toFixed(1)}px, 0)`;
 
-            // 5. Active Nav Spy
-            if (spySections.length && navLinksList.length) {
-                let currentId = '';
-                const scrollMarker = scrollY + 200;
+                // 5. Active Nav Spy (Desktop Only)
+                if (spySections.length && navLinksList.length) {
+                    let currentId = '';
+                    const scrollMarker = scrollY + 200;
 
-                spySections.forEach(section => {
-                    const top = section.offsetTop;
-                    const height = section.offsetHeight;
-                    if (scrollMarker >= top && scrollMarker < top + height) {
-                        currentId = section.getAttribute('id');
-                    }
-                });
-
-                if (currentId) {
-                    navLinksList.forEach(link => {
-                        const href = link.getAttribute('href');
-                        if (href === `#${currentId}`) {
-                            link.classList.add('active');
-                        } else if (href && href.startsWith('#')) {
-                            link.classList.remove('active');
+                    for (let i = 0; i < spySections.length; i++) {
+                        const section = spySections[i];
+                        const top = section.offsetTop;
+                        const height = section.offsetHeight;
+                        if (scrollMarker >= top && scrollMarker < top + height) {
+                            currentId = section.getAttribute('id');
+                            break;
                         }
-                    });
+                    }
+
+                    if (currentId) {
+                        navLinksList.forEach(link => {
+                            const href = link.getAttribute('href');
+                            if (href === `#${currentId}`) {
+                                link.classList.add('active');
+                            } else if (href && href.startsWith('#')) {
+                                link.classList.remove('active');
+                            }
+                        });
+                    }
                 }
             }
 
@@ -1591,16 +1581,14 @@ document.addEventListener("DOMContentLoaded", () => {
             animFrameId = requestAnimationFrame(render);
         }
 
-        window.addEventListener('mousemove', (e) => {
-            addPoint(e.clientX, e.clientY);
-        }, { passive: true });
-
-        window.addEventListener('touchmove', (e) => {
-            const touch = e.touches[0];
-            if (touch) {
-                addPoint(touch.clientX, touch.clientY);
-            }
-        }, { passive: true });
+        // Wand glowing cursor trail is optimized exclusively for desktop mouse interaction.
+        // Bypassing touchmove prevents running 3-pass full-screen canvas blur loops during mobile scroll gestures.
+        const isTouchScreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.innerWidth <= 768);
+        if (!isTouchScreen) {
+            window.addEventListener('mousemove', (e) => {
+                addPoint(e.clientX, e.clientY);
+            }, { passive: true });
+        }
 
         // ==========================================
         // Real-time Wand Sound Effect Engine
@@ -1939,18 +1927,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }, { passive: true });
 
-    // Glazing trail while moving finger across mobile/tablet screen
-    let lastTouchTrail = 0;
-    document.addEventListener('touchmove', (e) => {
-        const now = Date.now();
-        if (now - lastTouchTrail > 45) {
-            lastTouchTrail = now;
-            const touch = e.touches[0];
-            if (touch) {
-                createSparkle(touch.clientX, touch.clientY);
-            }
-        }
-    }, { passive: true });
+    // Mobile scrolling is kept 100% clean and hardware-accelerated without continuous DOM insertions.
 
 
     // 9. Kibblix Pet Nutrition Showcase — pixel-based vertical slider

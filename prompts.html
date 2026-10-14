@@ -98,16 +98,18 @@
     }
     </script>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Non-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap"></noscript>
 
     <!-- Base Stylesheet -->
-    <link rel="stylesheet" href="style.min.css?v=3.5">
+    <link rel="stylesheet" href="style.min.css?v=3.6">
     
     <!-- AI Prompt Library Stylesheet -->
-    <link rel="stylesheet" href="prompts.css?v=3.5">
+    <link rel="stylesheet" href="prompts.css?v=3.6">
 
     <!-- Non-blocking Font Awesome & Lucide Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" crossorigin="anonymous">
@@ -498,7 +500,7 @@
 
                 <!-- Col 2: Navigation -->
                 <div class="footer-col">
-                    <h4 class="footer-col-title">NAVIGATION</h4>
+                    <h3 class="footer-col-title">NAVIGATION</h3>
                     <ul class="footer-nav-list">
                         <li><a href="index.html" class="footer-nav-link">Home</a></li>
                         <li><a href="index.html#work" class="footer-nav-link">Selected Work</a></li>
@@ -512,7 +514,7 @@
 
                 <!-- Col 3: Social Platforms -->
                 <div class="footer-col">
-                    <h4 class="footer-col-title">CONNECT</h4>
+                    <h3 class="footer-col-title">CONNECT</h3>
                     <ul class="footer-nav-list">
                         <li>
                             <a href="https://www.instagram.com/zid_dzigns" target="_blank" rel="noopener noreferrer" class="footer-nav-link footer-social-link">
@@ -543,7 +545,7 @@
 
                 <!-- Col 4: Direct Inquiry & Copy Email -->
                 <div class="footer-col">
-                    <h4 class="footer-col-title">DIRECT INQUIRY</h4>
+                    <h3 class="footer-col-title">DIRECT INQUIRY</h3>
                     <p class="footer-inquiry-desc">Ready to discuss a project? Drop an email or copy address directly:</p>
                     <div class="footer-email-box" id="footerEmailBox" role="button" tabindex="0" title="Click to copy email">
                         <span class="footer-email-address">zidhandesigns@gmail.com</span>

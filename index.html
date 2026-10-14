@@ -167,7 +167,7 @@
                 "name": "Tic Tac India Commercial Recognition",
                 "description": "Official creative design campaign recognized and featured by Tic Tac India (@tictacindia).",
                 "creator": { "@id": "https://zidhan.com/#person" },
-                "image": "https://zidhan.com/images/tictac_post.png"
+                "image": "https://zidhan.com/images/tictac_post.webp"
               }
             },
             {
@@ -178,7 +178,7 @@
                 "name": "7UP India Brand Recognition",
                 "description": "Creative visual brand feature recognized and praised by 7UP India (@7upindia).",
                 "creator": { "@id": "https://zidhan.com/#person" },
-                "image": "https://zidhan.com/images/7up-cover.jpg"
+                "image": "https://zidhan.com/images/7up-cover.webp"
               }
             },
             {
@@ -258,15 +258,18 @@
     }
     </script>
     
-    <!-- Google Fonts -->
+    <!-- Preload Hero LCP Background Image for Instant Mobile LCP -->
+    <link rel="preload" as="image" href="images/cosmic-bg.webp" type="image/webp">
+
+    <!-- Google Fonts (Preconnected & Non-blocking) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"></noscript>
     
     <!-- CSS -->
-    <link rel="stylesheet" href="style.min.css?v=3.5">
-    <link rel="stylesheet" href="prompts.css?v=3.5">
-    
+    <link rel="stylesheet" href="style.min.css?v=3.6">
     <!-- Icons (Lucide & Font Awesome) -->
     <script src="https://unpkg.com/lucide@latest" defer></script>
     <!-- Cloudflare Turnstile: explicit preload silences the browser preload-not-used warning
@@ -454,14 +457,14 @@
                     <div class="brand-card brand-card-tictac">
                         <div class="brand-card-inner">
                             <div class="brand-post-image-wrap">
-                                <img src="images/tictac_post.png" alt="Tic Tac India Post - Pass the Freshness" class="brand-post-image" loading="lazy" decoding="async">
+                                <img src="images/tictac_post.webp" alt="Tic Tac India Post - Pass the Freshness" class="brand-post-image" loading="lazy" decoding="async">
                             </div>
                             <div class="brand-comment-section">
                                 <div class="insta-header">
                                     <div class="brand-avatar-wrapper">
-                                        <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_100,c_limit/v1781424399/670023669_18523754071075174_4494570609640324899_n._plqtbb.jpg"
+                                        <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_60,c_limit/v1781424399/670023669_18523754071075174_4494570609640324899_n._plqtbb.jpg"
                                              alt="tictacindia" class="brand-avatar"
-                                             onerror="this.onerror=null;this.src='images/tictac_avatar.png'" loading="lazy" decoding="async" width="40" height="40">
+                                             onerror="this.onerror=null;this.src='images/tictac_avatar.webp'" loading="lazy" decoding="async" width="40" height="40">
                                     </div>
                                     <div class="brand-info">
                                         <div class="brand-name-group">
@@ -474,7 +477,7 @@
                                     </div>
                                 </div>
                                 <div class="insta-card-footer">
-                                    <a href="https://www.instagram.com/p/DVGKfLFieT9/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="btn-view-post">
+                                    <a href="https://www.instagram.com/p/DVGKfLFieT9/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="btn-view-post" aria-label="View Tic Tac India Instagram post">
                                         <span>VIEW POST</span>
                                     </a>
                                 </div>
@@ -486,14 +489,17 @@
                     <div class="brand-card brand-card-7up">
                         <div class="brand-card-inner">
                             <div class="brand-post-image-wrap">
-                                <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_800,c_limit/v1778087337/7up-cover_ezjvqg.jpg" alt="7UP India Post - Quench Your Thirst" class="brand-post-image" loading="lazy" decoding="async">
+                                <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_600,c_limit/v1778087337/7up-cover_ezjvqg.jpg"
+                                     srcset="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_420,c_limit/v1778087337/7up-cover_ezjvqg.jpg 420w, https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_750,c_limit/v1778087337/7up-cover_ezjvqg.jpg 750w"
+                                     sizes="(max-width: 600px) 100vw, 420px"
+                                     alt="7UP India Post - Quench Your Thirst" class="brand-post-image" loading="lazy" decoding="async">
                             </div>
                             <div class="brand-comment-section">
                                 <div class="insta-header">
                                     <div class="brand-avatar-wrapper">
-                                        <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_100,c_limit/v1781425082/331080886_956756529023028_3127722121399243911_n._nfotcb.jpg"
+                                        <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_60,c_limit/v1781425082/331080886_956756529023028_3127722121399243911_n._nfotcb.jpg"
                                              alt="7upindia" class="brand-avatar"
-                                             onerror="this.onerror=null;this.src='images/sevenup_avatar.png'" loading="lazy" decoding="async" width="40" height="40">
+                                             onerror="this.onerror=null;this.src='images/sevenup_avatar.webp'" loading="lazy" decoding="async" width="40" height="40">
                                     </div>
                                     <div class="brand-info">
                                         <div class="brand-name-group">
@@ -506,7 +512,7 @@
                                     </div>
                                 </div>
                                 <div class="insta-card-footer">
-                                    <a href="https://www.instagram.com/p/DRxN96XEqAQ/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="btn-view-post">
+                                    <a href="https://www.instagram.com/p/DRxN96XEqAQ/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==" target="_blank" rel="noopener noreferrer" class="btn-view-post" aria-label="View 7UP India Instagram post">
                                         <span>VIEW POST</span>
                                     </a>
                                 </div>
@@ -633,7 +639,10 @@
                 <div class="upcoming-works-container fade-up" id="upcomingWorksTrack">
                     <div class="work-card" data-project="fragro-branding">
                         <div class="work-image-container">
-                            <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1200,c_limit/v1778787978/FRAGRO_16_9_ugay9u.png" alt="Fragro Branding" class="work-image" loading="lazy" decoding="async">
+                            <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_800,c_limit/v1778787978/FRAGRO_16_9_ugay9u.png"
+                                 srcset="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_500,c_limit/v1778787978/FRAGRO_16_9_ugay9u.png 500w, https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_900,c_limit/v1778787978/FRAGRO_16_9_ugay9u.png 900w"
+                                 sizes="(max-width: 768px) 100vw, 500px"
+                                 alt="Fragro Branding" class="work-image" loading="lazy" decoding="async">
                         </div>
                         <div class="work-details">
                             <h3 class="work-title">FRAGRO PERFUME LAB</h3>
@@ -642,7 +651,10 @@
                     </div>
                     <div class="work-card" data-project="global-solution">
                         <div class="work-image-container">
-                            <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_800,c_limit/v1778087338/GLOBAL_SOLUTION_CATERING_kb378l.jpg" alt="Global Solution Catering" class="work-image" loading="lazy" decoding="async">
+                            <img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_650,c_limit/v1778087338/GLOBAL_SOLUTION_CATERING_kb378l.jpg"
+                                 srcset="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_450,c_limit/v1778087338/GLOBAL_SOLUTION_CATERING_kb378l.jpg 450w, https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_750,c_limit/v1778087338/GLOBAL_SOLUTION_CATERING_kb378l.jpg 750w"
+                                 sizes="(max-width: 768px) 100vw, 450px"
+                                 alt="Global Solution Catering" class="work-image" loading="lazy" decoding="async">
                         </div>
                         <div class="work-details">
                             <h3 class="work-title">GLOBAL SOLUTION CATERING</h3>
@@ -651,7 +663,7 @@
                     </div>
                     <div class="work-card" data-project="zidhaf-kitchen">
                         <div class="work-image-container">
-                            <img src="images/ZIDHAF BRANDING.jpg" alt="Zidhaf Kitchen" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/ZIDHAF BRANDING.webp" alt="Zidhaf Kitchen" class="work-image" loading="lazy" decoding="async">
                         </div>
                         <div class="work-details">
                             <h3 class="work-title">ZIDHAF KITCHEN</h3>
@@ -804,7 +816,7 @@
                     </div>
                     <div class="work-card fade-up" data-project="buqyan-branding" data-category="branding" data-featured="true">
                         <div class="work-image-container">
-                            <img src="images/buqyan-cover.jpg" alt="Buqyan Studios" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/buqyan-cover.webp" alt="Buqyan Studios" class="work-image" loading="lazy" decoding="async">
                         </div>
                         <div class="work-details">
                             <h3 class="work-title">BUQYAN STUDIOS</h3>
@@ -813,7 +825,7 @@
                     </div>
                     <div class="work-card fade-up" data-project="bakeland-branding" data-category="branding">
                         <div class="work-image-container">
-                            <img src="images/bakeland-cover.jpg" alt="Bake Land Bakery" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/bakeland-cover.webp" alt="Bake Land Bakery" class="work-image" loading="lazy" decoding="async">
                         </div>
                         <div class="work-details">
                             <h3 class="work-title">BAKE LAND BAKERY</h3>
@@ -824,98 +836,98 @@
                     <!-- POSTERS -->
                     <div class="work-card fade-up" data-project="al-balad" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/albalad-cover.jpg" alt="Al Balad" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/albalad-cover.webp" alt="Al Balad" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">Al Balad</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="7-up" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/7up-cover.jpg" alt="7 UP" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/7up-cover.webp" alt="7 UP" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">7 UP</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="uefa" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/UEFA CHAMPIONS LEAGUE.png" alt="UEFA" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/UEFA CHAMPIONS LEAGUE.webp" alt="UEFA" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">UEFA CHAMPIONS LEAGUE</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="akale-poster" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/AKALE.jpg" alt="AKALE" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/AKALE.webp" alt="AKALE" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">AKALE</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="dreck" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/DRECK MOVIE POSTER.jpg" alt="DRECK" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/DRECK MOVIE POSTER.webp" alt="DRECK" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">DRECK FILM POSTER</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="raayan" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/RAAYAN.png" alt="RAAYAN" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/RAAYAN.webp" alt="RAAYAN" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">RAAYAN</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="spiderman" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/SPIDERMAN.png" alt="SPIDERMAN" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/SPIDERMAN.webp" alt="SPIDERMAN" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">SPIDERMAN</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="retro" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/RETRO.png" alt="RETRO" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/RETRO.webp" alt="RETRO" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">RETRO</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="maggi" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/MAGGI.png" alt="MAGGI" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/MAGGI.webp" alt="MAGGI" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">MAGGI</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="crunch" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/CRUNCH.jpg" alt="CRUNCH" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/CRUNCH.webp" alt="CRUNCH" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">CRUNCH</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="f4fish" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/F4FISH.jpg" alt="F4FISH" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/F4FISH.webp" alt="F4FISH" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">F4FISH</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="bakeland-grid" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/Bake Land Instagram Grid.jpg" alt="Bake Land Instagram Grid" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/Bake Land Instagram Grid.webp" alt="Bake Land Instagram Grid" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">Bake Land Instagram Grid</h3><p class="work-category">SOCIAL MEDIA DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="malabar-mess" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/Malabar Mess.jpg" alt="Malabar Mess" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/Malabar Mess.webp" alt="Malabar Mess" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">Malabar Mess</h3><p class="work-category">POSTER DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="super-sunday" data-category="posters">
                         <div class="work-image-container">
-                            <img src="images/super sunday bake land poster.jpg" alt="Super Sunday" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/super sunday bake land poster.webp" alt="Super Sunday" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">Super Sunday Poster</h3><p class="work-category">POSTER DESIGN</p></div>
@@ -924,7 +936,7 @@
                     <!-- VIDEO -->
                     <div class="work-card fade-up" data-project="akale-video" data-category="video" data-featured="true">
                         <div class="work-image-container">
-                            <img src="images/AKALE SHORT FILM.png" alt="AKALE SHORT FILM" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/AKALE SHORT FILM.webp" alt="AKALE SHORT FILM" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">AKALE SHORT FILM</h3><p class="work-category">VIDEO PRODUCTION</p></div>
@@ -947,20 +959,20 @@
                     <!-- MOTION -->
                     <div class="work-card fade-up" data-project="buqyan-motion" data-category="motion" data-featured="true">
                         <div class="work-image-container">
-                            <img src="images/buqyan-cover.jpg" alt="BUQYAN ANIMATION" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/buqyan-cover.webp" alt="BUQYAN ANIMATION" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">BUQYAN STUDIOS ANIMATION</h3><p class="work-category">MOTION GRAPHICS</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="buqyan-legend" data-category="motion" data-featured="true">
                         <div class="work-image-container">
-                            <img src="images/BUQYAN STUDIOS LEGEND.jpg" alt="BUQYAN LEGEND" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/BUQYAN STUDIOS LEGEND.webp" alt="BUQYAN LEGEND" class="work-image" loading="lazy" decoding="async">
                         </div>
                         <div class="work-details"><h3 class="work-title">BUQYAN STUDIOS LEGEND</h3><p class="work-category">MOTION GRAPHICS</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="spotify" data-category="motion">
                         <div class="work-image-container">
-                            <img src="images/SPOTIFY.jpg" alt="SPOTIFY" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/SPOTIFY.webp" alt="SPOTIFY" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">SPOTIFY LOGO ANIMATION</h3><p class="work-category">MOTION GRAPHICS</p></div>
@@ -976,26 +988,26 @@
                     <!-- PRINT -->
                     <div class="work-card fade-up" data-project="samsung-print" data-category="print">
                         <div class="work-image-container">
-                            <img src="images/SAMSUNG catalogue.png" alt="Samsung Catalogue" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/SAMSUNG catalogue.webp" alt="Samsung Catalogue" class="work-image" loading="lazy" decoding="async">
                         </div>
                         <div class="work-details"><h3 class="work-title">SAMSUNG CATALOGUE</h3><p class="work-category">PRINT DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="tictac-print" data-category="print">
                         <div class="work-image-container">
-                            <img src="images/tictac.jpg" alt="TicTac Ad" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/tictac.webp" alt="TicTac Ad" class="work-image" loading="lazy" decoding="async">
                         </div>
                         <div class="work-details"><h3 class="work-title">TICTAC AD</h3><p class="work-category">PRINT DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="ponnani-print" data-category="print">
                         <div class="work-image-container">
-                            <img src="images/brochure design.png" alt="Brochure" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/brochure design.webp" alt="Brochure" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">BROCHURE DESIGN</h3><p class="work-category">PRINT DESIGN</p></div>
                     </div>
                     <div class="work-card fade-up" data-project="bakeland-menu" data-category="print">
                         <div class="work-image-container">
-                            <img src="images/bake land menu.jpg" alt="Bake Land Menu" class="work-image" loading="lazy" decoding="async">
+                            <img src="images/bake land menu.webp" alt="Bake Land Menu" class="work-image" loading="lazy" decoding="async">
                             
                         </div>
                         <div class="work-details"><h3 class="work-title">BAKE LAND MENU</h3><p class="work-category">PRINT DESIGN</p></div>
@@ -1029,13 +1041,13 @@
             </div>
             <div class="gallery-wrapper" id="gallery-wrapper">
                 <div class="poster-track" id="posterTrack">
-                    <div class="poster-item"><img src="images/AKALE.jpg" alt="AKALE" loading="lazy" decoding="async"></div>
-                    <div class="poster-item"><img src="images/albalad-cover.jpg" alt="AL BALAD" loading="lazy" decoding="async"></div>
-                    <div class="poster-item"><img src="images/F4FISH.jpg" alt="F4FISH" loading="lazy" decoding="async"></div>
-                    <div class="poster-item"><img src="images/RAAYAN.png" alt="RAAYAN" loading="lazy" decoding="async"></div>
-                    <div class="poster-item"><img src="images/SPIDERMAN.png" alt="SPIDERMAN" loading="lazy" decoding="async"></div>
-                    <div class="poster-item"><img src="images/RETRO.png" alt="RETRO" loading="lazy" decoding="async"></div>
-                    <div class="poster-item"><img src="images/MAGGI.png" alt="MAGGI" loading="lazy" decoding="async"></div>
+                    <div class="poster-item"><img src="images/AKALE.webp" alt="AKALE" loading="lazy" decoding="async"></div>
+                    <div class="poster-item"><img src="images/albalad-cover.webp" alt="AL BALAD" loading="lazy" decoding="async"></div>
+                    <div class="poster-item"><img src="images/F4FISH.webp" alt="F4FISH" loading="lazy" decoding="async"></div>
+                    <div class="poster-item"><img src="images/RAAYAN.webp" alt="RAAYAN" loading="lazy" decoding="async"></div>
+                    <div class="poster-item"><img src="images/SPIDERMAN.webp" alt="SPIDERMAN" loading="lazy" decoding="async"></div>
+                    <div class="poster-item"><img src="images/RETRO.webp" alt="RETRO" loading="lazy" decoding="async"></div>
+                    <div class="poster-item"><img src="images/MAGGI.webp" alt="MAGGI" loading="lazy" decoding="async"></div>
                     <div class="poster-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1080,c_limit/v1778681835/FRAGRO_1_oblsh9.png" alt="Fragro 1" loading="lazy" decoding="async"></div>
                     <div class="poster-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1080,c_limit/v1778681829/FRAGRO_2_r6vyta.png" alt="Fragro 2" loading="lazy" decoding="async"></div>
                     <div class="poster-item"><img src="https://res.cloudinary.com/dwtfgjpcj/image/upload/f_auto,q_auto,w_1080,c_limit/v1778681836/FRAGRO_3_lf3vmh.png" alt="Fragro 3" loading="lazy" decoding="async"></div>
@@ -1373,7 +1385,7 @@
 
                                 <!-- Client Avatar with Neon Gradient Ring -->
                                 <div class="testimonial-avatar-wrap">
-                                    <img src="images/jennifer.png" alt="Jennifer Draisey Crocenzi" class="testimonial-avatar" width="110" height="110" loading="lazy" decoding="async">
+                                    <img src="images/jennifer.webp" alt="Jennifer Draisey Crocenzi" class="testimonial-avatar" width="110" height="110" loading="lazy" decoding="async">
                                 </div>
 
                                 <!-- Purple Squiggle Doodle at bottom-right -->
@@ -1720,7 +1732,7 @@
 
                 <!-- Col 2: Navigation -->
                 <div class="footer-col">
-                    <h4 class="footer-col-title">NAVIGATION</h4>
+                    <h3 class="footer-col-title">NAVIGATION</h3>
                     <ul class="footer-nav-list">
                         <li><a href="#home" class="footer-nav-link">Home</a></li>
                         <li><a href="#work" class="footer-nav-link">Selected Work</a></li>
@@ -1734,7 +1746,7 @@
 
                 <!-- Col 3: Social Platforms -->
                 <div class="footer-col">
-                    <h4 class="footer-col-title">CONNECT</h4>
+                    <h3 class="footer-col-title">CONNECT</h3>
                     <ul class="footer-nav-list">
                         <li>
                             <a href="https://www.instagram.com/zid_dzigns" target="_blank" rel="noopener noreferrer" class="footer-nav-link footer-social-link">
@@ -1765,7 +1777,7 @@
 
                 <!-- Col 4: Direct Inquiry & Copy Email -->
                 <div class="footer-col">
-                    <h4 class="footer-col-title">DIRECT INQUIRY</h4>
+                    <h3 class="footer-col-title">DIRECT INQUIRY</h3>
                     <p class="footer-inquiry-desc">Ready to discuss a project? Drop an email or copy address directly:</p>
                     <div class="footer-email-box" id="footerEmailBox" role="button" tabindex="0" title="Click to copy email">
                         <span class="footer-email-address">zidhandesigns@gmail.com</span>
@@ -1803,7 +1815,6 @@
     </footer>
 
     <!-- Scripts (deferred + minified: non-blocking render path) -->
-    <script src="https://unpkg.com/motion@10.16.2/dist/motion.js" defer></script>
-    <script src="script.min.js?v=3.5" defer></script>
+<script src="script.min.js?v=3.5" defer></script>
 </body>
 </html>
