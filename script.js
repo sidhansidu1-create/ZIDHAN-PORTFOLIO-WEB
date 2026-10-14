@@ -1,24 +1,19 @@
 window.formLoadTime = Date.now();
 
+let lucideInitialized = false;
 function safeCreateLucideIcons() {
+    if (lucideInitialized) return true;
     if (typeof lucide !== 'undefined' && lucide.createIcons) {
         lucide.createIcons();
+        lucideInitialized = true;
         return true;
     }
     return false;
 }
 
-safeCreateLucideIcons();
-
 if (typeof window !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', safeCreateLucideIcons);
     window.addEventListener('load', safeCreateLucideIcons);
-    let lucideAttempts = 0;
-    const lucidePoll = setInterval(() => {
-        lucideAttempts++;
-        if (safeCreateLucideIcons() || lucideAttempts > 25) {
-            clearInterval(lucidePoll);
-        }
-    }, 100);
 }
 
 const { animate, inView, stagger } = typeof Motion !== 'undefined' ? Motion : { animate: () => {}, inView: () => {}, stagger: () => {} };
@@ -93,14 +88,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (menuToggle) {
                 menuToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>';
                 menuToggle.setAttribute('aria-expanded', 'true');
-                safeCreateLucideIcons();
             }
         } else {
             navLinks.classList.remove('active');
             if (menuToggle) {
                 menuToggle.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>';
                 menuToggle.setAttribute('aria-expanded', 'false');
-                safeCreateLucideIcons();
             }
         }
     };
@@ -475,9 +468,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (msgEl) msgEl.textContent = destMsg;
         }
 
-        // Force reflow and activate animation
-        portalOverlay.offsetHeight;
-        portalOverlay.classList.add('active');
+        // Activate animation smoothly via next frame
+        requestAnimationFrame(() => {
+            portalOverlay.classList.add('active');
+        });
 
         setTimeout(() => {
             portalOverlay.classList.add('zooming');
@@ -743,6 +737,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const blob2 = document.querySelector('.blob-2');
         const blob3 = document.querySelector('.blob-3');
 
+        let cachedSectionPositions = [];
+        const updateSectionPositions = () => {
+            if (!spySections.length) return;
+            cachedSectionPositions = Array.from(spySections).map(section => ({
+                id: section.getAttribute('id'),
+                top: section.offsetTop,
+                height: section.offsetHeight
+            }));
+        };
+        window.addEventListener('resize', updateSectionPositions, { passive: true });
+        window.addEventListener('load', updateSectionPositions, { passive: true });
+
         let isTicking = false;
 
         const onScrollTick = () => {
@@ -780,17 +786,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (blob2) blob2.style.transform = `translate3d(0, ${(-scrollY * 0.08).toFixed(1)}px, 0)`;
                 if (blob3) blob3.style.transform = `translate3d(0, ${(scrollY * 0.05).toFixed(1)}px, 0)`;
 
-                // 5. Active Nav Spy (Desktop Only)
+                // 5. Active Nav Spy (Desktop Only) - Uses cached section positions
                 if (spySections.length && navLinksList.length) {
+                    if (cachedSectionPositions.length === 0) updateSectionPositions();
                     let currentId = '';
                     const scrollMarker = scrollY + 200;
 
-                    for (let i = 0; i < spySections.length; i++) {
-                        const section = spySections[i];
-                        const top = section.offsetTop;
-                        const height = section.offsetHeight;
-                        if (scrollMarker >= top && scrollMarker < top + height) {
-                            currentId = section.getAttribute('id');
+                    for (let i = 0; i < cachedSectionPositions.length; i++) {
+                        const sec = cachedSectionPositions[i];
+                        if (scrollMarker >= sec.top && scrollMarker < sec.top + sec.height) {
+                            currentId = sec.id;
                             break;
                         }
                     }
@@ -839,14 +844,10 @@ document.addEventListener("DOMContentLoaded", () => {
             return { el, target, decimals, suffix, currentAnimId: null };
         });
 
-        // Initialize display to 0 if not already in viewport on load
-        const rect = statsSection.getBoundingClientRect();
-        const isInViewportInitially = (rect.top < window.innerHeight && rect.bottom > 0);
-        if (!isInViewportInitially) {
-            statsData.forEach(item => {
-                item.el.textContent = (0).toFixed(item.decimals) + item.suffix;
-            });
-        }
+        // Initialize display to 0 initially; IntersectionObserver triggers the count-up asynchronously
+        statsData.forEach(item => {
+            item.el.textContent = (0).toFixed(item.decimals) + item.suffix;
+        });
 
         let isVisible = false;
 
@@ -1376,8 +1377,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // 8. Magic Wand Cursor Effect — Continuous Glowing Line Trail
+    // 8. Magic Wand Cursor Effect — Continuous Glowing Line Trail (Desktop Pointer Only)
     (function initMagicWandTrail() {
+        const isTouchScreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || window.innerWidth <= 768;
+        if (isTouchScreen) return; // Completely skip canvas allocation and listeners on touch devices
+
         let canvas = document.getElementById('wand-trail-canvas');
         if (!canvas) {
             canvas = document.createElement('canvas');
@@ -1392,8 +1396,6 @@ document.addEventListener("DOMContentLoaded", () => {
             dpr = window.devicePixelRatio || 1;
             canvas.width = Math.round(window.innerWidth * dpr);
             canvas.height = Math.round(window.innerHeight * dpr);
-            canvas.style.width = window.innerWidth + 'px';
-            canvas.style.height = window.innerHeight + 'px';
         }
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas, { passive: true });
@@ -1582,13 +1584,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Wand glowing cursor trail is optimized exclusively for desktop mouse interaction.
-        // Bypassing touchmove prevents running 3-pass full-screen canvas blur loops during mobile scroll gestures.
-        const isTouchScreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.innerWidth <= 768);
-        if (!isTouchScreen) {
-            window.addEventListener('mousemove', (e) => {
-                addPoint(e.clientX, e.clientY);
-            }, { passive: true });
-        }
+        window.addEventListener('mousemove', (e) => {
+            addPoint(e.clientX, e.clientY);
+        }, { passive: true });
 
         // ==========================================
         // Real-time Wand Sound Effect Engine
@@ -2017,14 +2015,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         track.addEventListener('scroll', () => {
             const scrollLeft = track.scrollLeft;
+            if (scrollLeft <= 0) {
+                dots.forEach((dot, idx) => {
+                    dot.classList.toggle('active', idx === 0);
+                });
+                return;
+            }
             const step = getStep();
             const activeIndex = Math.min(dots.length - 1, Math.max(0, Math.round(scrollLeft / step)));
             dots.forEach((dot, idx) => {
-                if (idx === activeIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+                dot.classList.toggle('active', idx === activeIndex);
             });
         }, { passive: true });
 
@@ -2062,6 +2062,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (visible.length === 0) return;
 
             const scrollLeft = grid.scrollLeft;
+            if (scrollLeft <= 0) {
+                if (currentEl) currentEl.textContent = 1;
+                return;
+            }
             const step = getStep();
             const activeIdx = Math.min(visible.length - 1, Math.max(0, Math.round(scrollLeft / step)));
             if (currentEl) currentEl.textContent = activeIdx + 1;
@@ -2109,6 +2113,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const updateCounter = () => {
             if (cards.length === 0) return;
             const scrollLeft = track.scrollLeft;
+            if (scrollLeft <= 0) {
+                if (currentEl) currentEl.textContent = 1;
+                return;
+            }
             const step = getStep();
             const activeIdx = Math.min(cards.length - 1, Math.max(0, Math.round(scrollLeft / step)));
             if (currentEl) currentEl.textContent = activeIdx + 1;
@@ -2203,10 +2211,14 @@ document.addEventListener("DOMContentLoaded", () => {
         // Eagerly pre-load the flip sound
         initFlipAudio();
 
-        const isSliderInView = () => {
-            const rect = stage.getBoundingClientRect();
-            return (rect.top < window.innerHeight && rect.bottom > 0);
-        };
+        let isSliderVisible = false;
+        if ('IntersectionObserver' in window && stage) {
+            const stageObs = new IntersectionObserver((entries) => {
+                if (entries[0]) isSliderVisible = entries[0].isIntersecting;
+            }, { threshold: 0.1 });
+            stageObs.observe(stage);
+        }
+        const isSliderInView = () => isSliderVisible;
 
         const playFlipSound = () => {
             // Respect global navbar mute toggle
