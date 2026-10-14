@@ -647,15 +647,15 @@ h1:hover, h2:hover, h3:hover {
     top: 0;
     left: 0;
     width: 100%;
-    height: 3px;
+    height: 4px;
     z-index: 10001;
     transform-origin: left center;
     transform: scaleX(0);
     background: linear-gradient(90deg, #00f2fe 0%, #7b61ff 50%, #00e5a0 100%);
-    box-shadow: 0 0 10px rgba(0, 242, 254, 0.8), 0 0 18px rgba(123, 97, 255, 0.4);
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.9), 0 0 24px rgba(123, 97, 255, 0.6);
     pointer-events: none;
     will-change: transform;
-    transition: transform 0.08s linear;
+    transition: transform 0.05s linear;
 }
 
 /* Floating Back to Top Button */
@@ -716,18 +716,46 @@ h1:hover, h2:hover, h3:hover {
 
 /* Scroll Reveal Classes (Enabled when html has .js-ready) */
 html.js-ready .fade-up,
-html.js-ready .reveal-on-scroll {
+html.js-ready .reveal-on-scroll,
+html.js-ready .brand-card,
+html.js-ready .work-card,
+html.js-ready .insta-item,
+html.js-ready .service-item,
+html.js-ready .process-step,
+html.js-ready .strategy-card,
+html.js-ready .skill-card,
+html.js-ready .poster-card,
+html.js-ready .stat-item,
+html.js-ready .explanation-content,
+html.js-ready .outcome-box,
+html.js-ready .process-timeline-gold,
+html.js-ready .contact-form,
+html.js-ready .footer-col {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(45px);
+    transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
     backface-visibility: hidden;
 }
 
 html.js-ready .fade-up.is-revealed,
-html.js-ready .reveal-on-scroll.is-revealed {
+html.js-ready .reveal-on-scroll.is-revealed,
+html.js-ready .brand-card.is-revealed,
+html.js-ready .work-card.is-revealed,
+html.js-ready .insta-item.is-revealed,
+html.js-ready .service-item.is-revealed,
+html.js-ready .process-step.is-revealed,
+html.js-ready .strategy-card.is-revealed,
+html.js-ready .skill-card.is-revealed,
+html.js-ready .poster-card.is-revealed,
+html.js-ready .stat-item.is-revealed,
+html.js-ready .explanation-content.is-revealed,
+html.js-ready .outcome-box.is-revealed,
+html.js-ready .process-timeline-gold.is-revealed,
+html.js-ready .contact-form.is-revealed,
+html.js-ready .footer-col.is-revealed {
     opacity: 1;
     transform: translateY(0);
     filter: blur(0);
@@ -736,7 +764,7 @@ html.js-ready .reveal-on-scroll.is-revealed {
 /* Scale Variant (for showcase cards, Kibblix frame, upcoming items) */
 html.js-ready .reveal-scale {
     opacity: 0;
-    transform: translateY(28px) scale(0.95);
+    transform: translateY(32px) scale(0.95);
     transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
@@ -750,7 +778,7 @@ html.js-ready .reveal-scale.is-revealed {
 /* Horizontal Slide Variants */
 html.js-ready .reveal-left {
     opacity: 0;
-    transform: translateX(-35px);
+    transform: translateX(-40px);
     transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
@@ -763,7 +791,7 @@ html.js-ready .reveal-left.is-revealed {
 
 html.js-ready .reveal-right {
     opacity: 0;
-    transform: translateX(35px);
+    transform: translateX(40px);
     transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
                 transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: opacity, transform;
@@ -775,6 +803,15 @@ html.js-ready .reveal-right.is-revealed {
 }
 
 /* Allow natural :hover after reveal animation completes */
+html.js-ready .brand-card.is-revealed.animation-done,
+html.js-ready .work-card.is-revealed.animation-done,
+html.js-ready .insta-item.is-revealed.animation-done,
+html.js-ready .service-item.is-revealed.animation-done,
+html.js-ready .process-step.is-revealed.animation-done,
+html.js-ready .strategy-card.is-revealed.animation-done,
+html.js-ready .skill-card.is-revealed.animation-done,
+html.js-ready .poster-card.is-revealed.animation-done,
+html.js-ready .stat-item.is-revealed.animation-done,
 html.js-ready .fade-up.is-revealed.animation-done,
 html.js-ready .reveal-on-scroll.is-revealed.animation-done,
 html.js-ready .reveal-scale.is-revealed.animation-done,
@@ -826,7 +863,8 @@ html.js-ready .brand-card.is-revealed {
     transition: transform 0.4s var(--transition-main), border-color 0.4s var(--transition-main);
 }
 .process-step .step-num {
-    transition: opacity 0.5s ease, color 0.5s ease, text-shadow 0.5s ease;
+    transition: opacity 0.5s ease, color 0.5s ease, text-shadow 0.5s ease, transform 0.5s ease;
+    display: inline-block;
 }
 .process-step.is-revealed .step-num {
     opacity: 0.7;
@@ -834,9 +872,10 @@ html.js-ready .brand-card.is-revealed {
     text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
 }
 .process-step.step-focus .step-num {
-    opacity: 1;
-    color: #00f2fe;
-    text-shadow: 0 0 25px rgba(0, 242, 254, 0.8), 0 0 40px rgba(123, 97, 255, 0.5);
+    opacity: 1 !important;
+    color: #00f2fe !important;
+    text-shadow: 0 0 25px rgba(0, 242, 254, 0.9), 0 0 45px rgba(123, 97, 255, 0.6) !important;
+    transform: scale(1.18);
 }
 
 /* Hero Entrance Sequence */

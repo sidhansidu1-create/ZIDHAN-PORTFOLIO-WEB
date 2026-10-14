@@ -600,27 +600,33 @@ document.addEventListener("DOMContentLoaded", () => {
             '.reveal-left',
             '.reveal-right',
             '.brand-card',
-            '.strategy-card',
+            '.work-card',
+            '.insta-item',
             '.service-item',
             '.process-step',
+            '.strategy-card',
             '.stat-item',
             '.skill-card',
-            '.insta-item',
-            '.poster-card'
+            '.poster-card',
+            '.explanation-content',
+            '.outcome-box',
+            '.process-timeline-gold',
+            '.contact-form',
+            '.footer-col'
         ].join(', ');
 
         const revealElements = Array.from(document.querySelectorAll(revealSelector));
 
         // Group container children to apply smooth staggered cascades
         const staggerContainers = [
-            { selector: '.brand-cards-container', children: '.brand-card', baseDelay: 0.1, step: 0.14 },
-            { selector: '.upcoming-works-container', children: '.work-card', baseDelay: 0.08, step: 0.12 },
-            { selector: '.instagram-grid', children: '.insta-item', baseDelay: 0.05, step: 0.06 },
-            { selector: '.strategy-grid', children: '.strategy-card', baseDelay: 0.06, step: 0.09 },
-            { selector: '.services-list', children: '.service-item', baseDelay: 0.08, step: 0.1 },
-            { selector: '.process-steps', children: '.process-step', baseDelay: 0.08, step: 0.12 },
-            { selector: '.skills-new-grid', children: '.skill-card', baseDelay: 0.05, step: 0.07 },
-            { selector: '.about-stats', children: '.stat-item', baseDelay: 0.08, step: 0.12 }
+            { selector: '.brand-cards-container', children: '.brand-card', baseDelay: 0.05, step: 0.18 },
+            { selector: '.upcoming-works-container', children: '.work-card', baseDelay: 0.05, step: 0.15 },
+            { selector: '.instagram-grid', children: '.insta-item', baseDelay: 0.04, step: 0.06 },
+            { selector: '.strategy-grid', children: '.strategy-card', baseDelay: 0.05, step: 0.09 },
+            { selector: '.services-list', children: '.service-item', baseDelay: 0.05, step: 0.1 },
+            { selector: '.process-steps', children: '.process-step', baseDelay: 0.05, step: 0.12 },
+            { selector: '.skills-new-grid', children: '.skill-card', baseDelay: 0.04, step: 0.07 },
+            { selector: '.about-stats', children: '.stat-item', baseDelay: 0.05, step: 0.14 }
         ];
 
         staggerContainers.forEach(({ selector, children, baseDelay, step }) => {
@@ -633,10 +639,10 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        // Check if element is already in the initial viewport
+        // Check if element is already in the initial viewport (above fold)
         const checkInitialInView = (el) => {
             const rect = el.getBoundingClientRect();
-            return (rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.95 && rect.bottom >= 0);
+            return (rect.top < (window.innerHeight || document.documentElement.clientHeight) * 0.65 && rect.bottom > 0);
         };
 
         if ('IntersectionObserver' in window) {
@@ -648,8 +654,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         
                         // After transition completes, clean up transform to allow unrestricted :hover effects
                         const computedDelay = parseFloat(window.getComputedStyle(target).transitionDelay) || 0;
-                        const computedDuration = parseFloat(window.getComputedStyle(target).transitionDuration) || 0.85;
-                        const totalTime = (computedDelay + computedDuration) * 1000 + 50;
+                        const computedDuration = parseFloat(window.getComputedStyle(target).transitionDuration) || 0.75;
+                        const totalTime = (computedDelay + computedDuration) * 1000 + 100;
 
                         setTimeout(() => {
                             target.classList.add('animation-done');
@@ -660,7 +666,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }, {
                 root: null,
-                threshold: 0.08,
+                threshold: 0.1,
                 rootMargin: '0px 0px -40px 0px'
             });
 
