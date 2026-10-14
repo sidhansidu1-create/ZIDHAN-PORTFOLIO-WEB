@@ -92,6 +92,9 @@ export default {
     if (url.pathname === '/secret') {
       return Response.redirect(`${url.origin}/secret/hafu/`, 301);
     }
+    if (url.pathname === '/secret/safvan') {
+      return Response.redirect(`${url.origin}/secret/safvan/`, 301);
+    }
     if (url.pathname === '/secret/brand' || url.pathname === '/secret/brand/' || url.pathname === '/secret/brand/index.html') {
       return Response.redirect(`${url.origin}/brand-discovery`, 301);
     }

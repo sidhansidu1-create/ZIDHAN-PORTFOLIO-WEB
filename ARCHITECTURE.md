@@ -76,8 +76,10 @@ ZIDHAN-PORTFOLIO-WEB/
 │   │   └── index.html           # Brand discovery portal redirect
 │   ├── hafu/
 │   │   └── index.html           # 1st Love Anniversary interactive celebration page
-│   └── hafuzidhu/
-│       └── index.html           # Anniversary interactive love letter
+│   ├── hafuzidhu/
+│   │   └── index.html           # Anniversary interactive love letter
+│   └── safvan/
+│       └── index.html           # Birthday Celebration page for Safvan (Confidential, noindex)
 ├── sitemap.xml                  # XML sitemap with all routes and priority scores
 ├── style.css                    # Unminified master frontend stylesheet
 ├── style.min.css                # Production-minified frontend stylesheet (CRITICAL FILE)

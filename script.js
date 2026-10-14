@@ -305,6 +305,29 @@ document.addEventListener("DOMContentLoaded", () => {
             };
         }
 
+        // Safvan Birthday Secret Easter Egg
+        if (
+            cleaned === 'safvan' ||
+            cleaned === 'safwan' ||
+            cleaned === 'safu' ||
+            cleaned === 'safvanbirthday' ||
+            cleaned === 'safwanbirthday' ||
+            cleaned === 'birthdaysafvan' ||
+            cleaned === 'birthdaysafwan' ||
+            cleaned === 'happysafvan' ||
+            cleaned.includes('safvan') ||
+            cleaned.includes('safwan')
+        ) {
+            return {
+                type: 'birthday',
+                title: 'Secret Birthday Celebration: Safvan 🎂',
+                category: 'VIP BIRTHDAY SURPRISE',
+                desc: 'Happy Birthday, Safvan! Press Enter or click here to open your secret celebration from Sidhan...',
+                msg: 'Opening secret birthday celebration for Safvan... 🎂✨',
+                url: getSecretUrl('/secret/safvan/')
+            };
+        }
+
         // Brand Discovery Client Portal (matches: "discover your brand", "disover your brand", "isocer your brand", "brand discovery", etc.)
         if (
             cleaned === 'discoveryourbrand' || 
@@ -406,6 +429,31 @@ document.addEventListener("DOMContentLoaded", () => {
         playRomanticArpeggio();
 
         let portalOverlay = document.getElementById('heart-portal-overlay');
+        const isBirthday = destUrl.includes('safvan');
+        const svgContent = isBirthday
+            ? `
+                <defs>
+                    <radialGradient id="portalBirthdayGrad" cx="50%" cy="40%" r="60%">
+                        <stop offset="0%" stop-color="#fef08a" />
+                        <stop offset="35%" stop-color="#fbbf24" />
+                        <stop offset="85%" stop-color="#f59e0b" />
+                        <stop offset="100%" stop-color="#b45309" />
+                    </radialGradient>
+                </defs>
+                <path d="M50 15 L59 36 L82 36 L63 50 L70 72 L50 58 L30 72 L37 50 L18 36 L41 36 Z" fill="url(#portalBirthdayGrad)" />
+            `
+            : `
+                <defs>
+                    <radialGradient id="portalHeartGrad" cx="50%" cy="40%" r="60%">
+                        <stop offset="0%" stop-color="#ffd1dc" />
+                        <stop offset="35%" stop-color="#f43f5e" />
+                        <stop offset="85%" stop-color="#e11d48" />
+                        <stop offset="100%" stop-color="#881337" />
+                    </radialGradient>
+                </defs>
+                <path d="M 50,28 A 20,20 0,0,0 20,10 A 20,20 0,0,0 0,30 Q 0,60 50,88 Q 100,60 100,30 A 20,20 0,0,0 80,10 A 20,20 0,0,0 50,28 Z" fill="url(#portalHeartGrad)" />
+            `;
+
         if (!portalOverlay) {
             portalOverlay = document.createElement('div');
             portalOverlay.id = 'heart-portal-overlay';
@@ -414,21 +462,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="heart-portal-ambient-glow"></div>
                 <div class="heart-portal-container">
                     <svg class="heart-portal-svg" viewBox="0 0 100 90" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                            <radialGradient id="portalHeartGrad" cx="50%" cy="40%" r="60%">
-                                <stop offset="0%" stop-color="#ffd1dc" />
-                                <stop offset="35%" stop-color="#f43f5e" />
-                                <stop offset="85%" stop-color="#e11d48" />
-                                <stop offset="100%" stop-color="#881337" />
-                            </radialGradient>
-                        </defs>
-                        <path d="M 50,28 A 20,20 0,0,0 20,10 A 20,20 0,0,0 0,30 Q 0,60 50,88 Q 100,60 100,30 A 20,20 0,0,0 80,10 A 20,20 0,0,0 50,28 Z" fill="url(#portalHeartGrad)" />
+                        ${svgContent}
                     </svg>
                     <p class="heart-portal-msg">${destMsg}</p>
                 </div>
             `;
             document.body.appendChild(portalOverlay);
         } else {
+            const svgEl = portalOverlay.querySelector('.heart-portal-svg');
+            if (svgEl) svgEl.innerHTML = svgContent;
             const msgEl = portalOverlay.querySelector('.heart-portal-msg');
             if (msgEl) msgEl.textContent = destMsg;
         }
@@ -492,9 +534,14 @@ document.addEventListener("DOMContentLoaded", () => {
         let secretCardHtml = '';
         if (secretInfo) {
             const isBrand = secretInfo.type === 'brand';
-            const icon = isBrand ? '✨' : '❤️';
-            const cardClass = isBrand ? 'secret-search-result secret-brand-result' : 'secret-search-result';
-            const pillClass = isBrand ? 'secret-brand-pill' : 'secret-confidential-pill';
+            const isBirthday = secretInfo.type === 'birthday';
+            const icon = isBrand ? '✨' : (isBirthday ? '🎂' : '❤️');
+            const cardClass = isBrand 
+                ? 'secret-search-result secret-brand-result' 
+                : (isBirthday ? 'secret-search-result secret-birthday-result' : 'secret-search-result');
+            const pillClass = isBrand 
+                ? 'secret-brand-pill' 
+                : (isBirthday ? 'secret-birthday-pill' : 'secret-confidential-pill');
             secretCardHtml = `
                 <div class="search-result-item ${cardClass}" id="secretLoveTriggerCard" role="button" tabindex="0">
                     <div class="search-result-header">
