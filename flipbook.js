@@ -1,7 +1,7 @@
 /**
  * ==========================================================================
  * INTERACTIVE FLIPBOOK CONTROLLER — ZIDHANZID DESIGN PRINCIPLES
- * Powered by Mozilla PDF.js & StPageFlip
+ * Ultra-Fast Instant WebP Engine with StPageFlip & Authentic Heyzine SFX
  * ==========================================================================
  */
 
@@ -9,10 +9,9 @@
   'use strict';
 
   // Config & State
-  const PDF_URL = 'pdf/DESIGN%20PRINCIPLES.pdf';
-  let pdfDoc = null;
+  const TOTAL_PAGES = 16;
+  const ASPECT_RATIO = 1350 / 1080; // 1.25 (Exact 4:5 Brand Book Aspect Ratio)
   let pageFlip = null;
-  let totalPages = 0;
   let currentPageIndex = 0;
   let isSoundEnabled = localStorage.getItem('zidhan_flipbook_sound') !== 'muted';
   let audioCtx = null;
@@ -20,8 +19,6 @@
   // DOM Elements
   const bookContainer = document.getElementById('flipbook-book');
   const loaderOverlay = document.getElementById('loader-overlay');
-  const loaderStatus = document.getElementById('loader-status');
-  const progressBarFill = document.getElementById('progress-bar-fill');
   
   const pageInput = document.getElementById('page-input');
   const totalPagesLabel = document.getElementById('total-pages-label');
@@ -47,7 +44,7 @@
   const zoomModal = document.getElementById('zoom-modal');
   const zoomBackdrop = document.getElementById('zoom-backdrop');
   const zoomCloseBtn = document.getElementById('zoom-close-btn');
-  const zoomCanvas = document.getElementById('zoom-canvas');
+  const zoomImg = document.getElementById('zoom-img') || document.getElementById('zoom-canvas');
   const zoomPrevBtn = document.getElementById('zoom-prev-btn');
   const zoomNextBtn = document.getElementById('zoom-next-btn');
   const zoomTitle = document.getElementById('zoom-title');
@@ -57,11 +54,6 @@
   let zoomScale = 1;
   let zoomPanX = 0;
   let zoomPanY = 0;
-
-  // Set Local PDF.js Worker (Same-Origin to avoid CORS / SecurityError)
-  if (window.pdfjsLib) {
-    window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'utils/vendor/pdf.worker.min.js';
-  }
 
   // Authentic Heyzine SFX Audio Engine (Matched to screen recording)
   const SFX_FILES = {
@@ -76,47 +68,38 @@
 
   audioSm.preload = 'auto';
   audioSm.volume = 0.35;
-
   audioMd.preload = 'auto';
   audioMd.volume = 0.65;
-
   audioLg.preload = 'auto';
   audioLg.volume = 0.75;
 
   let lastPeelTime = 0;
 
-  // Corner Peel Sound (peelStart - triggers as soon as you drag a corner)
   function playPeelSound() {
     if (!isSoundEnabled) return;
     const now = Date.now();
-    if (now - lastPeelTime < 400) return; // Prevent spamming while holding corner
+    if (now - lastPeelTime < 400) return;
     lastPeelTime = now;
-
     try {
       audioSm.currentTime = 0;
       audioSm.play().catch(() => {});
     } catch (e) {}
   }
 
-  // Page Turn Sound (turning - triggers when the page flips over)
   function playTurnSound(isMultiPage = false) {
     if (!isSoundEnabled) return;
-
     try {
       const audio = isMultiPage ? audioLg : audioMd;
       audio.currentTime = 0;
       const p = audio.play();
       if (p !== undefined) {
-        p.catch(() => {
-          synthesizePaperSoundFallback();
-        });
+        p.catch(() => synthesizePaperSoundFallback());
       }
     } catch (e) {
       synthesizePaperSoundFallback();
     }
   }
 
-  // Graceful Web Audio Fallback if browser blocks media element
   function synthesizePaperSoundFallback() {
     try {
       if (!audioCtx) {
@@ -156,7 +139,6 @@
     } catch (e) {}
   }
 
-  // Show Toast
   function showToast(message) {
     if (!toast) return;
     toast.textContent = message;
@@ -166,7 +148,6 @@
     }, 2500);
   }
 
-  // Update UI Controls based on current page
   function updateUI(pageIndex) {
     currentPageIndex = pageIndex;
     const displayPage = pageIndex + 1;
@@ -174,9 +155,8 @@
     if (pageInput) pageInput.value = displayPage;
     if (pageSlider) pageSlider.value = displayPage;
 
-    // Button states
     const isAtStart = pageIndex === 0;
-    const isAtEnd = pageIndex >= totalPages - 1;
+    const isAtEnd = pageIndex >= TOTAL_PAGES - 1;
 
     if (prevArrow) prevArrow.classList.toggle('disabled', isAtStart);
     if (nextArrow) nextArrow.classList.toggle('disabled', isAtEnd);
@@ -186,163 +166,89 @@
     if (dockLast) dockLast.disabled = isAtEnd;
   }
 
-  // Render a specific PDF page onto a canvas
-  async function renderPdfPage(pageNum, canvas) {
-    const page = await pdfDoc.getPage(pageNum);
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2.0); // sharp on Retina
-    const viewport = page.getViewport({ scale: 1.0 });
+  // Calculate balanced book dimensions (optimized for desktop & mobile)
+  function getBookDimensions() {
+    const wW = window.innerWidth;
+    const wH = window.innerHeight;
+    const isPortrait = wH > wW || wW < 768;
+    const stageEl = document.querySelector('.fb-stage');
+    const sH = stageEl && stageEl.clientHeight > 100 ? stageEl.clientHeight : (wH - (wW < 768 ? 106 : 108));
+    const sW = stageEl && stageEl.clientWidth > 100 ? stageEl.clientWidth : wW;
 
-    const baseWidth = 550;
-    const scale = (baseWidth / viewport.width) * pixelRatio;
-    const scaledViewport = page.getViewport({ scale: scale });
+    if (isPortrait) {
+      // Portrait mode: Single-page view maximized to smartphone / tablet display
+      const availW = Math.max(260, sW - 24);
+      const availH = Math.max(300, sH - 24);
 
-    canvas.width = scaledViewport.width;
-    canvas.height = scaledViewport.height;
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
+      let pageW = availW;
+      let pageH = Math.round(pageW * ASPECT_RATIO);
 
-    const ctx = canvas.getContext('2d', { alpha: false });
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-
-    await page.render({
-      canvasContext: ctx,
-      viewport: scaledViewport
-    }).promise;
-  }
-
-  // Initialize Flipbook
-  async function initFlipbook() {
-    try {
-      // Check for file:// protocol limitation
-      if (window.location.protocol === 'file:') {
-        throw new Error('FILE_PROTOCOL_BLOCKED');
+      if (pageH > availH) {
+        pageH = availH;
+        pageW = Math.round(pageH / ASPECT_RATIO);
       }
 
-      loaderStatus.textContent = 'Connecting to PDF stream...';
-      progressBarFill.style.width = '10%';
+      return { width: pageW, height: pageH };
+    } else {
+      // Landscape mode: Two-page spread (Desktop / Laptop / Rotated phone)
+      const availW = Math.max(300, sW - (wH < 500 ? 30 : 130));
+      const availH = Math.max(260, sH - 24);
 
-      // Configure PDF loading task with live progress
-      const loadingTask = pdfjsLib.getDocument({
-        url: PDF_URL,
-        rangeChunkSize: 65536 * 4,
-        disableAutoFetch: false,
-        disableStream: false
-      });
+      // Desktop sweet-spot: 530px height
+      let pageH = Math.min(530, availH);
+      let pageW = Math.round(pageH / ASPECT_RATIO);
 
-      loadingTask.onProgress = function (p) {
-        if (p.total > 0) {
-          const loadedMB = (p.loaded / (1024 * 1024)).toFixed(1);
-          const totalMB = (p.total / (1024 * 1024)).toFixed(1);
-          const pct = Math.min(Math.round((p.loaded / p.total) * 45), 45);
-          progressBarFill.style.width = `${pct}%`;
-          loaderStatus.textContent = `Downloading Design Principles (${loadedMB} MB / ${totalMB} MB)...`;
-        }
-      };
+      if (pageW * 2 > availW) {
+        pageW = Math.floor(availW / 2);
+        pageH = Math.round(pageW * ASPECT_RATIO);
+      }
 
-      pdfDoc = await loadingTask.promise;
-      totalPages = pdfDoc.numPages;
+      return { width: pageW, height: pageH };
+    }
+  }
 
-      totalPagesLabel.textContent = totalPages;
+  // Build the 16 pages with WebP & JPG fallback
+  function createPageElements() {
+    bookContainer.innerHTML = '';
+    for (let i = 1; i <= TOTAL_PAGES; i++) {
+      const pageDiv = document.createElement('div');
+      pageDiv.className = 'fb-page';
+      pageDiv.setAttribute('data-density', 'soft');
+
+      const innerDiv = document.createElement('div');
+      innerDiv.className = 'fb-page-inner';
+
+      const picture = document.createElement('picture');
+      const source = document.createElement('source');
+      source.srcset = `images/design-principles/page-${i}.webp`;
+      source.type = 'image/webp';
+
+      const img = document.createElement('img');
+      img.src = `images/design-principles/page-${i}.jpg`;
+      img.alt = `Design Principles Page ${i}`;
+      img.draggable = false;
+      img.loading = i <= 4 ? 'eager' : 'lazy';
+
+      picture.appendChild(source);
+      picture.appendChild(img);
+      innerDiv.appendChild(picture);
+      pageDiv.appendChild(innerDiv);
+      bookContainer.appendChild(pageDiv);
+    }
+  }
+
+  // Initialize Flipbook instantly
+  function initFlipbook() {
+    try {
+      if (totalPagesLabel) totalPagesLabel.textContent = TOTAL_PAGES;
       if (pageSlider) {
-        pageSlider.max = totalPages;
+        pageSlider.max = TOTAL_PAGES;
         pageSlider.value = 1;
       }
 
-      progressBarFill.style.width = '50%';
-      loaderStatus.textContent = `Parsing ${totalPages} pages...`;
-
-      // Get page 1 aspect ratio
-      const firstPage = await pdfDoc.getPage(1);
-      const viewport = firstPage.getViewport({ scale: 1.0 });
-      // Aspect ratio (1350 / 1080 = 1.25)
-      const aspectRatio = viewport.height / viewport.width;
-
-      // Calculate balanced, comfortable book dimensions (optimized for desktop & mobile)
-      function getBookDimensions() {
-        const wW = window.innerWidth;
-        const wH = window.innerHeight;
-        const isPortrait = wH > wW || wW < 768;
-        const stageEl = document.querySelector('.fb-stage');
-        const sH = stageEl && stageEl.clientHeight > 100 ? stageEl.clientHeight : (wH - (wW < 768 ? 106 : 108));
-        const sW = stageEl && stageEl.clientWidth > 100 ? stageEl.clientWidth : wW;
-
-        if (isPortrait) {
-          // Portrait mode: Single-page view maximized to smartphone / tablet display
-          const availW = Math.max(260, sW - 24);
-          const availH = Math.max(300, sH - 24);
-
-          let pageW = availW;
-          let pageH = Math.round(pageW * aspectRatio);
-
-          if (pageH > availH) {
-            pageH = availH;
-            pageW = Math.round(pageH / aspectRatio);
-          }
-
-          return { width: pageW, height: pageH };
-        } else {
-          // Landscape mode: Two-page spread (Desktop / Laptop / Rotated phone)
-          const availW = Math.max(300, sW - (wH < 500 ? 30 : 130));
-          const availH = Math.max(260, sH - 24);
-
-          // Desktop sweet-spot: 530px
-          let pageH = Math.min(530, availH);
-          let pageW = Math.round(pageH / aspectRatio);
-
-          if (pageW * 2 > availW) {
-            pageW = Math.floor(availW / 2);
-            pageH = Math.round(pageW * aspectRatio);
-          }
-
-          return { width: pageW, height: pageH };
-        }
-      }
-
       const bookDims = getBookDimensions();
+      createPageElements();
 
-      // Base single page dimensions for high-DPI canvas rendering
-      const baseWidth = Math.max(bookDims.width, 500);
-      const baseHeight = Math.round(baseWidth * aspectRatio);
-
-      // Create page wrapper elements
-      bookContainer.innerHTML = '';
-      const pageCanvases = [];
-
-      for (let i = 1; i <= totalPages; i++) {
-        const pageDiv = document.createElement('div');
-        pageDiv.className = 'fb-page';
-        
-        // Flexible paper curling physics for ALL pages (no stiff/rigid boards)
-        pageDiv.setAttribute('data-density', 'soft');
-
-        const innerDiv = document.createElement('div');
-        innerDiv.className = 'fb-page-inner';
-
-        const canvas = document.createElement('canvas');
-        canvas.id = `fb-canvas-${i}`;
-
-        innerDiv.appendChild(canvas);
-        pageDiv.appendChild(innerDiv);
-        bookContainer.appendChild(pageDiv);
-
-        pageCanvases.push({ pageNum: i, canvas: canvas });
-      }
-
-      // Render all pages with progress updates
-      for (let i = 0; i < pageCanvases.length; i++) {
-        const { pageNum, canvas } = pageCanvases[i];
-        loaderStatus.textContent = `Rendering page ${pageNum} of ${totalPages}...`;
-        const percent = 50 + Math.round(((i + 1) / totalPages) * 45);
-        progressBarFill.style.width = `${percent}%`;
-
-        await renderPdfPage(pageNum, canvas);
-      }
-
-      progressBarFill.style.width = '100%';
-      loaderStatus.textContent = 'Assembling 3D Book...';
-
-      // Initialize StPageFlip with fixed, perfectly-sized bounds
       const pageElements = bookContainer.querySelectorAll('.fb-page');
       pageFlip = new St.PageFlip(bookContainer, {
         width: bookDims.width,
@@ -362,14 +268,12 @@
 
       let lastRecordedPage = 0;
 
-      // Peel corner touch sound (Heyzine peelStart)
       pageFlip.on('changeState', (e) => {
         if (e.data === 'user_fold' || e.data === 'fold_corner') {
           playPeelSound();
         }
       });
 
-      // Page flip event (Heyzine turning)
       pageFlip.on('flip', (e) => {
         const newPage = e.data;
         const pageJump = Math.abs(newPage - lastRecordedPage);
@@ -378,10 +282,21 @@
         updateUI(newPage);
       });
 
-      // Initial update
       updateUI(0);
 
-      // Mobile Swipe Cue Hint Onboarding
+      // Preload Page 1 and reveal book instantly (< 100ms)
+      const coverPreload = new Image();
+      const revealBook = () => {
+        if (loaderOverlay) {
+          loaderOverlay.classList.add('hidden');
+        }
+      };
+      coverPreload.onload = revealBook;
+      coverPreload.onerror = revealBook;
+      coverPreload.src = 'images/design-principles/page-1.webp';
+      setTimeout(revealBook, 250); // Fallback guarantee
+
+      // Mobile Swipe Cue Hint
       if (swipeHint) {
         if (window.innerWidth <= 768 && !sessionStorage.getItem('zidhan_flipbook_hint_seen')) {
           swipeHint.style.display = 'inline-flex';
@@ -408,18 +323,20 @@
         lastTapTime = now;
       }, { passive: false });
 
-      // Smooth adaptation on window resize / orientationchange / fullscreen toggle
+      // Smooth adaptation on resize & orientation change
       let resizeTimer = null;
       let prevW = window.innerWidth;
       let prevH = window.innerHeight;
 
       const handleAdaptation = () => {
-        if (!pageFlip || !pdfDoc) return;
+        if (!pageFlip) return;
         const currentP = pageFlip.getCurrentPageIndex() || 0;
         const newDims = getBookDimensions();
 
         try {
           pageFlip.destroy();
+          createPageElements();
+          const pEls = bookContainer.querySelectorAll('.fb-page');
           pageFlip = new St.PageFlip(bookContainer, {
             width: newDims.width,
             height: newDims.height,
@@ -433,7 +350,6 @@
             swipeDistance: 25,
             flippingTime: 700
           });
-          const pEls = bookContainer.querySelectorAll('.fb-page');
           pageFlip.loadFromHTML(pEls);
           pageFlip.on('changeState', (e) => {
             if (e.data === 'user_fold' || e.data === 'fold_corner') {
@@ -468,47 +384,14 @@
         setTimeout(handleAdaptation, 250);
       });
 
-      // Hide Loader with elegant fade
-      setTimeout(() => {
-        loaderOverlay.classList.add('hidden');
-      }, 400);
-
     } catch (err) {
       console.error('Failed to load flipbook:', err);
-
-      if (err.message === 'FILE_PROTOCOL_BLOCKED' || window.location.protocol === 'file:') {
-        loaderStatus.innerHTML = `
-          <div style="font-size:0.9rem; color:#ff6b6b; font-weight:700; margin-bottom:0.5rem;">
-            ⚠️ Local Browser Security Notice
-          </div>
-          <div style="font-size:0.78rem; color:#94a3b8; line-height:1.5; margin-bottom:1rem;">
-            Modern browsers block reading local PDF files when opened by double-clicking (<code>file://</code>).
-          </div>
-          <div style="font-size:0.8rem; background:rgba(0,245,255,0.08); border:1px solid rgba(0,245,255,0.25); border-radius:8px; padding:0.6rem; color:#fff;">
-            Run in terminal:<br>
-            <strong style="color:#00f5ff;">node preview.js</strong><br>
-            Then open: <strong style="color:#00f5ff;">http://localhost:3000/design-principles.html</strong>
-          </div>
-        `;
-      } else {
-        loaderStatus.innerHTML = `
-          <div style="font-size:0.85rem; color:#ff6b6b; margin-bottom:0.5rem;">
-            Failed to load PDF (${err.message || 'Network Error'})
-          </div>
-          <div style="font-size:0.75rem; color:#94a3b8;">
-            Please ensure <code>node preview.js</code> is running or refresh the page.
-          </div>
-        `;
-      }
-
-      progressBarFill.style.background = '#ff6b6b';
-      progressBarFill.style.width = '100%';
+      if (loaderOverlay) loaderOverlay.classList.add('hidden');
     }
   }
 
-  // Setup Event Listeners
+  // Setup UI Event Listeners
   function setupEventListeners() {
-    // Navigation arrows
     if (prevArrow) {
       prevArrow.addEventListener('click', () => {
         if (pageFlip) pageFlip.flipPrev();
@@ -521,7 +404,6 @@
       });
     }
 
-    // Dock buttons
     if (dockPrev) {
       dockPrev.addEventListener('click', () => {
         if (pageFlip) pageFlip.flipPrev();
@@ -542,26 +424,24 @@
 
     if (dockLast) {
       dockLast.addEventListener('click', () => {
-        if (pageFlip) pageFlip.flip(totalPages - 1);
+        if (pageFlip) pageFlip.flip(TOTAL_PAGES - 1);
       });
     }
 
-    // Slider
     if (pageSlider) {
       pageSlider.addEventListener('input', (e) => {
         const targetPage = parseInt(e.target.value, 10) - 1;
-        if (pageFlip && targetPage >= 0 && targetPage < totalPages) {
+        if (pageFlip && targetPage >= 0 && targetPage < TOTAL_PAGES) {
           pageFlip.flip(targetPage);
         }
       });
     }
 
-    // Page number text input
     if (pageInput) {
       pageInput.addEventListener('change', (e) => {
         let val = parseInt(e.target.value, 10);
         if (isNaN(val)) val = 1;
-        val = Math.max(1, Math.min(val, totalPages));
+        val = Math.max(1, Math.min(val, TOTAL_PAGES));
         if (pageFlip) pageFlip.flip(val - 1);
       });
 
@@ -583,7 +463,7 @@
       } else if (e.key === 'Home') {
         if (pageFlip) pageFlip.flip(0);
       } else if (e.key === 'End') {
-        if (pageFlip) pageFlip.flip(totalPages - 1);
+        if (pageFlip) pageFlip.flip(TOTAL_PAGES - 1);
       }
     });
 
@@ -617,43 +497,22 @@
     }
 
     // HD Zoom / Inspection Lightbox Controller
-    async function renderZoomPage(pageIndex) {
-      if (!pdfDoc || !zoomCanvas) return;
+    function renderZoomPage(pageIndex) {
       currentZoomPage = pageIndex;
       const pageNum = pageIndex + 1;
 
       if (zoomTitle) zoomTitle.textContent = `Design Principles — Page ${pageNum}`;
-      if (zoomPageBadge) zoomPageBadge.textContent = `${pageNum} / ${totalPages}`;
+      if (zoomPageBadge) zoomPageBadge.textContent = `${pageNum} / ${TOTAL_PAGES}`;
       if (zoomPrevBtn) zoomPrevBtn.disabled = pageIndex === 0;
-      if (zoomNextBtn) zoomNextBtn.disabled = pageIndex >= totalPages - 1;
+      if (zoomNextBtn) zoomNextBtn.disabled = pageIndex >= TOTAL_PAGES - 1;
 
       zoomScale = 1;
       zoomPanX = 0;
       zoomPanY = 0;
       applyZoomTransform();
 
-      try {
-        const page = await pdfDoc.getPage(pageNum);
-        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2.5);
-        const viewport = page.getViewport({ scale: 1.0 });
-
-        const targetWidth = Math.min(1200, window.innerWidth * 1.5);
-        const scale = (targetWidth / viewport.width) * pixelRatio;
-        const scaledViewport = page.getViewport({ scale: scale });
-
-        zoomCanvas.width = scaledViewport.width;
-        zoomCanvas.height = scaledViewport.height;
-
-        const ctx = zoomCanvas.getContext('2d', { alpha: false });
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-
-        await page.render({
-          canvasContext: ctx,
-          viewport: scaledViewport
-        }).promise;
-      } catch (e) {
-        console.error('Failed to render zoom page:', e);
+      if (zoomImg) {
+        zoomImg.src = `images/design-principles/page-${pageNum}.webp`;
       }
     }
 
@@ -683,7 +542,7 @@
       }, 250);
     }
 
-    // Zoom Gestures (Pinch to zoom, pan, mousewheel)
+    // Zoom Gestures
     function setupZoomGestures() {
       const zoomBody = document.getElementById('zoom-body');
       if (!zoomBody) return;
@@ -765,7 +624,6 @@
 
     setupZoomGestures();
 
-    // Wire Zoom Buttons
     if (zoomBtn) {
       zoomBtn.addEventListener('click', () => openZoomModal(currentPageIndex));
     }
@@ -785,14 +643,14 @@
     }
     if (zoomNextBtn) {
       zoomNextBtn.addEventListener('click', () => {
-        if (currentZoomPage < totalPages - 1) {
+        if (currentZoomPage < TOTAL_PAGES - 1) {
           renderZoomPage(currentZoomPage + 1);
           playTurnSound(false);
         }
       });
     }
 
-    // Fullscreen toggle (Guarded for iOS Safari / Mobile browsers)
+    // Fullscreen toggle
     if (fullscreenBtn) {
       const isFullscreenSupported = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
       if (!isFullscreenSupported) {
@@ -815,7 +673,7 @@
       }
     }
 
-    // Share button (Native Web Share on Mobile with Clipboard fallback)
+    // Share button
     if (shareBtn) {
       shareBtn.addEventListener('click', () => {
         if (navigator.share && window.innerWidth < 768) {
@@ -834,7 +692,7 @@
       });
     }
 
-    // Resume & Unlock Audio on first user interaction (iOS Safari + Chrome)
+    // Resume AudioContext & Unlock HTML5 Audio on first interaction
     const unlockAudio = () => {
       if (audioCtx && audioCtx.state === 'suspended') {
         audioCtx.resume();

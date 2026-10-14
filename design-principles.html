@@ -37,9 +37,11 @@
     <!-- Flipbook Stylesheet -->
     <link rel="stylesheet" href="flipbook.css?v=2.3">
 
-    <!-- PDF.js Engine & StPageFlip Library (Local with CDN fallback) -->
-    <script src="utils/vendor/pdf.min.js"></script>
-    <script src="utils/vendor/page-flip.browser.js?v=2.3"></script>
+    <!-- Preload Cover Page for Instant 0.1s First Paint -->
+    <link rel="preload" as="image" href="images/design-principles/page-1.webp" type="image/webp">
+
+    <!-- StPageFlip 3D Physics Engine -->
+    <script src="utils/vendor/page-flip.browser.js?v=2.4"></script>
 </head>
 <body>
 
@@ -262,7 +264,7 @@
             </div>
             <div class="fb-zoom-body" id="zoom-body">
                 <div class="fb-zoom-img-wrap" id="zoom-img-wrap">
-                    <canvas id="zoom-canvas" class="fb-zoom-canvas"></canvas>
+                    <img id="zoom-img" class="fb-zoom-img" src="" alt="Page Detail Zoom">
                 </div>
             </div>
             <div class="fb-zoom-footer">
