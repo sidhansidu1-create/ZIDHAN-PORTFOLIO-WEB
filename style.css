@@ -4544,6 +4544,21 @@ footer {
         overflow-x: clip !important;
     }
 
+    /* FIX: Disable reveal animation for cards inside the mobile projects slider.
+       The global .work-card rule sets opacity:0 + translateY(45px) for scroll-reveal.
+       In the horizontal slider, cards enter via horizontal scroll — not vertical page scroll —
+       so the IntersectionObserver fires mid-scroll, making cards "jump". Reset them to
+       fully visible immediately, with no transition delay. */
+    html.js-ready #main-work-grid .work-card,
+    html.js-ready #main-work-grid .work-card.is-revealed,
+    html.js-ready #main-work-grid .work-card.animation-done {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+        transition-delay: 0s !important;
+        will-change: auto !important;
+    }
+
     .project-filters {
         margin-bottom: 1.8rem !important;
         gap: 0.75rem 1.2rem !important;

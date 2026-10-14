@@ -702,6 +702,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             revealElements.forEach(el => {
+                // Skip work-cards inside the mobile projects slider (#main-work-grid).
+                // Those cards enter view via horizontal scroll - not vertical page scroll.
+                // Observing them causes the translateY reveal animation to fire mid-page-scroll,
+                // making cards visually jump as the user scrolls down the page.
+                if (el.closest('#main-work-grid')) {
+                    el.classList.add('is-revealed', 'animation-done');
+                    return;
+                }
                 revealObserver.observe(el);
             });
 
