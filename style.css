@@ -819,14 +819,16 @@ html.js-ready .reveal-right.is-revealed.animation-done {
     transform: none;
 }
 
-/* Hover overrides for cards even during or after reveal */
-html.js-ready .brand-card.is-revealed:hover,
-html.js-ready .work-card.is-revealed:hover,
-html.js-ready .service-item.is-revealed:hover,
-html.js-ready .poster-card.is-revealed:hover,
-html.js-ready .strategy-card.is-revealed:hover,
-html.js-ready .skill-card.is-revealed:hover {
-    transform: translateY(-6px);
+/* Hover overrides for cards even during or after reveal - DESKTOP POINTER ONLY */
+@media (hover: hover) and (pointer: fine) {
+    html.js-ready .brand-card.is-revealed:hover,
+    html.js-ready .work-card.is-revealed:hover,
+    html.js-ready .service-item.is-revealed:hover,
+    html.js-ready .poster-card.is-revealed:hover,
+    html.js-ready .strategy-card.is-revealed:hover,
+    html.js-ready .skill-card.is-revealed:hover {
+        transform: translateY(-6px);
+    }
 }
 
 /* Stagger Utilities */
@@ -1214,10 +1216,12 @@ html.js-ready .brand-card.is-revealed {
     height: 100%;
 }
 
-.brand-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(0, 229, 160, 0.65);
-    box-shadow: 0 0 30px rgba(0, 229, 160, 0.14), 0 30px 60px rgba(0, 0, 0, 0.55);
+@media (hover: hover) and (pointer: fine) {
+    .brand-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(0, 229, 160, 0.65);
+        box-shadow: 0 0 30px rgba(0, 229, 160, 0.14), 0 30px 60px rgba(0, 0, 0, 0.55);
+    }
 }
 
 /* Card inner — fills full card height */
@@ -1262,8 +1266,10 @@ html.js-ready .brand-card.is-revealed {
     transition: transform 0.5s ease;
 }
 
-.brand-card:hover .brand-post-image {
-    transform: scale(1.04);
+@media (hover: hover) and (pointer: fine) {
+    .brand-card:hover .brand-post-image {
+        transform: scale(1.04);
+    }
 }
 
 /* Comment section below image — flex: 1 and space-between keeps footer buttons level */
@@ -1388,8 +1394,11 @@ html.js-ready .brand-card.is-revealed {
         display: flex !important;
         flex-direction: row !important;
         overflow-x: auto !important;
-        scroll-snap-type: x mandatory;
+        scroll-snap-type: x proximity;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: auto;
+        touch-action: pan-x pan-y pinch-zoom;
         gap: 1rem !important;
         width: 100vw !important;
         max-width: 100vw !important;
@@ -1412,6 +1421,7 @@ html.js-ready .brand-card.is-revealed {
         max-width: 320px !important;
         scroll-snap-align: start !important;
         scroll-snap-stop: normal !important;
+        touch-action: pan-x pan-y pinch-zoom;
         border-radius: 16px;
         height: auto;
         box-sizing: border-box !important;
@@ -1722,10 +1732,24 @@ html.js-ready .brand-card.is-revealed {
     border: 1px solid rgba(0, 245, 255, 0.1);
 }
 
-.work-card:hover {
-    transform: translateY(-10px);
-    border-color: rgba(0, 245, 255, 0.45);
-    box-shadow: 0 15px 40px rgba(3, 7, 18, 0.8), 0 0 25px rgba(0, 245, 255, 0.2), 0 0 35px rgba(183, 110, 255, 0.15);
+@media (hover: hover) and (pointer: fine) {
+    .work-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(0, 245, 255, 0.45);
+        box-shadow: 0 15px 40px rgba(3, 7, 18, 0.8), 0 0 25px rgba(0, 245, 255, 0.2), 0 0 35px rgba(183, 110, 255, 0.15);
+    }
+
+    .work-card:hover .work-image {
+        opacity: 0.5;
+        filter: grayscale(100%);
+    }
+
+    .work-card:hover .work-title {
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
 }
 
 .work-image-container {
@@ -1753,16 +1777,9 @@ html.js-ready .brand-card.is-revealed {
     transition: all 0.5s var(--transition-main);
 }
 
-.work-card:hover .work-image {
-    opacity: 0.5;
-    filter: grayscale(100%);
-}
-
 .work-details {
     padding: 0.5rem 0;
 }
-
-
 
 .work-title {
     font-family: var(--font-sans);
@@ -1771,13 +1788,6 @@ html.js-ready .brand-card.is-revealed {
     margin-bottom: 0.5rem;
     color: var(--text-primary);
     transition: all 0.3s ease;
-}
-
-.work-card:hover .work-title {
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 .work-category {
@@ -1931,11 +1941,13 @@ html.js-ready .brand-card.is-revealed {
     transition: all 0.4s var(--transition-main);
 }
 
-.skill-card:hover {
-    transform: translateY(-10px);
-    background: rgba(10, 16, 38, 0.85);
-    border-color: rgba(183, 110, 255, 0.4);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 245, 255, 0.18);
+@media (hover: hover) and (pointer: fine) {
+    .skill-card:hover {
+        transform: translateY(-10px);
+        background: rgba(10, 16, 38, 0.85);
+        border-color: rgba(183, 110, 255, 0.4);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 245, 255, 0.18);
+    }
 }
 
 .skill-card-icon {
@@ -4466,8 +4478,11 @@ footer {
         display: flex !important;
         flex-direction: row !important;
         overflow-x: auto !important;
-        scroll-snap-type: x mandatory;
+        scroll-snap-type: x proximity;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: auto;
+        touch-action: pan-x pan-y pinch-zoom;
         gap: 1rem !important;
         width: 100vw !important;
         max-width: 100vw !important;
@@ -4494,6 +4509,7 @@ footer {
         margin: 0 !important;
         scroll-snap-align: start !important;
         scroll-snap-stop: normal !important;
+        touch-action: pan-x pan-y pinch-zoom;
         border-radius: 16px;
         background: var(--bg-main);
         border: 1px solid var(--glass-border);
@@ -4544,19 +4560,62 @@ footer {
         overflow-x: clip !important;
     }
 
-    /* FIX: Disable reveal animation for cards inside the mobile projects slider.
-       The global .work-card rule sets opacity:0 + translateY(45px) for scroll-reveal.
-       In the horizontal slider, cards enter via horizontal scroll — not vertical page scroll —
-       so the IntersectionObserver fires mid-scroll, making cards "jump". Reset them to
-       fully visible immediately, with no transition delay. */
+    /* Disable scroll-reveal animation for all cards inside mobile horizontal sliders.
+       Cards enter view via horizontal swipe - not vertical page scroll - so translateY
+       reveal animations fire unpredictably during vertical scroll, making cards visually jump.
+       Ensure all slider cards are immediately, permanently visible, static, and cannot jitter. */
+    html.js-ready #main-work-grid .fade-up,
     html.js-ready #main-work-grid .work-card,
+    html.js-ready #main-work-grid .reveal-on-scroll,
+    html.js-ready #main-work-grid .fade-up.is-revealed,
     html.js-ready #main-work-grid .work-card.is-revealed,
-    html.js-ready #main-work-grid .work-card.animation-done {
+    html.js-ready #main-work-grid .reveal-on-scroll.is-revealed,
+    html.js-ready #main-work-grid .fade-up.animation-done,
+    html.js-ready #main-work-grid .work-card.animation-done,
+    html.js-ready #main-work-grid .reveal-on-scroll.animation-done,
+    html.js-ready .upcoming-works-container .fade-up,
+    html.js-ready .upcoming-works-container .work-card,
+    html.js-ready .upcoming-works-container .work-card.is-revealed,
+    html.js-ready .upcoming-works-container .work-card.animation-done,
+    html.js-ready .brand-cards-container .brand-card,
+    html.js-ready .brand-cards-container .brand-card.is-revealed,
+    html.js-ready .brand-cards-container .brand-card.animation-done,
+    html.js-ready .skills-new-grid .skill-card,
+    html.js-ready .skills-new-grid .skill-card.is-revealed,
+    html.js-ready .skills-new-grid .skill-card.animation-done {
         opacity: 1 !important;
         transform: none !important;
         transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+        animation: none !important;
         transition-delay: 0s !important;
         will-change: auto !important;
+        filter: none !important;
+    }
+
+    /* Mobile touch-hover reset: prevent cards from jumping translateY(-10px) or turning grayscale on tap/scroll */
+    .work-card:hover,
+    .brand-card:hover,
+    .skill-card:hover,
+    .strategy-card:hover,
+    .service-item:hover,
+    .poster-card:hover,
+    html.js-ready .work-card.is-revealed:hover,
+    html.js-ready .brand-card.is-revealed:hover,
+    html.js-ready .skill-card.is-revealed:hover,
+    html.js-ready .strategy-card.is-revealed:hover,
+    html.js-ready .service-item.is-revealed:hover,
+    html.js-ready .poster-card.is-revealed:hover {
+        transform: none !important;
+    }
+    .work-card:hover .work-image,
+    .brand-card:hover .brand-post-image {
+        opacity: 1 !important;
+        filter: none !important;
+    }
+    .work-card:hover .work-title {
+        background: none !important;
+        -webkit-text-fill-color: initial !important;
+        color: #ffffff !important;
     }
 
     .project-filters {
@@ -4574,8 +4633,11 @@ footer {
         display: flex !important;
         flex-direction: row !important;
         overflow-x: auto !important;
-        scroll-snap-type: x mandatory;
+        scroll-snap-type: x proximity;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: auto;
+        touch-action: pan-x pan-y pinch-zoom;
         gap: 1rem !important;
         width: 100vw !important;
         max-width: 100vw !important;
@@ -4602,6 +4664,7 @@ footer {
         margin: 0 !important;
         scroll-snap-align: start !important;
         scroll-snap-stop: normal !important;
+        touch-action: pan-x pan-y pinch-zoom;
         border-radius: 16px;
         background: #131a1c;
         border: 1.5px solid rgba(0, 229, 160, 0.35);
@@ -4758,8 +4821,11 @@ footer {
         display: flex !important;
         flex-direction: row !important;
         overflow-x: auto !important;
-        scroll-snap-type: x mandatory;
+        scroll-snap-type: x proximity;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+        overscroll-behavior-y: auto;
+        touch-action: pan-x pan-y pinch-zoom;
         gap: 1rem !important;
         width: 100vw !important;
         max-width: 100vw !important;
@@ -4787,6 +4853,7 @@ footer {
         margin: 0 !important;
         scroll-snap-align: start !important;
         scroll-snap-stop: normal !important;
+        touch-action: pan-x pan-y pinch-zoom;
         border-radius: 16px !important;
         background: #131a1c !important;
         border: 1.5px solid rgba(0, 210, 255, 0.35) !important;

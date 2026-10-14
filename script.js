@@ -658,27 +658,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const revealElements = Array.from(document.querySelectorAll(revealSelector));
 
-        // Group container children to apply smooth staggered cascades
-        const staggerContainers = [
-            { selector: '.brand-cards-container', children: '.brand-card', baseDelay: 0.05, step: 0.18 },
-            { selector: '.upcoming-works-container', children: '.work-card', baseDelay: 0.05, step: 0.15 },
-            { selector: '.instagram-grid', children: '.insta-item', baseDelay: 0.04, step: 0.06 },
-            { selector: '.strategy-grid', children: '.strategy-card', baseDelay: 0.05, step: 0.09 },
-            { selector: '.services-list', children: '.service-item', baseDelay: 0.05, step: 0.1 },
-            { selector: '.process-steps', children: '.process-step', baseDelay: 0.05, step: 0.12 },
-            { selector: '.skills-new-grid', children: '.skill-card', baseDelay: 0.04, step: 0.07 },
-            { selector: '.about-stats', children: '.stat-item', baseDelay: 0.05, step: 0.14 }
-        ];
+        // Group container children to apply smooth staggered cascades (desktop grid layout)
+        if (window.innerWidth > 768) {
+            const staggerContainers = [
+                { selector: '.brand-cards-container', children: '.brand-card', baseDelay: 0.05, step: 0.18 },
+                { selector: '.upcoming-works-container', children: '.work-card', baseDelay: 0.05, step: 0.15 },
+                { selector: '.instagram-grid', children: '.insta-item', baseDelay: 0.04, step: 0.06 },
+                { selector: '.strategy-grid', children: '.strategy-card', baseDelay: 0.05, step: 0.09 },
+                { selector: '.services-list', children: '.service-item', baseDelay: 0.05, step: 0.1 },
+                { selector: '.process-steps', children: '.process-step', baseDelay: 0.05, step: 0.12 },
+                { selector: '.skills-new-grid', children: '.skill-card', baseDelay: 0.04, step: 0.07 },
+                { selector: '.about-stats', children: '.stat-item', baseDelay: 0.05, step: 0.14 }
+            ];
 
-        staggerContainers.forEach(({ selector, children, baseDelay, step }) => {
-            const container = document.querySelector(selector);
-            if (!container) return;
-            const items = container.querySelectorAll(children);
-            items.forEach((item, index) => {
-                const delay = (baseDelay + index * step).toFixed(2);
-                item.style.transitionDelay = `${delay}s`;
+            staggerContainers.forEach(({ selector, children, baseDelay, step }) => {
+                const container = document.querySelector(selector);
+                if (!container) return;
+                const items = container.querySelectorAll(children);
+                items.forEach((item, index) => {
+                    const delay = (baseDelay + index * step).toFixed(2);
+                    item.style.transitionDelay = `${delay}s`;
+                });
             });
-        });
+        }
 
         if ('IntersectionObserver' in window) {
             const revealObserver = new IntersectionObserver((entries, obs) => {
@@ -702,11 +704,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             revealElements.forEach(el => {
-                // Skip work-cards inside the mobile projects slider (#main-work-grid).
-                // Those cards enter view via horizontal scroll - not vertical page scroll.
-                // Observing them causes the translateY reveal animation to fire mid-page-scroll,
-                // making cards visually jump as the user scrolls down the page.
-                if (el.closest('#main-work-grid')) {
+                // Skip cards inside horizontal sliders (#main-work-grid, .upcoming-works-container, .brand-cards-container, .skills-new-grid).
+                // Those cards enter view via horizontal swipe - not vertical page scroll.
+                // Observing them causes translateY reveal animation to fire mid-scroll,
+                // making cards visually jump or move as the user scrolls down the page.
+                if (el.closest('#main-work-grid') || el.closest('.upcoming-works-container') || el.closest('.brand-cards-container') || el.closest('.skills-new-grid')) {
                     el.classList.add('is-revealed', 'animation-done');
                     return;
                 }
@@ -2056,46 +2058,53 @@ document.addEventListener("DOMContentLoaded", () => {
         const totalEl = document.getElementById('projTotalCount');
         if (!grid) return;
 
-        const getVisibleCards = () => Array.from(grid.querySelectorAll('.work-card:not(.hidden)'));
-
-        const getStep = () => {
-            const visible = getVisibleCards();
-            const gap = parseFloat(getComputedStyle(grid).gap) || 20;
-            return visible[0] ? visible[0].offsetWidth + gap : grid.offsetWidth;
+        let cachedStep = 0;
+        const calculateStep = () => {
+            const visible = grid.querySelector('.work-card:not(.hidden)');
+            if (!visible) return grid.offsetWidth || 300;
+            const gap = parseFloat(window.getComputedStyle(grid).gap) || 16;
+            cachedStep = visible.offsetWidth + gap;
+            return cachedStep;
         };
 
         const updateCounter = () => {
-            const visible = getVisibleCards();
-            if (totalEl) totalEl.textContent = visible.length;
-            if (visible.length === 0) return;
+            const visibleCards = grid.querySelectorAll('.work-card:not(.hidden)');
+            const total = visibleCards.length;
+            if (totalEl) totalEl.textContent = total;
+            if (total === 0) return;
 
             const scrollLeft = grid.scrollLeft;
-            if (scrollLeft <= 0) {
+            if (scrollLeft <= 4) {
                 if (currentEl) currentEl.textContent = 1;
                 return;
             }
-            const step = getStep();
-            const activeIdx = Math.min(visible.length - 1, Math.max(0, Math.round(scrollLeft / step)));
+            const step = cachedStep || calculateStep();
+            const activeIdx = Math.min(total - 1, Math.max(0, Math.round(scrollLeft / step)));
             if (currentEl) currentEl.textContent = activeIdx + 1;
         };
 
+        calculateStep();
+        window.addEventListener('resize', calculateStep, { passive: true });
         grid.addEventListener('scroll', updateCounter, { passive: true });
 
         if (prevBtn) {
             prevBtn.addEventListener('click', () => {
-                const step = getStep();
+                const step = cachedStep || calculateStep();
                 grid.scrollBy({ left: -step, behavior: 'smooth' });
             });
         }
 
         if (nextBtn) {
             nextBtn.addEventListener('click', () => {
-                const step = getStep();
+                const step = cachedStep || calculateStep();
                 grid.scrollBy({ left: step, behavior: 'smooth' });
             });
         }
 
-        window.updateProjectsCounter = updateCounter;
+        window.updateProjectsCounter = () => {
+            calculateStep();
+            updateCounter();
+        };
         updateCounter();
     };
 
